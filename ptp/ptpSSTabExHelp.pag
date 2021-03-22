@@ -1,0 +1,48 @@
+VERSION 5.00
+Begin VB.PropertyPage ptpSSTabExHelp 
+   Caption         =   "Help"
+   ClientHeight    =   6000
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   6420
+   BeginProperty Font 
+      Name            =   "Arial"
+      Size            =   7.8
+      Charset         =   0
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
+   LockControls    =   -1  'True
+   PaletteMode     =   0  'Halftone
+   ScaleHeight     =   6000
+   ScaleWidth      =   6420
+   Begin VB.TextBox txtHelp 
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   11.4
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   5880
+      Left            =   36
+      Locked          =   -1  'True
+      MultiLine       =   -1  'True
+      ScrollBars      =   2  'Vertical
+      TabIndex        =   0
+      Text            =   "ptpSSTabExHelp.pgx":0000
+      Top             =   72
+      Width           =   6345
+   End
+End
+Attribute VB_Name = "ptpSSTabExHelp"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Option Explicit
+
