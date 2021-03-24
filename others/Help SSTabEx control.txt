@@ -18,7 +18,7 @@ If you have added it to your exe project, it will be the name of your project, b
 Re-open the project in the IDE. If you added a temporary control, delete it.
 
 In the case that you want to have the control inside your exe, the first thing you need to do is to add the files (uscSSTabEx.ctl and the others) to your project, then you can close the project and do the editing and replacement pointed before in the *.frm files. After that, you can re-open the project.
-In the case you will be using the control from an OCX file, first add the reference to that ocx file to the project (menu Project/Components), save the project and close it. The you can do the editing and replacement in the *.frm files.
+In the case you will be using the control from an OCX file, first add the reference to that ocx file to the project (menu Project/Components), save the project and close it. Then you can do the editing and replacement in the *.frm files.
 Before editing the *.frm files, make a backup copy of your project for being able to go back in case that anything goes wrong.
 
 After you successfully replaced the control and opened your project with the new control, there is still something else that you need to change:
