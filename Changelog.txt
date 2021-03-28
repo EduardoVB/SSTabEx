@@ -1,0 +1,23 @@
+2021-02-21 Error message in 'Property Let Tabs' procedure was duplicated.
+2021-02-18 Change in positioning tab caption when it does not fit in height
+2021-02-11 Fixed bug regarding the tab captions not updated in some circumstances at startup
+2021-01-17 Fixed bug in WM_WINDOWPOSCHANGING message for non-integer DPI settings (when windowed controls' lefts in hidden tabs are set at run-time).
+2021-01-16 Fixed bug in ContainedControlLeft property, not it can handle controls from control arrays.
+2021-01-16 Fixed bug in default TabSelBackColor and TabSelForeColor when upgrading from a previous version of SSTabEx that didn't have these properties, that happens when the values of TabBackColor/ForeColor properties are not set to their default settings.
+2020-09-02 Added properties ContainedControlLeft and LeftShiftToHide.
+2020-09-02 TabBodyLeft, TabBodyTop, TabBodyWidth, TabBodyHeight now return the value in Twips, that is what the SSTabEx's contained controls use.
+2020-08-14 Added fix to support high-DPI above 300.
+2020-07-28 Minor bug fixed regarding painting when adding a control at design time and visual styles are applied
+2020-07-05 Now the theme can be seen in the IDE at design time (as long as the IDE is themed). Also bugs fixed.
+2020-04-28 Bugs fixed in RightToLeft property and ptpSSTabExGeneral property page
+2020-04-26 Bugs fixed and added properties TabSelBackColor, TabSelForeColor and RightToLeft
+2019-05-24 Added support to handle high contrast theme and added property HandleHighContrastTheme
+2019-02-22 improved support for pasting SStabEx controls with controls inside in the IDE
+2019-02-17 fixed a bug regarding the handling of Line controls
+2019-02-14 improved check for contained controls consistency when loads
+2018-11-24 bug fixed
+2018-10-29 enhanced/bug fixed highlight color for TabHoverHighlight and TabSelHighlight effects
+2018-10-09 added TabHoverEffect property
+2018-10-01 fixed bugs in Sub SetThemeExtraData and Sub DrawTab for Windows 10
+2018-08-16 Due to a VB6 bug, Single type numbers are localized in the properties saved (commas intead of points), so I decided to round them to integers when they are saved to avoid the problem.
+2018-02-06: Initial release

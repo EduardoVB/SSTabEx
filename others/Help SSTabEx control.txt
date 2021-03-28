@@ -1,0 +1,427 @@
+Introduction:
+
+This control is a direct replacement of the original SSTab control that comes with VB6. 
+All the code for the control is in the file uscSSTabEx.ctl, the other files are for property pages and subclassing.
+
+One of the main enhancements over the original is that it displays Visual Styles (or Themes), but also other features have beed added.
+The SSTabEx controls will be "themed" only if you added a manifest file for doing that for the common controls. To see the SSTabEx's themed, you need to compile and run the program compiled.
+Still, the VisualStyles property must be set to True for the control to be themed, but note that when upgrading from an SSTab it is set to False.
+
+Replace the original SSTab:
+
+If you want to replace the original SSTab in a project with this control, you can do it following these steps:
+Make a backup first.
+Add the SSTabEx to your project, in source code or add the reference to the compiled OCX (To compile the OCX read the file: Readme - Notes.txt).
+If the SSTabEx is not in the same project that you'll use it, then add temporarily an SSTabEx control to a form, just dropping a new control onto it. Save the project and close the IDE.
+Manually edit the *.frm files and replace TabDlg.SSTab with ProjectName.SSTabEx, where "ProjectName" is the name of the project that has the SSTabEx control.
+If you have added it to your exe project, it will be the name of your project, but if you are using it from an OCX, it will be the name of that component.
+Re-open the project in the IDE. If you added a temporary control, delete it.
+
+In the case that you want to have the control inside your exe, the first thing you need to do is to add the files (uscSSTabEx.ctl and the others) to your project, then you can close the project and do the editing and replacement pointed before in the *.frm files. After that, you can re-open the project.
+In the case you will be using the control from an OCX file, first add the reference to that ocx file to the project (menu Project/Components), save the project and close it. Then you can do the editing and replacement in the *.frm files.
+Before editing the *.frm files, make a backup copy of your project for being able to go back in case that anything goes wrong.
+
+After you successfully replaced the control and opened your project with the new control, there is still something else that you need to change:
+The original property Tab (that returns or sets the selected -or currently active- tab) now was renamed to TabSel. You need to replace in all the places that appears ControlName.Tab with ControlName.TabSel (if there is any in your code).
+When Style is set to efnStylePropertyPage, the TabMaxWidth property setting is no longer ignored (as it was in the original SSTab). So if Style is set to efnStylePropertyPage, ensure that TabMaxWidth is set to 0 (zero) when upgrading.
+
+
+Reference:
+
+Properties:
+Note: the extender's properties are not included here (Top, Left, Visible, Etc.)
+
+Notation:
+O: original from the SSTab.
+D: available at design time
+P: available in the property window. If not, it is still available at design time from a property page. (Some new properties are hidden in the property window for not showing too many -and less important- properties there.)
+R: read only property
+
+AutoRelocateControls:		-DP-
+BackColor: 			ODP-
+Caption: 			ODP-
+ChangeControlsBackColor: 	-DP-
+ContainedControls:		---R
+ContainedControlLeft		---R
+Enabled: 			ODP-
+EndOfTabs:			---R
+Font: 				ODP-
+ForeColor: 			ODP-
+HandleHighContrastTheme		-DP-
+hWnd: 				O--R
+LeftShiftToHide			---R
+MaskColor: 			-DP-
+MinHeightNeeded:		---R
+MinWidthNeeded:			---R
+MouseIcon: 			ODP-
+MousePointer: 			ODP-
+Picture: 			ODP-
+Pic16: 				-DP-
+Pic20: 				-DP-
+Pic24: 				-DP-
+Redraw: 			----
+RightToLeft			-DP-
+Rows: 				O--R
+ShowDisabledState:		-D--
+ShowFocusRect:			ODP-
+ShowRowsInPerspective:		-D--
+SoftEdges:			-DP-
+Style:				ODP-
+TabAppearance:			-D--
+TabBackColor:			-DP-
+TabBodyLeft:			---R
+TabBodyHeight:			---R
+TabBodyTop:			---R
+TabBodyWidth:			---R
+TabCaption:			O---
+TabControls:			---R
+TabEnabled:			O---
+TabHeight:			ODP-
+TabHoverHighlight:		-D--
+TabMaxWidth:			ODP-
+TabMinWidth:			-DP-
+TabOrientation:			ODP-
+TabPicture:			O---
+TabPic16:			----
+TabPic20:			----
+TabPic24:			----
+TabPictureAlignment:		-DP-
+Tabs:				ODP-
+TabSel:			O(original name: Tab)DP-
+TabSelBackColor			-DP-
+TabSelExtraHeight:		-D--
+TabSelFontBold:			-D--
+TabSelForeColor			-DP-
+TabSelHighlight:		-D--
+TabSeparation:			-D--
+TabsPerRow:			ODP-
+TabToolTipText:			-D--
+TabVisible:			O---
+TabWidthStyle:			-D--
+UseMaskColor:			-DP-
+VisualStyles:			-DP-
+WordWrap:			ODP-
+
+
+Description:
+
+AutoRelocateControls:
+Returns or sets a value that determines if the contained controls will be automatically relocated when the tab body changes in size or position.
+Values:
+efnRelocateOnTabOrientatioChange: The contained controls will be automatically relocated when TabOrientation changes.
+efnRelocateAlways: The contained controls will be automatically relocated when TabOrientation changes and also when the tab space changes in height.
+efnRelocateNever:  The contained controls will never be automatically relocated. Choose this value if you are relocating the controls by code in the Form_Resize or SSTabEx_TabBodyResize events.
+
+BackColor:
+Returns or sets the background color. The background color is not the color of the background of the tabs (that color is handled by the TabBackColor property), but the color ouside the tabs.
+
+Caption:
+Returns or sets the caption of the currently selected tab by the TabSel property.
+To get or set the caption of any tab at run time, use the TabCaption property.
+Captions can have accelerators by adding "&" before the letter that will act as the accelerator.
+
+ContainedControls:
+Returns a collection of the controls that were added to the SSTabEx.
+It only holds controls that are directly contained in the control, it does not include controls that are inside others controls. Also see the TabControls property.
+It is not available at design time, and read-only at run time.
+
+ContainedControlLeft:
+Returns or sets the Left of a contained control.
+The argument ControlName must be the name of a contained control.
+
+ChangeControlsBackColor:
+Returns or sets a value that determines if the background color of the contained controls will be changed according to the background color of the tabs (the TabBackColor property value).
+If VisualStyles is set to True, the background of the controls are painted with the background of the themed tab body.
+If ChangeControlsBackColor is False, the BackColor of the contained controls is left unchanged.
+If ChangeControlsBackColor is True, and the control is not themed, changing the TabBackColor propery value will also change the BackColor of the contained controls, but only when their BackColor's has the same color as the previous TabBackColor setting.
+If ChangeControlsBackColor is True, and the control is themed, only the controls that has the BackColor property value set to the same color of TabBackColor are changed.
+
+Enabled:
+Returns or sets a value that determines whether a form or control can respond to user-generated events.
+
+EndOfTabs:
+Returns a value that indicates where the last tab ends. Depending on the TabOrientation setting, it can be the rightmost tab (orientation top and bottom), the topmost tab (orientation left) or the bottommost tab (orientation right).
+
+Font:
+Returns or sets a Font object correspondig to the font that will be used to display the tab captions.
+
+ForeColor:
+Returns or sets the color of the tab captions.
+
+HandleHighContrastTheme
+When True (default setting), the control handles the system changes to high contrast theme automatically by changing the colors of the control to system's high contrast colors.
+
+hWnd:
+Returns the Windows handle of the control.
+
+LeftShiftToHide:
+Returns the shift to the left in twips that the SStabEx control is using to hide the controls in the non-active tabs.
+
+MaskColor:
+Returns or sets the color that will be transparent for the bitmaps that are in the TabPicture, TabPic16, TabPic20 and TabPic24 properties.
+
+MinWidthNeeded, MinHeightNeeded:
+When TabStyleWidth is set to efnTWSNonJustified, it returns the minimun Width of the control needed to show all the tab captions without wrapping them into another line (when WordWrap is set to True) or without showing an elipsis (when WordWrap is set to False).
+According to TabOrientation, use MinWidthNeeded for efnTabOrientationTop and efnTabOrientationBottom, and MinHeightNeeded for efnTabOrientationLeft and efnTabOrientationRight.
+When TabStyleWidth is set to other than efnTWSNonJustified, it returns 0 (zero).
+Note: TabWidthStyle is set automatically to efnTWSNonJustified (internally) when Style is set to efnStylePropertyPage and TabWidthStyle is set to efnTWSAuto.
+
+MouseIcon:
+Returns or sets the icon used as the mouse pointer when the MousePointer property is set to 99 (custom).
+
+MousePointer:
+Returns or sets the type of mouse pointer displayed when over the control.
+
+Picture:
+Returns or sets a bitmap or icon to display on the current tab. To get or set the picture of any tab at run time, use the TabPicture property.
+
+Pic16, Pic20, Pic24:
+Returns or sets a bitmap to display on the current tab, when the application is DPI aware.
+Pic16 is used for 96 DPI, Pic20 for 120 DPI and Pic24 for 144 DPI. Others DPI setting are handled automatically.
+The application need to have a manifest file to declare it as DPI aware.
+When these pictures are set, the Picture property is ignored.
+Use TabPic16, TabPic20 and TabPic24 properties to set or get the pictures of any tab at run time.
+
+Redraw:
+Returns or sets a value that determines if the drawing of the control has to be updated with any change. Not available at design time. 
+
+RightToLeft:
+Allows right-to-left reading for languages that use this layout
+
+Rows:
+Returns the number of rows of tabs.
+The Rows property value can change its value when new tabs are dinamically added or, when TabWidthStyle is set to efnTWSFixed or efnTWSNonJustified and TabsPerRow was changed, or TabWidthStyle is set to efnTWSJustified and the Width of the control changed or the captions of the tabs changed or the Font setting has changed.
+You can use the RowsChange event to properly set the position of the contained controls.
+
+ShowDisabledState:
+Returns or sets a value that determines if the tabs color will be darkened when the control is disabled (Enabled = False).
+If has no effect when the control is themed (VisualStyles = True).
+
+ShowFocusRect:
+Returns or sets a value that determines if the focus rectangle is visible on a tab when the tab gets the focus.
+
+ShowRowsInPerspective:
+Returns or sets a value that determines when the control has more that one row of tabs, if they will be drawn changing the horizontal position on each row.
+If the value is efnYNAuto, the behavior will be determined by the Style property setting in this way: for efnStyleTabbedDialog and efnStylePropertyPage the rows will be drawn is perspective, and for efnStyleTabStrip without.
+
+SoftEdges:
+Returns or sets a value that determines if the edges will be displayed with less contrast: lighter and more colored.
+
+Style:
+Returns or sets the style of the tabs.
+This property acts as a meta-property. It means that it sets at once certain features that can be set individually through other properties.
+It performs internal settings for TabAppearance, TabWidthStyle, ShowRowsInPerspective and TabSelFontBold as long as these properties are set to Auto.
+Values:
+efnStyleTabbedDialog: (Default) TabAppearance is set to efnTATabbedDialog, TabWidthStyle to efnTWSFixed, ShowRowsInPerspective to efnYes and TabSelFontBold to efnYes.
+efnStylePropertyPage: TabAppearance is set to efnTAPropertyPage, TabWidthStyle to efnTWSNonJustified, ShowRowsInPerspective to efnYes and TabSelFontBold to efnNo.
+efnStyleTabStrip:  TabAppearance is set to efnTAPropertyPage, TabWidthStyle to efnTWSJustified, ShowRowsInPerspective to efnNo and TabSelFontBold to efnNo. This setting wasn't available in the original SSTab.
+The changes are internal, they are not reflected on these properties values (they remain set to Auto).
+
+TabAppearance:
+Returns or sets a value that determines the appearance of the tabs. When the control is themed, the theme defines the appearance.
+Values:
+efnTATabbedDialog: The appearance if of the original SSTab control when the Style property is left with the default value.
+efnTAPropertyPage:  The appearance if of the original SSTab control when the Style property is set to efnStylePropertyPage.
+efnTATaTabbedDialogRounded: As efnTATabbedDialog, but the tabs have the corners rounded.
+efnTAPropertyPageRounded: As efnTAPropertyPage, but the tabs have the corners rounded.
+efnTAAuto: The appearance is defined by the Style property (setting it to efnTATabbedDialog or to efnTAPropertyPage).
+
+TabBackColor:
+Returns or sets the background color of the tabs, except the active tab that is set by TabSelBackColor.
+When the control is themed, this property value has no practical effect.
+
+TabBodyLeft, TabBodyTop, TabBodyWidth, TabBodyHeight:
+Return the left, top, width and height of the "tab body". The tab body is the space available to place contained controls.
+They return the value in Twips.
+
+TabCaption:
+Returns or sets the caption of a tab identified by the Index parameter.
+Captions can have accelerators by adding "&" before the letter that will act as the accelerator.
+
+TabControls:
+Returns a collection of the controls that are inside a tab. The tab must be identified by the nTab parameter. The optional GetChilds parameter determines if only the controls that are directly contained in the SSTabEx will be returned, or also the controls contained into them. Its default value is True.
+It is not available at design time, and read-only at run time.
+
+TabEnabled:
+Returns or sets a value that determines whether the tab identified by the Index parameter is available when clicked.
+
+TabHeight:
+Returns or sets the height of the tabs.
+
+TabHoverHighlight:
+Returns or sets a value that determines if the tabs will appear highlighted when the mouse is over them.
+ssTHHEffect setting only works when the control is not themed. When it is set to ssTHHEffect, the tabs will show an effect when they are being highlighted. 
+
+TabMaxWidth:
+Returns or sets the maximum width of each tab. If set to 0 (zero), it means no maximun.
+When the TabWidthStyle property setting is efnTWSFixed and the TabMaxWidth property is set to 0 (zero), the control automatically sizes the tabs, based on the TabsPerRow property, to fit evenly across the control.
+Unlike the original SSTab, this property is no longer ignored when Style setting is efnStylePropertyPage.
+If TabWidthStyle property setting is efnTWSNonJustified or efnTWSJustified, It determines the maximun width that a tab can have, regardeless of the lenght of the caption. When a tab caption doesn't fit in the available width, if WordWrap is set to True it will have an additional line, and if WordWrap is set to False it will cut the caption text and add an ellipsis.
+In the case when TabWidthStyle setting is efnTWSJustified and it is needed more space than TabMaxWidth * Rows to fill all the rows space, then the tabs can have more width than the specified in the TabMaxWidth setting.
+
+TabMinWidth:
+Returns or sets the minimun width of each tab. If set to 0 (zero), it means no minimun.
+
+TabOrientation:
+Returns or sets a value that determines which side of the control the tabs will appear.
+
+TabPicture:
+Returns or sets the bitmap or icon to display on the tab specified by the Index parameter.
+
+TabPic16, TabPic20 and TabPic24:
+Returns or sets the bitmap to be displayed on the tab specified by the Index parameter, when the application is DPI aware.
+TabPic16 is used for 96 DPI, TabPic20 for 120 DPI and TabPic24 for 144 DPI. Others DPI setting are handled automatically.
+The application need to have a manifest file to declare it as DPI aware.
+When these pictures are set, the TabPicture property is ignored.
+They can be accessed at design time through a property page.
+
+TabPictureAlignment:
+Returns or sets the alignment of the tab picture with respect of the tab caption.
+
+Tabs:
+Returns or sets the total number of tabs.
+
+TabSel:
+Returns or sets the current ("selected" or "active") tab.
+In the original SSTab control its name was "Tab", but VB6 doesn't allow that name for a property because it is a reserved word, therefore the name was changed to "TabSel".
+
+TabSelBackColor:
+Retunrs or sets the color of the active tab, including the tab body (the space were the contained controls are located).
+If ChangeControlsBackColor is True, changing this color will change also the BackColor of the contained controls.
+
+TabSelExtraHeight:
+Returns or sets a value that determines if the active tab will be higher than the others. The value must be between 0 (zero) and twice the TabHeight setting.
+Note: If TabAppearance is set to efnTAPropertyPage or efnTAPropertyPageRounded, or the control is themed, the active tab is already two pixels taller than the inactive ones.
+
+TabSelFontBold:
+Returns or sets a value that determines if the font of the caption in currently selected tab will be bold.
+If the setting is efnYNAuto and TabAppearance setting is efnTATabbedDialog or efnTATabbedDialogRounded, the caption in the selected tab will be bolded. Otherwise it will be bolded only if all the tabs are bolded according to the Font setting.
+
+TabSelForeColor:
+Returns or sets the color of the caption of the active tab.
+
+TabSelHighlight:
+Returns or sets a value that determines if the selected tab will be highlighted.
+When the control is themed this setting is ignored.
+
+TabSeparation:
+Returns or sets the number of pixels of separation between tabs. The value must be between 0 (zero) and 20.
+When the control is themed, values less than two pixels are ignored, since the themed tabs have two pixels of separation by design.
+
+TabsPerRow:
+Returns or sets the number of tabs for each row.
+If TabWidthStyle setting is efnTWSJustified, this setting has no effect.
+
+TabToolTipText:
+Returns or sets the text that will be shown as tooltip text when the mouse pointer is over the tab identified by the Index parameter.
+If the tab has not a TabToolTipText set, it will show the control ToolTipText, if there is any text set on that property.
+
+TabVisible:
+Returns or sets a value that determines whether the tab identified by the Index will be visible.
+
+TabWidthStyle:
+Returns or sets a value that determines the justification or width of the tabs.
+efnTWSFixed: All tabs has the same width. If TabMaxWidth is 0 (zero), the tab width will be the available space / TabsPerRow. If TabMaxWidth is greater than 0 (zero), that setting will determine the tabs width.
+efnTWSNonJustified: The width of the tabs will be determined by the size of the caption + the size of the tab picture (if any). TabMinWidth and TabMaxWidth settings can set a boundary for the width that a tab can have. Unlike the original SSTab control, if the sum of the widths of all the tabs in a row exceeds the available space, the widths of the tabs in that row are shrunken to fit in the available space.
+efnTWSJustified: If there is more than one row, each tab is wide enough to accommodate its contents and, if needed, the width of each tab is increased so that each row of tabs spans the width of the control. If all the tabs fit in one row, the tabs are not justified (it works the same as tabNonJustified).
+efnTWSAuto: The behavior is defined by the Style property setting.
+
+UseMaskColor:
+Returns or sets a value that determines whether the color assigned in the MaskColor property is used as a mask. (That is, used to create transparent regions.)
+
+VisualStyles:
+Returns or sets a value that determines whether the appearance of the control will use Windows visual styles of "theme".
+The control will be "themed" only if the application has a manifest file for supporting visual styles in the common controls. Usually the control will be themed when compiled (unless changes has been made to make the IDE to show visual styles).
+These properties settings have no effect when the control is applying visual styles: TabAppearance, TabBackColor and TabSelHighlight.
+The default setting is True (when adding a new control, but when updrading from an SSTab it is set to False).
+
+WordWrap:
+Returns or sets a value that determines how the control displays the text on each tab. In a control that its size and/or the tab texts change dinamically, to make sure that text will not be truncated if it is too long, set the WordWrap property to True, the TabMaxWidth property to 0, and the TabHeight property to a height that allows to view the longest piece of text.
+
+
+Events:
+
+Original from the SSTab:
+
+Click(PreviousTab As Integer)
+DblClick()
+KeyDown(KeyCode As Integer, Shift As Integer)
+KeyPress(KeyAscii As Integer)
+KeyUp(KeyCode As Integer, Shift As Integer)
+MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+OLECompleteDrag(Effect As Long)
+OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
+OLEDragOver(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single, State As Integer)
+OLEGiveFeedback(Effect As Long, DefaultCursors As Boolean)
+OLESetData(Data As DataObject, DataFormat As Integer)
+OLEStartDrag(Data As DataObject, AllowedEffects As Long)
+
+Description:
+
+Event Click(PreviousTab As Integer)
+Generated when the current tab (SelTab) changes.
+
+For the description of the other original events, refer to MSDN.
+
+New events added:
+
+BeforeClick(Cancel As Boolean)
+ChangeControlBackColor(ControlName As String, ControlTypeName As String, Cancel As Boolean)
+Resize()
+RowsChange()
+TabBodyResize()
+TabMouseEnter(nTab As Integer)
+TabMouseLeave(nTab As Integer)
+TabRightClick(nTab As Integer, Shift As Integer, X As Single, Y As Single)
+TabSelChange()
+
+Description:
+
+Event BeforeClick(Cancel As Boolean)
+Generated when the current tab (SelTab) is about to change.
+Use the BeforeClick event to validate the information on the old tab before actually generating a Click event that selects the new tab. Setting the Cancel parameter to True allows you to stop a change to the new tab selection.
+
+Event ChangeControlBackColor(ControlName As String, ControlTypeName As String, Cancel As Boolean)
+When ChangeControlsBackColor property is set to True, allows you to determine individually which controls will have their background changed (or not).
+This event is generated for each control on the current tab, before the tab is painted.
+The ControlName parameter specifies the name of the control, to avoid changing a particular control BackColor, set the parameter Cancel to True.
+The ControlTypeName parameter specifies the type of the control (for example "CommandButton" or "Label"), this allow you to handle a whole class of controls without writing each name.
+
+Event Resize()
+Generated when the control is first drawn or when its size changes.
+
+Event RowsChange()
+This event is generated when the control is first drawn or when the Rows property changes its value.
+The Rows property value can change its value when new tabs are dinamically added or, when TabWidthStyle is set to efnTWSFixed or efnTWSNonJustified and TabsPerRow was changed, or TabWidthStyle is set to efnTWSJustified and the Width of the control changed or the captions of the tabs changed or the Font setting has changed.
+You can use this event along with TabBodyStart to properly set the Top (or Left, depending on TabOrientation) of the contained controls.
+
+Event TabBodyResize()
+Generated when the tab body changes its size.
+The size and position of the tab body are referenced by the properties TabBodyLeft, TabBodyTop, TabBodyWidth and TabBodyHeight.
+
+Event TabMouseEnter(nTab As Integer)
+Generated when the mouse pointer enters a tab, that is specified in the nTab parameter.
+
+Event TabMouseLeave(nTab As Integer)
+Generated after the mouse pointer leaves a tab, that is specified in the nTab parameter.
+
+Event TabRightClick(nTab As Integer, Shift As Integer, X As Single, Y As Single)
+Generated when the user clicks with the right button of the mouse on a tab.
+The tab is specified in the nTab parameter.
+The Shift parameter indicates the state of  the SHIFT, CTRL, and ALT keys.
+The X and Y parameters return a number that specifies the current location of the mouse pointer.
+
+TabSelChange:
+Generated after the selected (or "current") tab has already changed. For the events that occur before, see BeforeClick and Click.
+This event is also generated when the control is first shown.
+
+
+Methods and functions:
+
+IsVisualStyleApplied function:
+Returns a boolean value indicating whether the visual styles are actually applied to the control or not.
+
+Refresh metrod:
+Redraws the control.
