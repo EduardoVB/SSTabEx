@@ -1,0 +1,562 @@
+ÿ`mTABEXCTL REFERENCE
+
+*SSTabEx control*
+- This control is a direct replacement of the original SSTab control that comes with VB6. 
+All the code for the control is in the file uscSSTabEx.ctl, the other files are for property pages and subclassing.
+
+One of the main enhancements over the original is that it displays Visual Styles (or Themes), but also other features have beed added.
+The SSTabEx controls will be "themed" only if you added a manifest file for doing that for the common controls. To see the SSTabEx's themed, you need to compile and run the program compiled or to have the IDE also manifested for Common Controls 6.
+Still, the VisualStyles property must be set to True for the control to be themed.
+
+Replacing the original SSTab:
+
+If you want to replace the original SSTab in a project with this control, you can do it following these steps:
+- Make a backup of your project first.
+- Add the reference to the compiled OCX or add the SSTabEx and related files in source code to your project. For the list of needed source code files please read "Readme - Notes.txt".
+- If the SSTabEx is not in the same project that you'll use it, then add temporarily an SSTabEx control to a form, just dropping a new control onto it. Save the project and close the IDE.
+- Manually edit the *.frm files and replace TabDlg.SSTab with ProjectName.SSTabEx, where "ProjectName" is the name of the project that has the SSTabEx control.
+- If you have added it to your exe project, it will be the name of your project, but if you are using it from an OCX, it will be the name of that component.
+- Re-open the project in the IDE. If you added a temporary control, delete it.
+
+In the case that you want to have the control inside your exe, the first thing you need to do is to add the files (uscSSTabEx.ctl and the others) to your project, then you can close the project and do the editing and replacement pointed before in the *.frm files. After that, you can re-open the project.
+In the case you will be using the control from an OCX file, first add the reference to that ocx file to the project (menu Project/Components), save the project and close it. Then you can do the editing and replacement in the *.frm files.
+Before editing the *.frm files, make a backup copy of your project for being able to go back in case that anything goes wrong.
+
+After you successfully replaced the control and opened your project with the new control, there is still something else that you need to change:
+The original property Tab (that returns or sets the selected -or currently active- tab) now was renamed to TabSel. You need to replace in all the places that appears ControlName.Tab with ControlName.TabSel (if there is any in your code).
+When Style is set to ssStylePropertyPage, the TabMaxWidth property setting is no longer ignored (as it was in the original SSTab). So if Style is set to ssStylePropertyPage, ensure that  TabMaxWidth is set to 0 (zero) when upgrading.
+
+Properties: 
+
+AutoRelocateControls property:
+	Type: vbExAutoRelocateControlsConstants
+	Returns or sets a value that determines if the contained controls will be automatically relocated when the tab body changes in size or position.
+
+	Values:
+	ssRelocateOnTabOrientatioChange: The contained controls will be automatically relocated when TabOrientation changes.
+	ssRelocateAlways: The contained controls will be automatically relocated when TabOrientation changes and also when the tab space changes in height.
+	ssRelocateNever:  The contained controls will never be automatically relocated. Choose this value if you are relocating the controls by code in the Form_Resize or SSTabEx TabBodyResize events.
+
+
+AutoTabHeight property:
+	Type: Boolean
+	Returns or sets the a value that determines whether the tab height (and value of property TabHeight) is set automatically according to the font (and tab pictures, in case there are set pictures). Note: it asumes one-liner captions.
+	If the property TabHeight is manually set, AutoTabHeight is then set to False.
+	For newly added controls, its default it True, but if you are updating from a previous version or an SSTab control, it will be set to False.
+
+
+BackColor property:
+	Type: Long
+	Returns or sets the background color. The background color is not the color of the background of the tabs (that color is handled by the TabBackColor property), but the color ouside the tabs.
+
+
+BackStyle property:
+	Type: vbExBackStyleConstants
+	Returns or sets the a value that determines whether the background will be opaque or transparent.
+
+
+Caption property:
+	Type: String
+	Returns or sets the caption of the currently selected tab by the TabSel property.
+	Captions can have accelerators by adding "&" before the letter that will act as the accelerator.
+
+
+ChangeControlsBackColor property:
+	Type: Boolean
+	Returns or sets a value that determines if the background color of the contained controls will be changed according to the background color of the tabs (the TabBackColor property value).
+
+	If VisualStyles is set to True, the background of the controls are painted with the background of the themed tab body.
+	If ChangeControlsBackColor is False, the BackColor of the contained controls is left unchanged.
+	If ChangeControlsBackColor is True, and the control is not themed, changing the TabBackColor propery value will also change the BackColor of the contained controls, but only when their BackColor's has the same color as the previous TabBackColor setting.
+	If ChangeControlsBackColor is True, and the control is themed, only the controls that has the BackColor property value set to the same color of TabBackColor are changed.
+
+
+ContainedControlLeft property:
+	Type: Single
+
+	Additional parameter(s):
+	    In	Required	ControlName	As	String
+	Returns or sets the Left of a contained control.
+	The argument ControlName must be the name of a contained control.
+
+
+ContainedControls property:
+	Type: ContainedControls (Read only)
+	Returns a collection of the controls that were added to the SSTabEx.
+
+	It only holds controls that are directly contained in the control, it does not include controls that are inside others controls. Also see the TabControls property.
+	It is not available at design time, and is read-only at run time.
+
+
+Enabled property:
+	Type: Boolean
+	Returns or sets a value that determines whether a form or control can respond to user-generated events.
+
+
+EndOfTabs property:
+	Type: Single (Read only)
+	Returns a value that indicates where the last tab ends. Depending on the TabOrientation setting, it can be the rightmost tab (orientation top and bottom), the topmost tab (orientation left) or the bottommost tab (orientation right).
+
+
+Font property:
+	Type: Font
+	Returns or sets a Font object correspondig to the font that will be used to display the tab captions.
+
+
+ForeColor property:
+	Type: Long
+	Returns or sets the color of the tab captions.
+
+
+HandleHighContrastTheme property:
+	Type: Boolean
+	When True (default setting), the control handles the system changes to high contrast theme automatically by changing the colors of the control to system's high contrast colors.
+
+
+hWnd property:
+	Type: Long (Read only, not available at design time)
+	Returns the Windows handle of the control.
+
+
+LeftShiftToHide property:
+	Type: Long (Read only)
+	Returns the shift to the left in twips that the SStabEx is using to hide the controls in the non-active tabs.
+
+	With the original SSTab control that was fixed to 75000 twips, but now in hight DPI screen settings it can change to avoid overflow due to a Windows limitation.
+
+
+MaskColor property:
+	Type: Long
+	Returns or sets the color that will be transparent for the bitmaps that are in the TabPicture, TabPic16, TabPic20 and TabPic24 properties.
+
+
+MinHeightNeeded property:
+	Type: Single (Read only)
+	If TabOrientation is set to ssTabOrientationLeft or to ssTabOrientationRight, it returns the minimun Height of the control needed to show all the tab captions without wrapping them into another line (when WordWrap is set to True) or without showing an elipsis (when WordWrap is set to False).
+	If TabOrientation is set to ssTabOrientationTop or to ssTabOrientationBottom, it returns 0.
+
+	When TabWidthStyle is set to other than ssTWSNonJustified, it returns 0 (zero).
+	Note: TabWidthStyle is set automatically to ssTWSNonJustified (internally) when Style is set to ssStylePropertyPage and TabWidthStyle is set to ssTWSAuto.
+
+	According to TabOrientation, use MinWidthNeeded for ssTabOrientationTop and ssTabOrientationBottom, and MinHeightNeeded for ssTabOrientationLeft and ssTabOrientationRight.
+
+
+MinWidthNeeded property:
+	Type: Single (Read only)
+	If TabOrientation is set to ssTabOrientationTop or to ssTabOrientationBottom, it returns the minimun Width of the control needed to show all the tab captions without wrapping them into another line (when WordWrap is set to True) or without showing an elipsis (when WordWrap is set to False).
+	If TabOrientation is set to ssTabOrientationLeft or to ssTabOrientationRight, it returns 0.
+
+	When TabWidthStyle is set to other than ssTWSNonJustified, it returns 0 (zero).
+	Note: TabWidthStyle is set automatically to ssTWSNonJustified (internally) when Style is set to ssStylePropertyPage and TabWidthStyle is set to ssTWSAuto.
+
+	According to TabOrientation, use MinWidthNeeded for ssTabOrientationTop and ssTabOrientationBottom, and MinHeightNeeded for ssTabOrientationLeft and ssTabOrientationRight.
+
+
+MouseIcon property:
+	Type: Picture
+	Returns or sets the icon used as the mouse pointer when the MousePointer property is set to 99 (custom).
+
+
+MousePointer property:
+	Type: vbExMousePointerConstants
+	Returns or sets the type of mouse pointer displayed when over the control.
+
+
+Object property:
+	Type: Object (Read only)
+	Returns the control instance without the extender.
+
+
+OLEDropMode property:
+	Type: vbExOLEDropConstants
+	Returns/sets how a target component handles drop operations.
+
+
+Pic16 property:
+	Type: Picture
+	Returns or sets a bitmap to display on the current tab, when the application is DPI aware.
+
+	Pic16 is used for 96 DPI, Pic20 for 120 DPI and Pic24 for 144 DPI. Others DPI setting are handled automatically.
+	The application need to have a manifest file to declare it as DPI aware.
+	When these pictures are set, the Picture property is ignored.
+	Use TabPic16, TabPic20 and TabPic24 properties to set or get the pictures of any tab at run time.
+
+
+Pic20 property:
+	Type: Picture
+	Returns or sets a bitmap to display on the current tab, when the application is DPI aware.
+
+	Pic16 is used for 96 DPI, Pic20 for 120 DPI and Pic24 for 144 DPI. Others DPI setting are handled automatically.
+	The application need to have a manifest file to declare it as DPI aware.
+	When these pictures are set, the Picture property is ignored.
+	Use TabPic16, TabPic20 and TabPic24 properties to set or get the pictures of any tab at run time.
+
+
+Pic24 property:
+	Type: Picture
+	Returns or sets a bitmap to display on the current tab, when the application is DPI aware.
+
+	Pic16 is used for 96 DPI, Pic20 for 120 DPI and Pic24 for 144 DPI. Others DPI setting are handled automatically.
+	The application need to have a manifest file to declare it as DPI aware.
+	When these pictures are set, the Picture property is ignored.
+	Use TabPic16, TabPic20 and TabPic24 properties to set or get the pictures of any tab at run time.
+
+
+Picture property:
+	Type: Picture
+	Returns or sets a bitmap or icon to display on the current tab. To get or set the picture of any tab at run time, use the TabPicture property.
+
+
+Redraw property:
+	Type: Boolean (Not available at design time)
+	Returns or sets a value that determines if the drawing of the control has to be updated with any change. Not available at design time.
+
+
+RightToLeft property:
+	Type: Boolean
+	Returns or sets a value that determines the text display direction and control visual appearance on a bidirectional system.
+
+
+Rows property:
+	Type: Integer (Read only, not available at design time)
+	Returns the number of rows of tabs.
+
+	The Rows property value can change its value when new tabs are dinamically added or, when TabWidthStyle is set to ssTWSFixed or ssTWSNonJustified and TabsPerRow was changed, or TabWidthStyle is set to ssTWSJustified and the Width of the control changed, the tab captions changed or the Font setting has changed.
+	You can use the TabBodyResize event to properly set the position of the contained controls.
+	The RowsChange notifies of the change of this property.
+
+
+ShowDisabledState property:
+	Type: Boolean (Not available at design time)
+	Returns or sets a value that determines if the tabs color will be darkened when the control is disabled (Enabled = False).
+	If has no effect when the control is themed (VisualStyles = True).
+
+
+ShowFocusRect property:
+	Type: Boolean
+	Returns or sets a value that determines if the focus rectangle is visible on a tab when the tab gets the focus.
+
+
+ShowRowsInPerspective property:
+	Type: vbExAutoYesNoConstants (Not available at design time)
+	Returns or sets a value that determines when the control has more that one row of tabs, if they will be drawn changing the horizontal position on each row.
+
+	If the value is ssYNAuto, the behavior will be determined by the Style property setting in this way: for ssStyleTabbedDialog and ssStylePropertyPage the rows will be drawn is perspective, and for ssStyleTabStrip without.
+
+
+SoftEdges property:
+	Type: Boolean
+	Returns or sets a value that determines if the edges will be displayed with less contrast: lighter and more colored.
+
+
+Style property:
+	Type: vbExStyleConstants
+	Returns or sets the style of the tabs.
+
+	This property acts as a meta-property. It means that it sets at once certain features that can be set individually through other properties.
+	It performs internal settings for TabAppearance, TabWidthStyle, ShowRowsInPerspective and TabSelFontBold as long as these properties are set to Auto.
+
+	Values:
+
+	ssStyleTabbedDialog: (Default) TabAppearance is set to ssTATabbedDialog, TabWidthStyle to ssTWSFixed, ShowRowsInPerspective to ssYes and TabSelFontBold to ssYes.
+
+	ssStylePropertyPage: TabAppearance is set to ssTAPropertyPage, TabWidthStyle to ssTWSNonJustified, ShowRowsInPerspective to ssYes and TabSelFontBold to ssNo.
+
+	ssStyleTabStrip: TabAppearance is set to ssTAPropertyPage, TabWidthStyle to ssTWSJustified, ShowRowsInPerspective to ssNo and TabSelFontBold to ssNo. This setting wasn't available in the original SSTab.
+
+	The changes are internal, they are not reflected on these properties values (they remain set to Auto).
+
+
+TabAppearance property:
+	Type: vbExTabAppearanceConstants (Not available at design time)
+	Returns or sets a value that determines the appearance of the tabs. When the control is themed, the theme defines the appearance.
+
+	Values:
+	ssTATabbedDialog: The appearance if of the original SSTab control when the Style property is left with the default value.
+	ssTAPropertyPage:  The appearance if of the original SSTab control when the Style property is set to ssStylePropertyPage.
+	ssTATaTabbedDialogRounded: As ssTATabbedDialog, but the tabs have the corners rounded.
+	ssTAPropertyPageRounded: As ssTAPropertyPage, but the tabs have the corners rounded.
+	ssTAAuto: The appearance is defined by the Style property (setting it to ssTATabbedDialog or to ssTAPropertyPage).
+
+
+TabBackColor property:
+	Type: Long
+	Returns or sets the background color of the tabs, except the active tab that is set by TabSelBackColor.
+	When the control is themed, this property value has no practical effect.
+
+
+TabBodyHeight property:
+	Type: Single (Read only)
+	Returns the height of the "tab body". The tab body is the space available to place contained controls.
+	They return the value in Twips.
+
+
+TabBodyLeft property:
+	Type: Single (Read only)
+	Returns the left of the "tab body". The tab body is the space available to place contained controls.
+	They return the value in Twips.
+
+
+TabBodyTop property:
+	Type: Single (Read only)
+	Returns top of the "tab body". The tab body is the space available to place contained controls.
+	They return the value in Twips.
+
+
+TabBodyWidth property:
+	Type: Single (Read only)
+	Returns the width of the "tab body". The tab body is the space available to place contained controls.
+	They return the value in Twips.
+
+
+TabCaption property:
+	Type: String
+
+	Additional parameter(s):
+	    In	Required	Index	As	Integer
+	Returns or sets the caption of a tab identified by the Index parameter.
+	Captions can have accelerators by adding "&" before the letter that will act as the accelerator.
+
+
+TabControls property:
+	Type: Collection (Read only)
+
+	Additional parameter(s):
+	    In/Out	Required	nTab	As	Integer
+	    In/Out	Optional	GetChilds	As	Boolean
+	Returns a collection of the controls that are inside a tab. The tab must be identified by the nTab parameter.
+
+	The optional GetChilds parameter determines if only the controls that are directly contained in the SSTabEx will be returned, or also the controls contained into them. Its default value is True.
+
+	It is not available at design time, and is read-only at run time.
+
+
+TabEnabled property:
+	Type: Boolean
+
+	Additional parameter(s):
+	    In	Required	Index	As	Integer
+	Returns or sets a value that determines whether the tab identified by the Index argument enabled.
+
+
+TabHeight property:
+	Type: Single
+	Returns or sets the height of tabs.
+
+
+TabHoverHighlight property:
+	Type: vbExTabHoverHighlightConstants (Not available at design time)
+	Returns or sets a value that determines if the tabs will appear highlighted when the mouse is over them.
+	ssTHHEffect setting only works when the control is not themed. When it is set to ssTHHEffect, the tabs will show an effect when they are being highlighted.
+
+
+TabMaxWidth property:
+	Type: Single
+	Returns or sets the maximum width of each tab. If set to 0 (zero), it means no maximun.
+
+	When the TabWidthStyle property setting is ssTWSFixed and the TabMaxWidth property is set to 0 (zero), the control automatically sizes the tabs, based on TabsPerRow property, to fit evenly across the control.
+	Unlike the original SSTab, this property is no longer ignored when Style property is set to ssStylePropertyPage.
+	If TabWidthStyle property setting is ssTWSNonJustified or ssTWSJustified, It determines the maximun width that a tab can have, regardeless of the lenght of the caption.
+	When a tab caption doesn't fit in the available width, if WordWrap is set to True it will have an additional line, and if it is set to False it will cut the caption text and add an ellipsis.
+	In the case when TabWidthStyle setting is ssTWSJustified and it is needed more space than TabMaxWidth * Rows to fill all the rows space, then the tabs can have more width than the specified in the TabMaxWidth setting.
+
+
+TabMinWidth property:
+	Type: Single
+	Returns or sets the minimun width of each tab. If set to 0 (zero), it means no minimun.
+
+
+TabOrientation property:
+	Type: vbExTabOrientationConstants
+	Returns or sets a value that determines which side of the control the tabs will appear.
+
+
+TabPic16 property:
+	Type: Picture
+
+	Additional parameter(s):
+	    In	Required	Index	As	Variant
+	Returns or sets the bitmap to be displayed on the tab specified by the Index parameter, when the application is DPI aware.
+	TabPic16 is used for 96 DPI, TabPic20 for 120 DPI and TabPic24 for 144 DPI. Others DPI setting are handled automatically.
+	The application need to have a manifest file to declare it as DPI aware.
+	When these pictures are set, the TabPicture property is ignored.
+	They can be accessed at design time through a property page.
+
+
+TabPic20 property:
+	Type: Picture
+
+	Additional parameter(s):
+	    In	Required	Index	As	Variant
+	Returns or sets the bitmap to be displayed on the tab specified by the Index parameter, when the application is DPI aware.
+	TabPic16 is used for 96 DPI, TabPic20 for 120 DPI and TabPic24 for 144 DPI. Others DPI setting are handled automatically.
+	The application need to have a manifest file to declare it as DPI aware.
+	When these pictures are set, the TabPicture property is ignored.
+	They can be accessed at design time through a property page.
+
+
+TabPic24 property:
+	Type: Picture
+
+	Additional parameter(s):
+	    In	Required	Index	As	Variant
+	Returns or sets the bitmap to be displayed on the tab specified by the Index parameter, when the application is DPI aware.
+	TabPic16 is used for 96 DPI, TabPic20 for 120 DPI and TabPic24 for 144 DPI. Others DPI setting are handled automatically.
+	The application need to have a manifest file to declare it as DPI aware.
+	When these pictures are set, the TabPicture property is ignored.
+	They can be accessed at design time through a property page.
+
+
+TabPicture property:
+	Type: Picture
+
+	Additional parameter(s):
+	    In	Required	Index	As	Integer
+	Returns or sets the bitmap or icon to display on the tab specified by the Index argument.
+
+
+TabPictureAlignment property:
+	Type: vbExTabPictureAlignmentConstants
+	Returns or sets the alignment of the tab picture with respect of the tab caption.
+
+
+Tabs property:
+	Type: Integer
+	Returns or sets the total number of tabs.
+
+
+TabSel property:
+	Type: Integer
+	Returns or sets the current ("selected" or "active") tab.
+	In the original SSTab control its name was "Tab", but VB6 doesn't allow that name for a property because it is a reserved word, therefore the name was changed to "TabSel".
+
+
+TabSelBackColor property:
+	Type: Long
+	Returns or sets the color of the active tab, including the tab body (the space were the contained controls are located).
+	If ChangeControlsBackColor is True, changing this color will change also the BackColor of the contained controls.
+	When the control is themed, this property value has no effect.
+
+
+TabSelExtraHeight property:
+	Type: Single (Not available at design time)
+	Returns or sets a value that determines if the active tab will be higher than the others. The value must be between 0 (zero) and twice the TabHeight setting.
+	Note: If TabAppearance is set to ssTAPropertyPage or ssTAPropertyPageRounded, or the control is themed, the active tab is already two pixels taller than the inactive ones.
+
+
+TabSelFontBold property:
+	Type: vbExAutoYesNoConstants (Not available at design time)
+	Returns or sets a value that determines if the font of the caption in currently selected tab will be bold.
+	If the setting is ssYNAuto and TabAppearance setting is ssTATabbedDialog or ssTATabbedDialogRounded, the caption in the selected tab will be bolded. Otherwise it will be bolded only if all the tabs are bolded according to the Font setting.
+
+
+TabSelForeColor property:
+	Type: Long
+	Returns or sets the the caption color of the active tab.
+
+
+TabSelHighlight property:
+	Type: Boolean (Not available at design time)
+	Returns or sets a value that determines if the selected tab will be highlighted.
+	When the control is themed this setting is ignored.
+
+
+TabSeparation property:
+	Type: Integer (Not available at design time)
+	Returns or sets the number of pixels of separation between tabs. The value must be between 0 (zero) and 20.
+	When the control is themed, values less than two pixels are ignored, since the themed tabs have two pixels of separation by design.
+
+
+TabsPerRow property:
+	Type: Integer
+	Returns or sets the number of tabs for each row.
+	If TabWidthStyle setting is ssTWSJustified, this setting has no effect.
+
+
+TabToolTipText property:
+	Type: String
+
+	Additional parameter(s):
+	    In	Required	Index	As	Variant
+	Returns or sets the text that will be shown as tooltip text when the mouse pointer is over the tab identified by the Index parameter.
+	If the tab has not a TabToolTipText set, it will show the control ToolTipText, if there is any text set on that property.
+
+
+TabVisible property:
+	Type: Boolean
+
+	Additional parameter(s):
+	    In	Required	Index	As	Integer
+	Returns or sets a value that determines whether the tab identified by the Index will be visible.
+
+
+TabWidthStyle property:
+	Type: vbExTabWidthStyleConstants (Not available at design time)
+	Returns or sets a value that determines the justification or width of the tabs.
+
+	ssTWSFixed: All tabs has the same width. If TabMaxWidth is 0 (zero), the tab width will be the available space / TabsPerRow. If TabMaxWidth is greater than 0 (zero), that setting will determine the tabs width.
+
+	ssTWSNonJustified: The width of the tabs will be determined by the size of the caption + the size of the tab picture (if any). TabMinWidth and TabMaxWidth settings can set a boundary for the width that a tab can have. Unlike the original SSTab control, if the sum of the widths of all the tabs in a row exceeds the available space, the widths of the tabs in that row are shrunken to fit in the available space.
+
+	ssTWSJustified: If there is more than one row, each tab is wide enough to accommodate its contents and, if needed, the width of each tab is increased so that each row of tabs spans the width of the control. If all the tabs fit in one row, the tabs are not justified (it works the same as ssTWSNonJustified).
+
+	ssTWSAuto: The behavior is defined by the Style property setting.
+
+
+UseMaskColor property:
+	Type: Boolean
+	Returns or sets a value that determines whether the color assigned in the MaskColor property is used as a mask (that is used to set transparent regions in the tab pictures).
+
+
+VisualStyles property:
+	Type: Boolean
+	Returns or sets a value that determines whether the appearance of the control will use Windows visual styles or "themes".
+
+	The default setting is True
+
+	The control will be "themed" only if the application has a manifest file for supporting visual styles in the common controls.
+	Usually the control will be themed when compiled (unless changes has been made to make the IDE to show visual styles).
+
+	The following properties have no effect when the control is applying visual styles: TabAppearance, TabBackColor, TabSelBackColor and TabSelHighlight.
+
+
+WordWrap property:
+	Type: Boolean
+	Returns or sets a value that determines how the control displays the text on each tab.
+	In a control that its size and/or the tab texts change dinamically, to make sure that text will not be truncated if it is too long, set the WordWrap property to True, the TabMaxWidth property to 0, and the TabHeight property to a height that allows to view the longest piece of text.
+
+
+Methods: 
+
+IsVisualStyleApplied function:
+	Return Type:	Boolean
+	No parameters.
+
+	Returns a boolean value indicating whether the visual styles are actually applied to the control or not.
+
+
+Refresh method:
+	No parameters.
+
+	Redraws the control.
+
+
+Events: 
+
+BeforeClick event:
+	Parameter(s):
+	    Returns value	Cancel	As	Boolean
+	Occurs when the current tab (TabSel) is about to change.
+	Use the BeforeClick event to validate the information on the old tab before actually generating a Click event that selects the new tab.
+	Setting the Cancel parameter to True allows you to prevent the change to the new tab selection.
+
+
+ChangeControlBackColor event:
+	Parameter(s):
+	    Info	ControlName	As	String
+	    Info	ControlTypeName	As	String
+	    Returns value	Cancel	As	Boolean
+	When ChangeControlsBackColor property is set to True, allows you to determine individually which controls will have their background changed (or not).
+	This event is generated for each control on the current tab, before the tab is painted.
+	The ControlName parameter specifies the name of the control, to avoid changing a particular control BackColor, set the parameter Cancel to True.
+	The Co

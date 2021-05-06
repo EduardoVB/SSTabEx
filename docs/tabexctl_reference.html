@@ -1,0 +1,1066 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<title>TabExCtl Reference</title>
+<meta name="DESCRIPTION" content="TabExCtl Reference" />
+<style>
+body {
+  background-color: white;
+  font:.875em/1.35 'Segoe UI','Lucida Grande',Verdana,Arial,Helvetica,sans-serif;
+  margin-top:0;
+  margin-left:20;
+  margin-bottom:0;
+  padding-bottom:15px;
+  padding-left:15px;
+ }
+
+h1 {
+  color: black;
+  font-family:'Segoe UI','Lucida Grande',Verdana,Arial,Helvetica,sans-serif;
+  font-weight:normal;
+  font-size: 200%;
+  margin-top:0;
+ }
+
+p  {
+  color:#2a2a2a;
+  font-size: 100%;
+  line-height:18px;
+ }
+
+a {color:#069;
+  text-decoration:none;
+  font-weight: 600;
+ }
+
+a:visited {
+  color:#069;
+ }
+
+pre {background: #f4f4f4;
+    padding: 5px;
+    margin:0;
+    font-family: Consolas,Courier,monospace!important;
+    font-style: normal;
+    font-weight: normal;
+    overflow: auto;
+    word-wrap: normal;
+    border: 1px solid #ddd;
+    line-height: 1.6;
+    display: block;
+   border: 3px solid #eee;
+   border-left: 3px solid #aca;
+ }
+
+header {
+  background-color: white;
+  font:.875em/1.35 'Segoe UI','Lucida Grande',Verdana,Arial,Helvetica,sans-serif;
+  margin-top:0;
+  margin-left:0;
+  margin-bottom:0;
+  font-size: 130%;
+ }
+
+header a {color:#066;
+  text-decoration:none;
+  font-weight: 400;
+  font-size: 100%;
+ }
+
+header a:visited {
+  color:#066;
+ }
+</style>
+<style>.table2, .table2 th, .table2 td {border: 2px solid #e0e0e0;border-collapse: collapse;} .table2 th, .table2 td {padding: 8px;text-align: left;}</style>
+</head>
+
+<body>
+<h1>TabExCtl Reference</h1>
+<li class="toc1"><a href="#ilink1">SSTabEx</a> control<br></li>
+<li class="toc1"><a href="#ilink2">Constants<br></li>
+<a name="ilink1"><h1><p class="section">SSTabEx control</p></h1></a>
+<p>This control is a direct replacement of the original SSTab control that comes with VB6. <br>
+All the code for the control is in the file uscSSTabEx.ctl, the other files are for property pages and subclassing.<br>
+<br>
+One of the main enhancements over the original is that it displays Visual Styles (or Themes), but also other features have beed added.<br>
+The SSTabEx controls will be "themed" only if you added a manifest file for doing that for the common controls. To see the SSTabEx's themed, you need to compile and run the program compiled or to have the IDE also manifested for Common Controls 6.<br>
+Still, the VisualStyles property must be set to True for the control to be themed.<br>
+<br>
+Replacing the original SSTab:<br>
+<br>
+If you want to replace the original SSTab in a project with this control, you can do it following these steps:<br>
+- Make a backup of your project first.<br>
+- Add the reference to the compiled OCX or add the SSTabEx and related files in source code to your project. For the list of needed source code files please read "Readme - Notes.txt".<br>
+- If the SSTabEx is not in the same project that you'll use it, then add temporarily an SSTabEx control to a form, just dropping a new control onto it. Save the project and close the IDE.<br>
+- Manually edit the *.frm files and replace TabDlg.SSTab with ProjectName.SSTabEx, where "ProjectName" is the name of the project that has the SSTabEx control.<br>
+- If you have added it to your exe project, it will be the name of your project, but if you are using it from an OCX, it will be the name of that component.<br>
+- Re-open the project in the IDE. If you added a temporary control, delete it.<br>
+<br>
+In the case that you want to have the control inside your exe, the first thing you need to do is to add the files (uscSSTabEx.ctl and the others) to your project, then you can close the project and do the editing and replacement pointed before in the *.frm files. After that, you can re-open the project.<br>
+In the case you will be using the control from an OCX file, first add the reference to that ocx file to the project (menu Project/Components), save the project and close it. Then you can do the editing and replacement in the *.frm files.<br>
+Before editing the *.frm files, make a backup copy of your project for being able to go back in case that anything goes wrong.<br>
+<br>
+After you successfully replaced the control and opened your project with the new control, there is still something else that you need to change:<br>
+The original property Tab (that returns or sets the selected -or currently active- tab) now was renamed to TabSel. You need to replace in all the places that appears ControlName.<b>Tab</b> with ControlName.<b>TabSel</b> (if there is any in your code).<br>
+When <a href="#ilink37">Style</a> is set to <b>ssStylePropertyPage</b>, the <a href="#ilink49">TabMaxWidth</a> property setting is no longer ignored (as it was in the original SSTab). So if Style is set to <b>ssStylePropertyPage</b>, ensure that  <a href="#ilink49">TabMaxWidth</a> is set to 0 (zero) when upgrading.<br>
+</p><br>
+<li class="toc1"><a href="#ilink3">Properties</a></li><li class="toc1"><a href="#ilink72">Methods</a></li><li class="toc1"><a href="#ilink75">Events</a></li><br><a name="ilink3" /><h2><p class="section">Properties</p></h2></a>
+<li class="toc1"><a href="#ilink4">AutoRelocateControls</a><br>
+<li class="toc1"><a href="#ilink5">AutoTabHeight</a><br>
+<li class="toc1"><a href="#ilink6">BackColor</a><br>
+<li class="toc1"><a href="#ilink7">BackStyle</a><br>
+<li class="toc1"><a href="#ilink8">Caption</a><br>
+<li class="toc1"><a href="#ilink9">ChangeControlsBackColor</a><br>
+<li class="toc1"><a href="#ilink10">ContainedControlLeft</a><br>
+<li class="toc1"><a href="#ilink11">ContainedControls</a><br>
+<li class="toc1"><a href="#ilink12">Enabled</a><br>
+<li class="toc1"><a href="#ilink13">EndOfTabs</a><br>
+<li class="toc1"><a href="#ilink14">Font</a><br>
+<li class="toc1"><a href="#ilink15">ForeColor</a><br>
+<li class="toc1"><a href="#ilink16">HandleHighContrastTheme</a><br>
+<li class="toc1"><a href="#ilink17">hWnd</a><br>
+<li class="toc1"><a href="#ilink18">LeftShiftToHide</a><br>
+<li class="toc1"><a href="#ilink19">MaskColor</a><br>
+<li class="toc1"><a href="#ilink20">MinHeightNeeded</a><br>
+<li class="toc1"><a href="#ilink21">MinWidthNeeded</a><br>
+<li class="toc1"><a href="#ilink22">MouseIcon</a><br>
+<li class="toc1"><a href="#ilink23">MousePointer</a><br>
+<li class="toc1"><a href="#ilink24">Object</a><br>
+<li class="toc1"><a href="#ilink25">OLEDropMode</a><br>
+<li class="toc1"><a href="#ilink26">Pic16</a><br>
+<li class="toc1"><a href="#ilink27">Pic20</a><br>
+<li class="toc1"><a href="#ilink28">Pic24</a><br>
+<li class="toc1"><a href="#ilink29">Picture</a><br>
+<li class="toc1"><a href="#ilink30">Redraw</a><br>
+<li class="toc1"><a href="#ilink31">RightToLeft</a><br>
+<li class="toc1"><a href="#ilink32">Rows</a><br>
+<li class="toc1"><a href="#ilink33">ShowDisabledState</a><br>
+<li class="toc1"><a href="#ilink34">ShowFocusRect</a><br>
+<li class="toc1"><a href="#ilink35">ShowRowsInPerspective</a><br>
+<li class="toc1"><a href="#ilink36">SoftEdges</a><br>
+<li class="toc1"><a href="#ilink37">Style</a><br>
+<li class="toc1"><a href="#ilink38">TabAppearance</a><br>
+<li class="toc1"><a href="#ilink39">TabBackColor</a><br>
+<li class="toc1"><a href="#ilink40">TabBodyHeight</a><br>
+<li class="toc1"><a href="#ilink41">TabBodyLeft</a><br>
+<li class="toc1"><a href="#ilink42">TabBodyTop</a><br>
+<li class="toc1"><a href="#ilink43">TabBodyWidth</a><br>
+<li class="toc1"><a href="#ilink44">TabCaption</a><br>
+<li class="toc1"><a href="#ilink45">TabControls</a><br>
+<li class="toc1"><a href="#ilink46">TabEnabled</a><br>
+<li class="toc1"><a href="#ilink47">TabHeight</a><br>
+<li class="toc1"><a href="#ilink48">TabHoverHighlight</a><br>
+<li class="toc1"><a href="#ilink49">TabMaxWidth</a><br>
+<li class="toc1"><a href="#ilink50">TabMinWidth</a><br>
+<li class="toc1"><a href="#ilink51">TabOrientation</a><br>
+<li class="toc1"><a href="#ilink52">TabPic16</a><br>
+<li class="toc1"><a href="#ilink53">TabPic20</a><br>
+<li class="toc1"><a href="#ilink54">TabPic24</a><br>
+<li class="toc1"><a href="#ilink55">TabPicture</a><br>
+<li class="toc1"><a href="#ilink56">TabPictureAlignment</a><br>
+<li class="toc1"><a href="#ilink57">Tabs</a><br>
+<li class="toc1"><a href="#ilink58">TabSel</a><br>
+<li class="toc1"><a href="#ilink59">TabSelBackColor</a><br>
+<li class="toc1"><a href="#ilink60">TabSelExtraHeight</a><br>
+<li class="toc1"><a href="#ilink61">TabSelFontBold</a><br>
+<li class="toc1"><a href="#ilink62">TabSelForeColor</a><br>
+<li class="toc1"><a href="#ilink63">TabSelHighlight</a><br>
+<li class="toc1"><a href="#ilink64">TabSeparation</a><br>
+<li class="toc1"><a href="#ilink65">TabsPerRow</a><br>
+<li class="toc1"><a href="#ilink66">TabToolTipText</a><br>
+<li class="toc1"><a href="#ilink67">TabVisible</a><br>
+<li class="toc1"><a href="#ilink68">TabWidthStyle</a><br>
+<li class="toc1"><a href="#ilink69">UseMaskColor</a><br>
+<li class="toc1"><a href="#ilink70">VisualStyles</a><br>
+<li class="toc1"><a href="#ilink71">WordWrap</a><br>
+<br><a name="ilink72" /><h2><p class="section">Methods</p></h2></a>
+<li class="toc1"><a href="#ilink73">IsVisualStyleApplied</a><br>
+<li class="toc1"><a href="#ilink74">Refresh</a><br>
+<br><a name="ilink75" /><h2><p class="section">Events</p></h2></a>
+<li class="toc1"><a href="#ilink76">BeforeClick</a><br>
+<li class="toc1"><a href="#ilink77">ChangeControlBackColor</a><br>
+<li class="toc1"><a href="#ilink78">Click</a><br>
+<li class="toc1"><a href="#ilink79">DblClick</a><br>
+<li class="toc1"><a href="#ilink80">KeyDown</a><br>
+<li class="toc1"><a href="#ilink81">KeyPress</a><br>
+<li class="toc1"><a href="#ilink82">KeyUp</a><br>
+<li class="toc1"><a href="#ilink83">MouseDown</a><br>
+<li class="toc1"><a href="#ilink84">MouseMove</a><br>
+<li class="toc1"><a href="#ilink85">MouseUp</a><br>
+<li class="toc1"><a href="#ilink86">OLECompleteDrag</a><br>
+<li class="toc1"><a href="#ilink87">OLEDragDrop</a><br>
+<li class="toc1"><a href="#ilink88">OLEDragOver</a><br>
+<li class="toc1"><a href="#ilink89">OLEGiveFeedback</a><br>
+<li class="toc1"><a href="#ilink90">OLESetData</a><br>
+<li class="toc1"><a href="#ilink91">OLEStartDrag</a><br>
+<li class="toc1"><a href="#ilink92">Resize</a><br>
+<li class="toc1"><a href="#ilink93">RowsChange</a><br>
+<li class="toc1"><a href="#ilink94">TabBodyResize</a><br>
+<li class="toc1"><a href="#ilink95">TabMouseEnter</a><br>
+<li class="toc1"><a href="#ilink96">TabMouseLeave</a><br>
+<li class="toc1"><a href="#ilink97">TabRightClick</a><br>
+<li class="toc1"><a href="#ilink98">TabSelChange</a><br>
+
+<br><br><br><h1>Properties</h1><br><a name="ilink4" /><h2><p class"section">AutoRelocateControls Property</p></h2></a>
+<p>Type: <b><a href="#ilink99">vbExAutoRelocateControlsConstants</a></b></p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines if the contained controls will be automatically relocated when the tab body changes in size or position.<br>
+<br>
+Values:<br>
+<b>ssRelocateOnTabOrientatioChange</b>: The contained controls will be automatically relocated when <a href="#ilink51">TabOrientation</a> changes.<br>
+<b>ssRelocateAlways</b>: The contained controls will be automatically relocated when <a href="#ilink51">TabOrientation</a> changes and also when the tab space changes in height.<br>
+<b>ssRelocateNever</b>:  The contained controls will never be automatically relocated. Choose this value if you are relocating the controls by code in the Form_Resize or SSTabEx <a href="#ilink94">TabBodyResize</a> events.<br>
+<br>
+</p><br>
+<a name="ilink5" /><h2><p class"section">AutoTabHeight Property</p></h2></a>
+<p>Type: <b>Boolean</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the a value that determines whether the tab height (and value of property <a href="#ilink47">TabHeight</a>) is set automatically according to the font (and tab pictures, in case there are set pictures). Note: it asumes one-liner captions.<br>
+If the property <a href="#ilink47">TabHeight</a> is manually set, <b>AutoTabHeight</b> is then set to <b>False</b>.<br>
+For newly added controls, its default it <b>True</b>, but if you are updating from a previous version or an SSTab control, it will be set to <b>False</b>.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink47">TabHeight</a> property</p><br>
+<a name="ilink6" /><h2><p class"section">BackColor Property</p></h2></a>
+<p>Type: <b>Long</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the background color. The background color is not the color of the background of the tabs (that color is handled by the <b>TabBackColor</b> property), but the color ouside the tabs.</p><br>
+<a name="ilink7" /><h2><p class"section">BackStyle Property</p></h2></a>
+<p>Type: <b><a href="#ilink101">vbExBackStyleConstants</a></b></p>
+<h3>Description:</h3>
+<p>Returns or sets the a value that determines whether the background will be opaque or transparent.</p><br>
+<a name="ilink8" /><h2><p class"section">Caption Property</p></h2></a>
+<p>Type: <b>String</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the caption of the currently selected tab by the <a href="#ilink58">TabSel</a> property.<br>
+Captions can have accelerators by adding "&" before the letter that will act as the accelerator.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink44">TabCaption</a> property</p><br>
+<a name="ilink9" /><h2><p class"section">ChangeControlsBackColor Property</p></h2></a>
+<p>Type: <b>Boolean</b></p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines if the background color of the contained controls will be changed according to the background color of the tabs (the <a href="#ilink39">TabBackColor</a> property value).<br>
+<br>
+If <a href="#ilink70">VisualStyles</a> is set to <b>True</b>, the background of the controls are painted with the background of the themed tab body.<br>
+If <b>ChangeControlsBackColor</b> is <b>False</b>, the <b>BackColor</b> of the contained controls is left unchanged.<br>
+If <b>ChangeControlsBackColor</b> is <b>True</b>, and the control is not themed, changing the <a href="#ilink39">TabBackColor</a> propery value will also change the <b>BackColor</b> of the contained controls, but only when their BackColor's has the same color as the previous <a href="#ilink39">TabBackColor</a> setting.<br>
+If <b>ChangeControlsBackColor</b> is <b>True</b>, and the control is themed, only the controls that has the <b>BackColor</b> property value set to the same color of <a href="#ilink39">TabBackColor</a> are changed.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink77">ChangeControlBackColor</a> event<br>
+</p><br>
+<a name="ilink10" /><h2><p class"section">ContainedControlLeft Property</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspType: <b>Single</b>&nbsp&nbsp</td>    </tr>    <tr>    </tr>    <tr>    <td>&nbsp&nbspAdditional parameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    In&nbsp&nbsp</td>    <td>&nbsp&nbspRequired&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>ControlName</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspString&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Returns or sets the <b>Left</b> of a contained control.<br>
+The argument <b>ControlName</b> must be the name of a contained control.</p><br>
+<a name="ilink11" /><h2><p class"section">ContainedControls Property</p></h2></a>
+<p>Type: <b>ContainedControls</b> (Read only)</p>
+<h3>Description:</h3>
+<p>Returns a collection of the controls that were added to the SSTabEx.<br>
+<br>
+It only holds controls that are directly contained in the control, it does not include controls that are inside others controls. Also see the <a href="#ilink45">TabControls</a> property.<br>
+It is not available at design time, and is read-only at run time.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink45">TabControls</a> property</p><br>
+<a name="ilink12" /><h2><p class"section">Enabled Property</p></h2></a>
+<p>Type: <b>Boolean</b></p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines whether a form or control can respond to user-generated events.</p><br>
+<a name="ilink13" /><h2><p class"section">EndOfTabs Property</p></h2></a>
+<p>Type: <b>Single</b> (Read only)</p>
+<h3>Description:</h3>
+<p>Returns a value that indicates where the last tab ends. Depending on the <a href="#ilink51">TabOrientation</a> setting, it can be the rightmost tab (orientation top and bottom), the topmost tab (orientation left) or the bottommost tab (orientation right).</p><br>
+<a name="ilink14" /><h2><p class"section">Font Property</p></h2></a>
+<p>Type: <b>Font</b></p>
+<h3>Description:</h3>
+<p>Returns or sets a <b>Font</b> object correspondig to the font that will be used to display the tab <b>captions</b>.</p><br>
+<a name="ilink15" /><h2><p class"section">ForeColor Property</p></h2></a>
+<p>Type: <b>Long</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the color of the tab captions.</p><br>
+<a name="ilink16" /><h2><p class"section">HandleHighContrastTheme Property</p></h2></a>
+<p>Type: <b>Boolean</b></p>
+<h3>Description:</h3>
+<p>When <b>True</b> (default setting), the control handles the system changes to high contrast theme automatically by changing the colors of the control to system's high contrast colors.</p><br>
+<a name="ilink17" /><h2><p class"section">hWnd Property</p></h2></a>
+<p>Type: <b>Long</b> (Read only, not available at design time)</p>
+<h3>Description:</h3>
+<p>Returns the Windows handle of the control.</p><br>
+<a name="ilink18" /><h2><p class"section">LeftShiftToHide Property</p></h2></a>
+<p>Type: <b>Long</b> (Read only)</p>
+<h3>Description:</h3>
+<p>Returns the shift to the left in twips that the SStabEx is using to hide the controls in the non-active tabs.<br>
+<br>
+With the original SSTab control that was fixed to 75000 <b>twips</b>, but now in hight DPI screen settings it can change to avoid overflow due to a Windows limitation.</p><br>
+<a name="ilink19" /><h2><p class"section">MaskColor Property</p></h2></a>
+<p>Type: <b>Long</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the color that will be transparent for the bitmaps that are in the <a href="#ilink55">TabPicture</a>, <a href="#ilink52">TabPic16</a>, <a href="#ilink53">TabPic20</a> and <a href="#ilink54">TabPic24</a> properties.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink69">UseMaskColor</a> property</p><br>
+<a name="ilink20" /><h2><p class"section">MinHeightNeeded Property</p></h2></a>
+<p>Type: <b>Single</b> (Read only)</p>
+<h3>Description:</h3>
+<p>If <a href="#ilink51">TabOrientation</a> is set to <b>ssTabOrientationLeft</b> or to <b>ssTabOrientationRight</b>, it returns the minimun Height of the control needed to show all the tab captions without wrapping them into another line (when <a href="#ilink71">WordWrap</a> is set to <b>True</b>) or without showing an elipsis (when <a href="#ilink71">WordWrap</a> is set to <b>False</b>).<br>
+If <a href="#ilink51">TabOrientation</a> is set to <b>ssTabOrientationTop</b> or to <b>ssTabOrientationBottom</b>, it returns 0.<br>
+<br>
+When <a href="#ilink68">TabWidthStyle</a> is set to other than <b>ssTWSNonJustified</b>, it returns 0 (zero).<br>
+Note: <a href="#ilink68">TabWidthStyle</a> is set automatically to <b>ssTWSNonJustified</b> (internally) when <a href="#ilink37">Style</a> is set to <b>ssStylePropertyPage</b> and <a href="#ilink68">TabWidthStyle</a> is set to <b>ssTWSAuto</b>.<br>
+<br>
+According to <a href="#ilink51">TabOrientation</a>, use <a href="#ilink21">MinWidthNeeded</a> for <b>ssTabOrientationTop</b> and <b>ssTabOrientationBottom</b>, and <b>MinHeightNeeded</b> for <b>ssTabOrientationLeft</b> and <b>ssTabOrientationRight</b>.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink21">MinWidthNeeded</a> property</p><br>
+<a name="ilink21" /><h2><p class"section">MinWidthNeeded Property</p></h2></a>
+<p>Type: <b>Single</b> (Read only)</p>
+<h3>Description:</h3>
+<p>If <a href="#ilink51">TabOrientation</a> is set to <b>ssTabOrientationTop</b> or to <b>ssTabOrientationBottom</b>, it returns the minimun Width of the control needed to show all the tab captions without wrapping them into another line (when <a href="#ilink71">WordWrap</a> is set to <b>True</b>) or without showing an elipsis (when <a href="#ilink71">WordWrap</a> is set to <b>False</b>).<br>
+If <a href="#ilink51">TabOrientation</a> is set to <b>ssTabOrientationLeft</b> or to <b>ssTabOrientationRight</b>, it returns 0.<br>
+<br>
+When <a href="#ilink68">TabWidthStyle</a> is set to other than <b>ssTWSNonJustified</b>, it returns 0 (zero).<br>
+Note: <a href="#ilink68">TabWidthStyle</a> is set automatically to <b>ssTWSNonJustified</b> (internally) when <a href="#ilink37">Style</a> is set to <b>ssStylePropertyPage</b> and <a href="#ilink68">TabWidthStyle</a> is set to <b>ssTWSAuto</b>.<br>
+<br>
+According to <a href="#ilink51">TabOrientation</a>, use <a href="#ilink21">MinWidthNeeded</a> for <b>ssTabOrientationTop</b> and <b>ssTabOrientationBottom</b>, and <b>MinHeightNeeded</b> for <b>ssTabOrientationLeft</b> and <b>ssTabOrientationRight</b>.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink20">MinHeightNeeded</a> property</p><br>
+<a name="ilink22" /><h2><p class"section">MouseIcon Property</p></h2></a>
+<p>Type: <b>Picture</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the icon used as the mouse pointer when the <a href="#ilink23">MousePointer</a> property is set to 99 (custom).</p><br>
+<a name="ilink23" /><h2><p class"section">MousePointer Property</p></h2></a>
+<p>Type: <b><a href="#ilink102">vbExMousePointerConstants</a></b></p>
+<h3>Description:</h3>
+<p>Returns or sets the type of mouse pointer displayed when over the control.</p><br>
+<a name="ilink24" /><h2><p class"section">Object Property</p></h2></a>
+<p>Type: <b>Object</b> (Read only)</p>
+<h3>Description:</h3>
+<p>Returns the control instance without the extender.</p><br>
+<a name="ilink25" /><h2><p class"section">OLEDropMode Property</p></h2></a>
+<p>Type: <b><a href="#ilink103">vbExOLEDropConstants</a></b></p>
+<h3>Description:</h3>
+<p>Returns/sets how a target component handles drop operations.</p><br>
+<a name="ilink26" /><h2><p class"section">Pic16 Property</p></h2></a>
+<p>Type: <b>Picture</b></p>
+<h3>Description:</h3>
+<p>Returns or sets a bitmap to display on the current tab, when the application is DPI aware.<br>
+<br>
+<b>Pic16</b> is used for 96 DPI, <a href="#ilink27">Pic20</a> for 120 DPI and <a href="#ilink28">Pic24</a> for 144 DPI. Others DPI setting are handled automatically.<br>
+The application need to have a manifest file to declare it as DPI aware.<br>
+When these pictures are set, the <a href="#ilink29">Picture</a> property is ignored.<br>
+Use <a href="#ilink52">TabPic16</a>, <a href="#ilink53">TabPic20</a> and <a href="#ilink54">TabPic24</a> properties to set or get the pictures of any tab at run time.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink52">TabPic16</a> property</p><br>
+<a name="ilink27" /><h2><p class"section">Pic20 Property</p></h2></a>
+<p>Type: <b>Picture</b></p>
+<h3>Description:</h3>
+<p>Returns or sets a bitmap to display on the current tab, when the application is DPI aware.<br>
+<br>
+<a href="#ilink26">Pic16</a> is used for 96 DPI, <b>Pic20</b> for 120 DPI and <a href="#ilink28">Pic24</a> for 144 DPI. Others DPI setting are handled automatically.<br>
+The application need to have a manifest file to declare it as DPI aware.<br>
+When these pictures are set, the <a href="#ilink29">Picture</a> property is ignored.<br>
+Use <a href="#ilink52">TabPic16</a>, <a href="#ilink53">TabPic20</a> and <a href="#ilink54">TabPic24</a> properties to set or get the pictures of any tab at run time.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink53">TabPic20</a> property</p><br>
+<a name="ilink28" /><h2><p class"section">Pic24 Property</p></h2></a>
+<p>Type: <b>Picture</b></p>
+<h3>Description:</h3>
+<p>Returns or sets a bitmap to display on the current tab, when the application is DPI aware.<br>
+<br>
+<a href="#ilink26">Pic16</a> is used for 96 DPI, <a href="#ilink27">Pic20</a> for 120 DPI and <b>Pic24</b> for 144 DPI. Others DPI setting are handled automatically.<br>
+The application need to have a manifest file to declare it as DPI aware.<br>
+When these pictures are set, the <a href="#ilink29">Picture</a> property is ignored.<br>
+Use <a href="#ilink52">TabPic16</a>, <a href="#ilink53">TabPic20</a> and <a href="#ilink54">TabPic24</a> properties to set or get the pictures of any tab at run time.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink54">TabPic24</a> property</p><br>
+<a name="ilink29" /><h2><p class"section">Picture Property</p></h2></a>
+<p>Type: <b>Picture</b></p>
+<h3>Description:</h3>
+<p>Returns or sets a bitmap or icon to display on the current tab. To get or set the picture of any tab at run time, use the <a href="#ilink55">TabPicture</a> property.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink55">TabPicture</a> property</p><br>
+<a name="ilink30" /><h2><p class"section">Redraw Property</p></h2></a>
+<p>Type: <b>Boolean</b> (Not available at design time)</p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines if the drawing of the control has to be updated with any change. Not available at design time.</p><br>
+<a name="ilink31" /><h2><p class"section">RightToLeft Property</p></h2></a>
+<p>Type: <b>Boolean</b></p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines the text display direction and control visual appearance on a bidirectional system.</p><br>
+<a name="ilink32" /><h2><p class"section">Rows Property</p></h2></a>
+<p>Type: <b>Integer</b> (Read only, not available at design time)</p>
+<h3>Description:</h3>
+<p>Returns the number of rows of tabs.<br>
+<br>
+The <b>Rows</b> property value can change its value when new tabs are dinamically added or, when <a href="#ilink68">TabWidthStyle</a> is set to <b>ssTWSFixed</b> or <b>ssTWSNonJustified</b> and <a href="#ilink65">TabsPerRow</a> was changed, or <a href="#ilink68">TabWidthStyle</a> is set to <b>ssTWSJustified</b> and the <b>Width</b> of the control changed, the tab captions changed or the <a href="#ilink14">Font</a> setting has changed.<br>
+You can use the <a href="#ilink94">TabBodyResize</a> event to properly set the position of the contained controls.<br>
+The <a href="#ilink93">RowsChange</a> notifies of the change of this property.<br>
+</p><br>
+<a name="ilink33" /><h2><p class"section">ShowDisabledState Property</p></h2></a>
+<p>Type: <b>Boolean</b> (Not available at design time)</p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines if the tabs color will be darkened when the control is disabled (<a href="#ilink12">Enabled</a> = <b>False</b>).<br>
+If has no effect when the control is themed (<a href="#ilink70">VisualStyles</a> = <b>True</b>).<br>
+</p><br>
+<a name="ilink34" /><h2><p class"section">ShowFocusRect Property</p></h2></a>
+<p>Type: <b>Boolean</b></p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines if the focus rectangle is visible on a tab when the tab gets the focus.</p><br>
+<a name="ilink35" /><h2><p class"section">ShowRowsInPerspective Property</p></h2></a>
+<p>Type: <b><a href="#ilink100">vbExAutoYesNoConstants</a></b> (Not available at design time)</p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines when the control has more that one row of tabs, if they will be drawn changing the horizontal position on each row.<br>
+<br>
+If the value is <b>ssYNAuto</b>, the behavior will be determined by the <a href="#ilink37">Style</a> property setting in this way: for <b>ssStyleTabbedDialog</b> and <b>ssStylePropertyPage</b> the rows will be drawn is perspective, and for <b>ssStyleTabStrip</b> without.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink37">Style</a> property</p><br>
+<a name="ilink36" /><h2><p class"section">SoftEdges Property</p></h2></a>
+<p>Type: <b>Boolean</b></p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines if the edges will be displayed with less contrast: lighter and more colored.</p><br>
+<a name="ilink37" /><h2><p class"section">Style Property</p></h2></a>
+<p>Type: <b><a href="#ilink104">vbExStyleConstants</a></b></p>
+<h3>Description:</h3>
+<p>Returns or sets the style of the tabs.<br>
+<br>
+This property acts as a meta-property. It means that it sets at once certain features that can be set individually through other properties.<br>
+It performs internal settings for <a href="#ilink38">TabAppearance</a>, <a href="#ilink68">TabWidthStyle</a>, <a href="#ilink35">ShowRowsInPerspective</a> and <a href="#ilink61">TabSelFontBold</a> as long as these properties are set to <b>Auto</b>.<br>
+<br>
+Values:<br>
+<br>
+<b>ssStyleTabbedDialog</b>: (Default) <a href="#ilink38">TabAppearance</a> is set to <b>ssTATabbedDialog</b>, <a href="#ilink68">TabWidthStyle</a> to <b>ssTWSFixed</b>, <a href="#ilink35">ShowRowsInPerspective</a> to <b>ssYes</b> and <a href="#ilink61">TabSelFontBold</a> to <b>ssYes</b>.<br>
+<br>
+<b>ssStylePropertyPage</b>: <a href="#ilink38">TabAppearance</a> is set to <b>ssTAPropertyPage</b>, <a href="#ilink68">TabWidthStyle</a> to <b>ssTWSNonJustified</b>, <a href="#ilink35">ShowRowsInPerspective</a> to <b>ssYes</b> and <a href="#ilink61">TabSelFontBold</a> to <b>ssNo</b>.<br>
+<br>
+<b>ssStyleTabStrip</b>: <a href="#ilink38">TabAppearance</a> is set to <b>ssTAPropertyPage</b>, <a href="#ilink68">TabWidthStyle</a> to <b>ssTWSJustified</b>, <a href="#ilink35">ShowRowsInPerspective</a> to <b>ssNo</b> and <a href="#ilink61">TabSelFontBold</a> to <b>ssNo</b>. This setting wasn't available in the original SSTab.<br>
+<br>
+The changes are internal, they are not reflected on these properties values (they remain set to <b>Auto</b>).</p><br>
+<a name="ilink38" /><h2><p class"section">TabAppearance Property</p></h2></a>
+<p>Type: <b><a href="#ilink105">vbExTabAppearanceConstants</a></b> (Not available at design time)</p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines the appearance of the tabs. When the control is themed, the theme defines the appearance.<br>
+<br>
+Values:<br>
+<b>ssTATabbedDialog</b>: The appearance if of the original SSTab control when the <a href="#ilink37">Style</a> property is left with the default value.<br>
+<b>ssTAPropertyPage</b>:  The appearance if of the original SSTab control when the <a href="#ilink37">Style</a> property is set to s<b>sStylePropertyPage</b>.<br>
+<b>ssTATaTabbedDialogRounded</b>: As <b>ssTATabbedDialog</b>, but the tabs have the corners rounded.<br>
+<b>ssTAPropertyPageRounded</b>: As <b>ssTAPropertyPage</b>, but the tabs have the corners rounded.<br>
+<b>ssTAAuto</b>: The appearance is defined by the <a href="#ilink37">Style</a> property (setting it to <b>ssTATabbedDialog</b> or to <b>ssTAPropertyPage</b>).<br>
+</p><br>
+<a name="ilink39" /><h2><p class"section">TabBackColor Property</p></h2></a>
+<p>Type: <b>Long</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the background color of the tabs, except the active tab that is set by <a href="#ilink59">TabSelBackColor</a>.<br>
+When the control is themed, this property value has no practical effect.</p><br>
+<a name="ilink40" /><h2><p class"section">TabBodyHeight Property</p></h2></a>
+<p>Type: <b>Single</b> (Read only)</p>
+<h3>Description:</h3>
+<p>Returns the <b>height</b> of the "tab body". The tab body is the space available to place contained controls.<br>
+They return the value in <b>Twips</b>.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink41">TabBodyLeft</a> property<br>
+<a href="#ilink42">TabBodyTop</a> property<br>
+<a href="#ilink43">TabBodyWidth</a> property</p><br>
+<a name="ilink41" /><h2><p class"section">TabBodyLeft Property</p></h2></a>
+<p>Type: <b>Single</b> (Read only)</p>
+<h3>Description:</h3>
+<p>Returns the <b>left</b> of the "tab body". The tab body is the space available to place contained controls.<br>
+They return the value in <b>Twips</b>.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink42">TabBodyTop</a> property<br>
+<a href="#ilink43">TabBodyWidth</a> property<br>
+<a href="#ilink40">TabBodyHeight</a> property</p><br>
+<a name="ilink42" /><h2><p class"section">TabBodyTop Property</p></h2></a>
+<p>Type: <b>Single</b> (Read only)</p>
+<h3>Description:</h3>
+<p>Returns <b>top</b> of the "tab body". The tab body is the space available to place contained controls.<br>
+They return the value in <b>Twips</b>.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink41">TabBodyLeft</a> property<br>
+<a href="#ilink43">TabBodyWidth</a> property<br>
+<a href="#ilink40">TabBodyHeight</a> property</p><br>
+<a name="ilink43" /><h2><p class"section">TabBodyWidth Property</p></h2></a>
+<p>Type: <b>Single</b> (Read only)</p>
+<h3>Description:</h3>
+<p>Returns the <b>width</b> of the "tab body". The tab body is the space available to place contained controls.<br>
+They return the value in <b>Twips</b>.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink42">TabBodyTop</a> property<br>
+<a href="#ilink41">TabBodyLeft</a> property<br>
+<a href="#ilink40">TabBodyHeight</a> property</p><br>
+<a name="ilink44" /><h2><p class"section">TabCaption Property</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspType: <b>String</b>&nbsp&nbsp</td>    </tr>    <tr>    </tr>    <tr>    <td>&nbsp&nbspAdditional parameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    In&nbsp&nbsp</td>    <td>&nbsp&nbspRequired&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Index</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Returns or sets the caption of a tab identified by the Index parameter.<br>
+Captions can have accelerators by adding "&" before the letter that will act as the accelerator.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink8">Caption</a> property<br>
+</p><br>
+<a name="ilink45" /><h2><p class"section">TabControls Property</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspType: <b>Collection</b> (Read only)&nbsp&nbsp</td>    </tr>    <tr>    </tr>    <tr>    <td>&nbsp&nbspAdditional parameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    In/Out&nbsp&nbsp</td>    <td>&nbsp&nbspRequired&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>nTab</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    In/Out&nbsp&nbsp</td>    <td>&nbsp&nbspOptional&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>GetChilds</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspBoolean&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Returns a collection of the controls that are inside a tab. The tab must be identified by the nTab parameter.<br>
+<br>
+The optional <b>GetChilds</b> parameter determines if only the controls that are directly contained in the SSTabEx will be returned, or also the controls contained into them. Its default value is <b>True</b>.<br>
+<br>
+It is not available at design time, and is read-only at run time.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink11">ContainedControls</a> property</p><br>
+<a name="ilink46" /><h2><p class"section">TabEnabled Property</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspType: <b>Boolean</b>&nbsp&nbsp</td>    </tr>    <tr>    </tr>    <tr>    <td>&nbsp&nbspAdditional parameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    In&nbsp&nbsp</td>    <td>&nbsp&nbspRequired&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Index</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines whether the tab identified by the Index argument enabled.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink67">TabVisible</a> property</p><br>
+<a name="ilink47" /><h2><p class"section">TabHeight Property</p></h2></a>
+<p>Type: <b>Single</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the height of tabs.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink5">AutoTabHeight</a> property</p><br>
+<a name="ilink48" /><h2><p class"section">TabHoverHighlight Property</p></h2></a>
+<p>Type: <b><a href="#ilink106">vbExTabHoverHighlightConstants</a></b> (Not available at design time)</p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines if the tabs will appear highlighted when the mouse is over them.<br>
+<b>ssTHHEffect setting</b> only works when the control is not themed. When it is set to <b>ssTHHEffect</b>, the tabs will show an effect when they are being highlighted.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink63">TabSelHighlight</a> property<br>
+</p><br>
+<a name="ilink49" /><h2><p class"section">TabMaxWidth Property</p></h2></a>
+<p>Type: <b>Single</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the maximum width of each tab. If set to 0 (zero), it means no maximun.<br>
+<br>
+When the <a href="#ilink68">TabWidthStyle</a> property setting is <b>ssTWSFixed</b> and the <a href="#ilink49">TabMaxWidth</a> property is set to 0 (zero), the control automatically sizes the tabs, based on <a href="#ilink65">TabsPerRow</a> property, to fit evenly across the control.<br>
+Unlike the original SSTab, this property is no longer ignored when <a href="#ilink37">Style</a> property is set to <b>ssStylePropertyPage</b>.<br>
+If <a href="#ilink68">TabWidthStyle</a> property setting is <b>ssTWSNonJustified</b> or <b>ssTWSJustified</b>, It determines the maximun width that a tab can have, regardeless of the lenght of the caption.<br>
+When a tab caption doesn't fit in the available width, if <a href="#ilink71">WordWrap</a> is set to <b>True</b> it will have an additional line, and if it is set to <b>False</b> it will cut the caption text and add an ellipsis.<br>
+In the case when <a href="#ilink68">TabWidthStyle</a> setting is <b>ssTWSJustified</b> and it is needed more space than <b>TabMaxWidth</b> * <a href="#ilink32">Rows</a> to fill all the rows space, then the tabs can have more width than the specified in the <b>TabMaxWidth</b> setting.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink50">TabMinWidth</a> property</p><br>
+<a name="ilink50" /><h2><p class"section">TabMinWidth Property</p></h2></a>
+<p>Type: <b>Single</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the minimun width of each tab. If set to 0 (zero), it means no minimun.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink49">TabMaxWidth</a> property</p><br>
+<a name="ilink51" /><h2><p class"section">TabOrientation Property</p></h2></a>
+<p>Type: <b><a href="#ilink107">vbExTabOrientationConstants</a></b></p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines which side of the control the tabs will appear.</p><br>
+<a name="ilink52" /><h2><p class"section">TabPic16 Property</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspType: <b>Picture</b>&nbsp&nbsp</td>    </tr>    <tr>    </tr>    <tr>    <td>&nbsp&nbspAdditional parameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    In&nbsp&nbsp</td>    <td>&nbsp&nbspRequired&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Index</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspVariant&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Returns or sets the bitmap to be displayed on the tab specified by the Index parameter, when the application is DPI aware.<br>
+<b>TabPic16</b> is used for 96 DPI, <a href="#ilink53">TabPic20</a> for 120 DPI and <a href="#ilink54">TabPic24</a> for 144 DPI. Others DPI setting are handled automatically.<br>
+The application need to have a manifest file to declare it as DPI aware.<br>
+When these pictures are set, the <a href="#ilink55">TabPicture</a> property is ignored.<br>
+They can be accessed at design time through a property page.<br>
+</p><br>
+<a name="ilink53" /><h2><p class"section">TabPic20 Property</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspType: <b>Picture</b>&nbsp&nbsp</td>    </tr>    <tr>    </tr>    <tr>    <td>&nbsp&nbspAdditional parameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    In&nbsp&nbsp</td>    <td>&nbsp&nbspRequired&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Index</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspVariant&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Returns or sets the bitmap to be displayed on the tab specified by the Index parameter, when the application is DPI aware.<br>
+<a href="#ilink52">TabPic16</a> is used for 96 DPI, <b>TabPic20</b> for 120 DPI and <a href="#ilink54">TabPic24</a> for 144 DPI. Others DPI setting are handled automatically.<br>
+The application need to have a manifest file to declare it as DPI aware.<br>
+When these pictures are set, the <a href="#ilink55">TabPicture</a> property is ignored.<br>
+They can be accessed at design time through a property page.</p><br>
+<a name="ilink54" /><h2><p class"section">TabPic24 Property</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspType: <b>Picture</b>&nbsp&nbsp</td>    </tr>    <tr>    </tr>    <tr>    <td>&nbsp&nbspAdditional parameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    In&nbsp&nbsp</td>    <td>&nbsp&nbspRequired&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Index</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspVariant&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Returns or sets the bitmap to be displayed on the tab specified by the Index parameter, when the application is DPI aware.<br>
+<a href="#ilink52">TabPic16</a> is used for 96 DPI, <a href="#ilink53">TabPic20</a> for 120 DPI and <b>TabPic24</b> for 144 DPI. Others DPI setting are handled automatically.<br>
+The application need to have a manifest file to declare it as DPI aware.<br>
+When these pictures are set, the <a href="#ilink55">TabPicture</a> property is ignored.<br>
+They can be accessed at design time through a property page.</p><br>
+<a name="ilink55" /><h2><p class"section">TabPicture Property</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspType: <b>Picture</b>&nbsp&nbsp</td>    </tr>    <tr>    </tr>    <tr>    <td>&nbsp&nbspAdditional parameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    In&nbsp&nbsp</td>    <td>&nbsp&nbspRequired&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Index</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Returns or sets the bitmap or icon to display on the tab specified by the Index argument.</p><br>
+<a name="ilink56" /><h2><p class"section">TabPictureAlignment Property</p></h2></a>
+<p>Type: <b><a href="#ilink108">vbExTabPictureAlignmentConstants</a></b></p>
+<h3>Description:</h3>
+<p>Returns or sets the alignment of the tab picture with respect of the tab caption.</p><br>
+<a name="ilink57" /><h2><p class"section">Tabs Property</p></h2></a>
+<p>Type: <b>Integer</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the total number of tabs.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink65">TabsPerRow</a> property</p><br>
+<a name="ilink58" /><h2><p class"section">TabSel Property</p></h2></a>
+<p>Type: <b>Integer</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the current ("selected" or "active") tab.<br>
+In the original SSTab control <b>its name was "Tab"</b>, but VB6 doesn't allow that name for a property because it is a reserved word, therefore the name was changed to "TabSel".<br>
+<br>
+<h3>See Also:</h3><a href="#ilink98">TabSelChange</a> event<br>
+</p><br>
+<a name="ilink59" /><h2><p class"section">TabSelBackColor Property</p></h2></a>
+<p>Type: <b>Long</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the color of the active tab, including the tab body (the space were the contained controls are located).<br>
+If <a href="#ilink9">ChangeControlsBackColor</a> is <b>True</b>, changing this color will change also the <b>BackColor</b> of the contained controls.<br>
+When the control is themed, this property value has no effect.</p><br>
+<a name="ilink60" /><h2><p class"section">TabSelExtraHeight Property</p></h2></a>
+<p>Type: <b>Single</b> (Not available at design time)</p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines if the active tab will be higher than the others. The value must be between 0 (zero) and twice the <a href="#ilink47">TabHeight</a> setting.<br>
+Note: If <a href="#ilink38">TabAppearance</a> is set to <b>ssTAPropertyPage</b> or <b>ssTAPropertyPageRounded</b>, or the control is themed, the active tab is already two pixels taller than the inactive ones.</p><br>
+<a name="ilink61" /><h2><p class"section">TabSelFontBold Property</p></h2></a>
+<p>Type: <b><a href="#ilink100">vbExAutoYesNoConstants</a></b> (Not available at design time)</p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines if the font of the caption in currently selected tab will be bold.<br>
+If the setting is <b>ssYNAuto</b> and <a href="#ilink38">TabAppearance</a> setting is <b>ssTATabbedDialog</b> or <b>ssTATabbedDialogRounded</b>, the caption in the selected tab will be bolded. Otherwise it will be bolded only if all the tabs are bolded according to the <a href="#ilink14">Font</a> setting.<br>
+</p><br>
+<a name="ilink62" /><h2><p class"section">TabSelForeColor Property</p></h2></a>
+<p>Type: <b>Long</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the the caption color <b>of the active tab</b>.</p><br>
+<a name="ilink63" /><h2><p class"section">TabSelHighlight Property</p></h2></a>
+<p>Type: <b>Boolean</b> (Not available at design time)</p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines if the selected tab will be highlighted.<br>
+When the control is themed this setting is ignored.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink48">TabHoverHighlight</a> property</p><br>
+<a name="ilink64" /><h2><p class"section">TabSeparation Property</p></h2></a>
+<p>Type: <b>Integer</b> (Not available at design time)</p>
+<h3>Description:</h3>
+<p>Returns or sets the number of pixels of separation between tabs. The value must be between 0 (zero) and 20.<br>
+When the control is themed, values less than two pixels are ignored, since the themed tabs have two pixels of separation by design.<br>
+</p><br>
+<a name="ilink65" /><h2><p class"section">TabsPerRow Property</p></h2></a>
+<p>Type: <b>Integer</b></p>
+<h3>Description:</h3>
+<p>Returns or sets the number of tabs for each row.<br>
+If <a href="#ilink68">TabWidthStyle</a> setting is <b>ssTWSJustified</b>, this setting has no effect.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink57">Tabs</a> property<br>
+</p><br>
+<a name="ilink66" /><h2><p class"section">TabToolTipText Property</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspType: <b>String</b>&nbsp&nbsp</td>    </tr>    <tr>    </tr>    <tr>    <td>&nbsp&nbspAdditional parameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    In&nbsp&nbsp</td>    <td>&nbsp&nbspRequired&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Index</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspVariant&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Returns or sets the text that will be shown as tooltip text when the mouse pointer is over the tab identified by the Index parameter.<br>
+If the tab has not a <a href="#ilink66">TabToolTipText</a> set, it will show the control <b>ToolTipText</b>, if there is any text set on that property.<br>
+</p><br>
+<a name="ilink67" /><h2><p class"section">TabVisible Property</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspType: <b>Boolean</b>&nbsp&nbsp</td>    </tr>    <tr>    </tr>    <tr>    <td>&nbsp&nbspAdditional parameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    In&nbsp&nbsp</td>    <td>&nbsp&nbspRequired&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Index</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines whether the tab identified by the Index will be visible.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink46">TabEnabled</a> property</p><br>
+<a name="ilink68" /><h2><p class"section">TabWidthStyle Property</p></h2></a>
+<p>Type: <b><a href="#ilink109">vbExTabWidthStyleConstants</a></b> (Not available at design time)</p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines the justification or width of the tabs.<br>
+<br>
+<b>ssTWSFixed</b>: All tabs has the same width. If <a href="#ilink49">TabMaxWidth</a> is 0 (zero), the tab width will be the available space / <a href="#ilink65">TabsPerRow</a>. If <a href="#ilink49">TabMaxWidth</a> is greater than 0 (zero), that setting will determine the tabs width.<br>
+<br>
+<b>ssTWSNonJustified</b>: The width of the tabs will be determined by the size of the caption + the size of the tab picture (if any). <a href="#ilink50">TabMinWidth</a> and <a href="#ilink49">TabMaxWidth</a> settings can set a boundary for the width that a tab can have. Unlike the original SSTab control, if the sum of the widths of all the tabs in a row exceeds the available space, the widths of the tabs in that row are shrunken to fit in the available space.<br>
+<br>
+<b>ssTWSJustified</b>: If there is more than one row, each tab is wide enough to accommodate its contents and, if needed, the width of each tab is increased so that each row of tabs spans the width of the control. If all the tabs fit in one row, the tabs are not justified (it works the same as <b>ssTWSNonJustified</b>).<br>
+<br>
+<b>ssTWSAuto</b>: The behavior is defined by the <a href="#ilink37">Style</a> property setting.</p><br>
+<a name="ilink69" /><h2><p class"section">UseMaskColor Property</p></h2></a>
+<p>Type: <b>Boolean</b></p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines whether the color assigned in the <a href="#ilink19">MaskColor</a> property is used as a mask (that is used to set transparent regions in the tab pictures).<br>
+<br>
+<h3>See Also:</h3><a href="#ilink19">MaskColor</a> property</p><br>
+<a name="ilink70" /><h2><p class"section">VisualStyles Property</p></h2></a>
+<p>Type: <b>Boolean</b></p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines whether the appearance of the control will use Windows visual styles or "themes".<br>
+<br>
+The default setting is <b>True</b><br>
+<br>
+The control will be "themed" only if the application has a manifest file for supporting visual styles in the common controls.<br>
+Usually the control will be themed when compiled (unless changes has been made to make the IDE to show visual styles).<br>
+<br>
+The following properties have no effect when the control is applying visual styles: <a href="#ilink38">TabAppearance</a>, <a href="#ilink39">TabBackColor</a>, <a href="#ilink59">TabSelBackColor</a> and <a href="#ilink63">TabSelHighlight</a>.</p><br>
+<a name="ilink71" /><h2><p class"section">WordWrap Property</p></h2></a>
+<p>Type: <b>Boolean</b></p>
+<h3>Description:</h3>
+<p>Returns or sets a value that determines how the control displays the text on each tab.<br>
+In a control that its size and/or the tab texts change dinamically, to make sure that text will not be truncated if it is too long, set the WordWrap property to <b>True</b>, the <a href="#ilink49">TabMaxWidth</a> property to 0, and the <a href="#ilink47">TabHeight</a> property to a height that allows to view the longest piece of text.</p><br>
+
+<br><br><br><h1>Methods</h1><br><a name="ilink73" /><h2><p class"section">IsVisualStyleApplied Method</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspReturn Type:&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Boolean</b>&nbsp&nbsp</td>    </tr><tr><td>&nbsp</td></tr>    <tr>    <td>&nbsp&nbspNo parameters.&nbsp&nbsp</td>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Returns a boolean value indicating whether the visual styles are actually applied to the control or not.</p><br>
+<a name="ilink74" /><h2><p class"section">Refresh Method</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspReturn Type:&nbsp&nbsp</td>    <td>&nbsp&nbspNone.&nbsp&nbsp</td>    </tr><tr><td>&nbsp</td></tr>    <tr>    <td>&nbsp&nbspNo parameters.&nbsp&nbsp</td>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Redraws the control.</p><br>
+
+<br><br><br><h1>Events</h1><br><a name="ilink76" /><h2><p class"section">BeforeClick Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Cancel</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspBoolean&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs when the current tab (<a href="#ilink58">TabSel</a>) is about to change.<br>
+Use the <b>BeforeClick</b> event to validate the information on the old tab before actually generating a <a href="#ilink78">Click</a> event that selects the new tab.<br>
+Setting the <b>Cancel</b> parameter to <b>True</b> allows you to prevent the change to the new tab selection.<br>
+</p><br>
+<a name="ilink77" /><h2><p class"section">ChangeControlBackColor Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>ControlName</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspString&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>ControlTypeName</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspString&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Cancel</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspBoolean&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>When <a href="#ilink9">ChangeControlsBackColor</a> property is set to <b>True</b>, allows you to determine individually which controls will have their background changed (or not).<br>
+This event is generated for each control on the current tab, before the tab is painted.<br>
+The ControlName parameter specifies the name of the control, to avoid changing a particular control <b>BackColor</b>, set the parameter <b>Cancel</b> to <b>True</b>.<br>
+The <b>ControlTypeName</b> parameter specifies the type of the control (for example "CommandButton" or "Label"), this allow you to handle a whole class of controls without writing each name.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink9">ChangeControlsBackColor</a> property<br>
+</p><br>
+<a name="ilink78" /><h2><p class"section">Click Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>PreviousTab</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs when the current tab (<a href="#ilink58">TabSel</a>) changes.</p><br>
+<a name="ilink79" /><h2><p class"section">DblClick Event</p></h2></a>
+<p>No parameters.</p>
+<h3>Description:</h3>
+<p>Occurs when the user presses and releases a mouse button and then presses and releases it again over the control.</p><br>
+<a name="ilink80" /><h2><p class"section">KeyDown Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>KeyCode</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Shift</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs when the user presses a key while an control has the focus.</p><br>
+<a name="ilink81" /><h2><p class"section">KeyPress Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>KeyAscii</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs when the user presses and releases an ANSI key.</p><br>
+<a name="ilink82" /><h2><p class"section">KeyUp Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>KeyCode</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Shift</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs when the user releases a key after pressing it while an control has the focus.</p><br>
+<a name="ilink83" /><h2><p class"section">MouseDown Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Button</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Shift</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>X</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspSingle&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Y</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspSingle&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs when the user presses a mouse button being the mouse over the control.</p><br>
+<a name="ilink84" /><h2><p class"section">MouseMove Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Button</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Shift</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>X</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspSingle&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Y</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspSingle&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs when the user moves the mouse over the control.</p><br>
+<a name="ilink85" /><h2><p class"section">MouseUp Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Button</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Shift</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>X</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspSingle&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Y</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspSingle&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs when the user releases the mouse button after pressing it being the mouse over the control.</p><br>
+<a name="ilink86" /><h2><p class"section">OLECompleteDrag Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Effect</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspLong&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs when a source component is dropped onto a target component, informing the source component that a drag action was either performed or canceled.</p><br>
+<a name="ilink87" /><h2><p class"section">OLEDragDrop Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Data</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspDataObject&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Effect</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspLong&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Button</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Shift</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>X</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspSingle&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Y</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspSingle&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs when a source component is dropped onto a target component when the source component determines that a drop can occur.<br>
+This event occurs only if <a href="#ilink25">OLEDropMode</a> is set to 1 (Manual).</p><br>
+<a name="ilink88" /><h2><p class"section">OLEDragOver Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Data</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspDataObject&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Effect</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspLong&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Button</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Shift</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>X</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspSingle&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Y</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspSingle&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>State</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs when one component is dragged over another.</p><br>
+<a name="ilink89" /><h2><p class"section">OLEGiveFeedback Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Effect</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspLong&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>DefaultCursors</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspBoolean&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs after every <a href="#ilink88">OLEDragOver</a> event. <b>OLEGiveFeedback</b> allows the source component to provide visual feedback to the user, such as changing the mouse cursor to indicate what will happen if the user drops the object, or provide visual feedback on the selection (in the source component) to indicate what will happen.</p><br>
+<a name="ilink90" /><h2><p class"section">OLESetData Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Data</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspDataObject&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>DataFormat</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs on a source component when a target component performs the <b>GetData</b> method on the source's <b>DataObject</b> object, but before the data for the specified format has been loaded.</p><br>
+<a name="ilink91" /><h2><p class"section">OLEStartDrag Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Data</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspDataObject&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Returns value&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>AllowedEffects</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspLong&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs when a component's OLEDrag method is performed, or when a component initiates an OLE drag/drop operation when the OLEDragMode property is set to Automatic.</p><br>
+<a name="ilink92" /><h2><p class"section">Resize Event</p></h2></a>
+<p>No parameters.</p>
+<h3>Description:</h3>
+<p>Occurs when the control is first drawn or when its size changes.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink94">TabBodyResize</a> event</p><br>
+<a name="ilink93" /><h2><p class"section">RowsChange Event</p></h2></a>
+<p>No parameters.</p>
+<h3>Description:</h3>
+<p>Occurs when the control is first drawn and when the <a href="#ilink32">Rows</a> property changes its value.<br>
+The <a href="#ilink32">Rows</a> property value can change its value when new tabs are dinamically added or, when <a href="#ilink68">TabWidthStyle</a> is set to <b>ssTWSFixed</b> or <b>ssTWSNonJustified</b> and <a href="#ilink65">TabsPerRow</a> was changed, or <a href="#ilink68">TabWidthStyle</a> is set to <b>ssTWSJustified</b> and the <b>Width</b> of the control changed or the tab captions changed or the <a href="#ilink14">Font</a> setting has changed.<br>
+You can use this event along with <a href="#ilink42">TabBodyTop</a> to properly set the Top (or use <a href="#ilink41">TabBodyLeft</a>, depending on <a href="#ilink51">TabOrientation</a>) of the contained controls.<br>
+But if <a href="#ilink4">AutoRelocateControls</a> is set to <b>True</b>, that's is already done automaticaly.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink94">TabBodyResize</a> event</p><br>
+<a name="ilink94" /><h2><p class"section">TabBodyResize Event</p></h2></a>
+<p>No parameters.</p>
+<h3>Description:</h3>
+<p>Occurs when the tab body changes its size.<br>
+The size and position of the tab body are referenced by the properties <a href="#ilink41">TabBodyLeft</a>, <a href="#ilink42">TabBodyTop</a>, <a href="#ilink43">TabBodyWidth</a> and <a href="#ilink40">TabBodyHeight</a>.<br>
+<b>This event is a proper place to position the contained controls.</b><br>
+</p><br>
+<a name="ilink95" /><h2><p class"section">TabMouseEnter Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>nTab</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs when the mouse pointer enters a tab, which is specified with the nTab parameter.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink96">TabMouseLeave</a> event</p><br>
+<a name="ilink96" /><h2><p class"section">TabMouseLeave Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>nTab</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs after the mouse pointer leaves a tab, which is specified in the nTab parameter.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink95">TabMouseEnter</a> event</p><br>
+<a name="ilink97" /><h2><p class"section">TabRightClick Event</p></h2></a>
+<p><table><tbody>    <tr>    <td>&nbsp&nbspParameter(s):&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>nTab</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Shift</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspInteger&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>X</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspSingle&nbsp&nbsp</td>    </tr>    <tr>    <td>&nbsp&nbsp    Info&nbsp&nbsp</td>    <td>&nbsp&nbsp<b>Y</b>&nbsp&nbsp</td>    <td>&nbsp&nbspAs&nbsp&nbsp</td>    <td>&nbsp&nbspSingle&nbsp&nbsp</td>    </tr>    <tr>    </tr>  </tbody></table></p>
+<h3>Description:</h3>
+<p>Occurs when the user clicks with the mouse right button on a tab.<br>
+The tab is specified in the <b>nTab</b> parameter.<br>
+The <b>Shift</b> parameter indicates the state of  the SHIFT, CTRL, and ALT keys.<br>
+The <b>X</b> and <b>Y</b> parameters return a number that specifies the current position of the mouse pointer.</p><br>
+<a name="ilink98" /><h2><p class"section">TabSelChange Event</p></h2></a>
+<p>No parameters.</p>
+<h3>Description:</h3>
+<p>Occurs after the selected (or "current") tab has already changed.<br>
+For the events that occur before, see <a href="#ilink76">BeforeClick</a> and <a href="#ilink78">Click</a>.<br>
+This event is also generated when the control is first shown.<br>
+<br>
+<h3>See Also:</h3><a href="#ilink58">TabSel</a> property</p><br>
+</body>
+</html>
+<a name="ilink2"><h1><p class="section">TabExCtl Enumerations</p></h1></a>
+<li class="toc1"><a href="#ilink99">vbExAutoRelocateControlsConstants</a></li><li class="toc1"><a href="#ilink100">vbExAutoYesNoConstants</a></li><li class="toc1"><a href="#ilink101">vbExBackStyleConstants</a></li><li class="toc1"><a href="#ilink102">vbExMousePointerConstants</a></li><li class="toc1"><a href="#ilink103">vbExOLEDropConstants</a></li><li class="toc1"><a href="#ilink104">vbExStyleConstants</a></li><li class="toc1"><a href="#ilink105">vbExTabAppearanceConstants</a></li><li class="toc1"><a href="#ilink106">vbExTabHoverHighlightConstants</a></li><li class="toc1"><a href="#ilink107">vbExTabOrientationConstants</a></li><li class="toc1"><a href="#ilink108">vbExTabPictureAlignmentConstants</a></li><li class="toc1"><a href="#ilink109">vbExTabWidthStyleConstants</a></li><br><a name="ilink99" /><h2><p class"section">vbExAutoRelocateControlsConstants</h2></p></h2></a>
+<p></p><br>
+<table class="table table2">
+  <tr>
+    <td><b>ssRelocateNever</b> =     </td>
+    <td>0    </td>
+  </tr>
+  <tr>
+    <td><b>ssRelocateAlways</b> =     </td>
+    <td>1    </td>
+  </tr>
+  <tr>
+    <td><b>ssRelocateOnTabOrientationChange</b> =     </td>
+    <td>2    </td>
+  </tr>
+</table>
+<br><a name="ilink100" /><h2><p class"section">vbExAutoYesNoConstants</h2></p></h2></a>
+<p></p><br>
+<table class="table table2">
+  <tr>
+    <td><b>ssNo</b> =     </td>
+    <td>0    </td>
+  </tr>
+  <tr>
+    <td><b>ssYes</b> =     </td>
+    <td>1    </td>
+  </tr>
+  <tr>
+    <td><b>ssYNAuto</b> =     </td>
+    <td>2    </td>
+  </tr>
+</table>
+<br><a name="ilink101" /><h2><p class"section">vbExBackStyleConstants</h2></p></h2></a>
+<p></p><br>
+<table class="table table2">
+  <tr>
+    <td><b>ssTransparent</b> =     </td>
+    <td>0    </td>
+  </tr>
+  <tr>
+    <td><b>ssOpaque</b> =     </td>
+    <td>1    </td>
+  </tr>
+</table>
+<br><a name="ilink102" /><h2><p class"section">vbExMousePointerConstants</h2></p></h2></a>
+<p></p><br>
+<table class="table table2">
+  <tr>
+    <td><b>ssDefault</b> =     </td>
+    <td>0    </td>
+  </tr>
+  <tr>
+    <td><b>ssArrow</b> =     </td>
+    <td>1    </td>
+  </tr>
+  <tr>
+    <td><b>ssCross</b> =     </td>
+    <td>2    </td>
+  </tr>
+  <tr>
+    <td><b>ssIBeam</b> =     </td>
+    <td>3    </td>
+  </tr>
+  <tr>
+    <td><b>ssIcon</b> =     </td>
+    <td>4    </td>
+  </tr>
+  <tr>
+    <td><b>ssSize</b> =     </td>
+    <td>5    </td>
+  </tr>
+  <tr>
+    <td><b>ssSizeNESW</b> =     </td>
+    <td>6    </td>
+  </tr>
+  <tr>
+    <td><b>ssSizeNS</b> =     </td>
+    <td>7    </td>
+  </tr>
+  <tr>
+    <td><b>ssSizeNWSE</b> =     </td>
+    <td>8    </td>
+  </tr>
+  <tr>
+    <td><b>ssSizeEW</b> =     </td>
+    <td>9    </td>
+  </tr>
+  <tr>
+    <td><b>ssUpArrow</b> =     </td>
+    <td>10    </td>
+  </tr>
+  <tr>
+    <td><b>ssHourglass</b> =     </td>
+    <td>11    </td>
+  </tr>
+  <tr>
+    <td><b>ssNoDrop</b> =     </td>
+    <td>12    </td>
+  </tr>
+  <tr>
+    <td><b>ssArrowHourglass</b> =     </td>
+    <td>13    </td>
+  </tr>
+  <tr>
+    <td><b>ssArrowQuestion</b> =     </td>
+    <td>14    </td>
+  </tr>
+  <tr>
+    <td><b>ssSizeAll</b> =     </td>
+    <td>15    </td>
+  </tr>
+  <tr>
+    <td><b>ssCustom</b> =     </td>
+    <td>99    </td>
+  </tr>
+</table>
+<br><a name="ilink103" /><h2><p class"section">vbExOLEDropConstants</h2></p></h2></a>
+<p></p><br>
+<table class="table table2">
+  <tr>
+    <td><b>ssOLEDropNone</b> =     </td>
+    <td>0    </td>
+  </tr>
+  <tr>
+    <td><b>ssOLEDropManual</b> =     </td>
+    <td>1    </td>
+  </tr>
+</table>
+<br><a name="ilink104" /><h2><p class"section">vbExStyleConstants</h2></p></h2></a>
+<p></p><br>
+<table class="table table2">
+  <tr>
+    <td><b>ssStyleTabbedDialog</b> =     </td>
+    <td>0    </td>
+  </tr>
+  <tr>
+    <td><b>ssStylePropertyPage</b> =     </td>
+    <td>1    </td>
+  </tr>
+  <tr>
+    <td><b>ssStyleTabStrip</b> =     </td>
+    <td>2    </td>
+  </tr>
+</table>
+<br><a name="ilink105" /><h2><p class"section">vbExTabAppearanceConstants</h2></p></h2></a>
+<p></p><br>
+<table class="table table2">
+  <tr>
+    <td><b>ssTAAuto</b> =     </td>
+    <td>0    </td>
+  </tr>
+  <tr>
+    <td><b>ssTATabbedDialog</b> =     </td>
+    <td>1    </td>
+  </tr>
+  <tr>
+    <td><b>ssTATabbedDialogRounded</b> =     </td>
+    <td>2    </td>
+  </tr>
+  <tr>
+    <td><b>ssTAPropertyPage</b> =     </td>
+    <td>3    </td>
+  </tr>
+  <tr>
+    <td><b>ssTAPropertyPageRounded</b> =     </td>
+    <td>4    </td>
+  </tr>
+</table>
+<br><a name="ilink106" /><h2><p class"section">vbExTabHoverHighlightConstants</h2></p></h2></a>
+<p></p><br>
+<table class="table table2">
+  <tr>
+    <td><b>ssTHHNo</b> =     </td>
+    <td>0    </td>
+  </tr>
+  <tr>
+    <td><b>ssTHHInstant</b> =     </td>
+    <td>1    </td>
+  </tr>
+  <tr>
+    <td><b>ssTHHEffect</b> =     </td>
+    <td>2    </td>
+  </tr>
+</table>
+<br><a name="ilink107" /><h2><p class"section">vbExTabOrientationConstants</h2></p></h2></a>
+<p></p><br>
+<table class="table table2">
+  <tr>
+    <td><b>ssTabOrientationTop</b> =     </td>
+    <td>0    </td>
+  </tr>
+  <tr>
+    <td><b>ssTabOrientationBottom</b> =     </td>
+    <td>1    </td>
+  </tr>
+  <tr>
+    <td><b>ssTabOrientationLeft</b> =     </td>
+    <td>2    </td>
+  </tr>
+  <tr>
+    <td><b>ssTabOrientationRight</b> =     </td>
+    <td>3    </td>
+  </tr>
+</table>
+<br><a name="ilink108" /><h2><p class"section">vbExTabPictureAlignmentConstants</h2></p></h2></a>
+<p></p><br>
+<table class="table table2">
+  <tr>
+    <td><b>ssPicAlignBeforeCaption</b> =     </td>
+    <td>0    </td>
+  </tr>
+  <tr>
+    <td><b>ssPicAlignCenteredBeforeCaption</b> =     </td>
+    <td>1    </td>
+  </tr>
+  <tr>
+    <td><b>ssPicAlignAfterCaption</b> =     </td>
+    <td>2    </td>
+  </tr>
+  <tr>
+    <td><b>ssPicAlignCenteredAfterCaption</b> =     </td>
+    <td>3    </td>
+  </tr>
+</table>
+<br><a name="ilink109" /><h2><p class"section">vbExTabWidthStyleConstants</h2></p></h2></a>
+<p></p><br>
+<table class="table table2">
+  <tr>
+    <td><b>ssTWSJustified</b> =     </td>
+    <td>0    </td>
+  </tr>
+  <tr>
+    <td><b>ssTWSNonJustified</b> =     </td>
+    <td>1    </td>
+  </tr>
+  <tr>
+    <td><b>ssTWSFixed</b> =     </td>
+    <td>2    </td>
+  </tr>
+  <tr>
+    <td><b>ssTWSAuto</b> =     </td>
+    <td>3    </td>
+  </tr>
+</table>
+</body>
+</html>
