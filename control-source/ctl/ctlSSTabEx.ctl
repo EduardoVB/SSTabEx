@@ -3603,7 +3603,8 @@ Private Sub Draw()
     Else
         mTabBackColor2 = mTabBackColor
         TranslateColor mTabBackColor2, 0, mTabBackColor2
-        If mTabBackColor2 = mTabSelBackColor Then
+        TranslateColor mTabSelBackColor, 0, iLng
+        If mTabBackColor2 = iLng Then
             mTabBackColor2 = mTabBackColor2 Xor &H1
         End If
         mTabSelBackColor2 = mTabSelBackColor
