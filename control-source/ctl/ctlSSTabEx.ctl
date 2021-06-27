@@ -4045,11 +4045,14 @@ Private Sub Draw()
                             .Bottom = .Top + iTabHeight
                         End If
                         If (iTabWidthStyle = ssTWSFixed) Then
-                            .Left = (iTabData.PosH - 1) * iTabWidth + iRowPerspectiveSpace * (mRows - mTabData(t).RowPos - 1) + 1 + (iTabData.PosH - 1) * mTabSeparation2
+                            .Left = (iTabData.PosH - 1) * Round(iTabWidth) + iRowPerspectiveSpace * (mRows - mTabData(t).RowPos - 1) + 1 + (iTabData.PosH - 1) * mTabSeparation2
                             If mAppearanceIsPP Then
                                 .Left = .Left + 1
                             End If
                             .Right = .Left + iTabWidth - 1 '- mTabSeparation2 ' no volver a sacar el -1!!
+'                            If iTabData.LeftTab Then ' add-hoc fix, why? IDK
+'                                .Right = .Right - 2
+'                            End If
                         Else
                             If iTabData.LeftTab Then
                                 iTabLeft = 1 + iRowPerspectiveSpace * (mRows - mTabData(t).RowPos - 1) + 1
@@ -4140,13 +4143,13 @@ Private Sub Draw()
             If mTabData(t).Visible Then
                 If mTabData(t).RowPos = iRow Then
                     If t <> mTabSel Then
-                        If mTabData(t).RightTab And Not (mTabData(t).RowPos = mRows - 1) Then
+                        If (mTabData(t).RightTab And Not (mTabData(t).RowPos = mRows - 1)) Or mTabData(t).LeftTab Then
                             iLng = 4
                             If mAppearanceIsPP Then
                                 iLng = iLng + 2 + IIf(mControlIsThemed, mThemedTabBodyRightShadowPixels - 2, 0)
                             End If
-                            If (iTabWidthStyle <> ssTWSJustified) Or iShowsRowsPerspective Then
-                                DrawInactiveTabBodyPart iRowPerspectiveSpace * (mRows - mTabData(t).RowPos - 1) + 3, mTabData(t).TabRect.Bottom + 5, mTabBodyWidth - iLng, CLng(mTabBodyHeight), iLng, 1
+                            If (iTabWidthStyle = ssTWSJustified) Or iShowsRowsPerspective Then
+                                DrawInactiveTabBodyPart iRowPerspectiveSpace * (mRows - mTabData(t).RowPos - 1) + 3, mTabData(t).TabRect.Bottom + 5, mTabBodyWidth - iLng, CLng(mTabBodyHeight), iLng, mTabData(t).TabRect.Right, 1
                             End If
                         End If
                         If mAppearanceIsPP Then
@@ -4518,17 +4521,17 @@ Private Sub DrawTab(nTab As Long)
                     End If
                     iTopShift = 0
                     iRightShift = -1
-                    iBottomShift = 5
-                    If iTabData.RightTab Then
-                        iBottomShift = iBottomShift + 1
-                    End If
+                    iBottomShift = 6
+'                    If iTabData.RightTab Then
+ '                       iBottomShift = iBottomShift + 1
+  '                  End If
                     iCurv = 3
                 End If
             End If
             
             If iHighlighted And mAmbientUserMode Then
 '                Call FillCurvedGradient(.Left, .Top + iTopShift, .Right + iRightShift, .Bottom + iBottomShift, iTabBackColor2, iGlowColor, iCurv, True, True)
-                Call FillCurvedGradient(.Left, .Top + iTopShift, .Right + iRightShift, (.Bottom + iBottomShift + .Top + iTopShift) / 2 + 1, iTabBackColor2, iGlowColor, iCurv, True, True)
+                Call FillCurvedGradient(.Left, .Top + iTopShift, .Right + iRightShift, (.Bottom + iBottomShift + .Top + iTopShift) / 2 + 2, iTabBackColor2, iGlowColor, iCurv, True, True)
                 Call FillCurvedGradient(.Left, (.Bottom + iBottomShift + .Top + iTopShift) / 2, .Right + iRightShift, .Bottom + iBottomShift, iGlowColor, iTabBackColor2, iCurv, True, True)
                 
                 'Call FillCurvedGradient(.Left, .Bottom - (.Bottom - .Top - iBottomShift) / 2 + iTopShift, .Right + iRightShift, .Bottom - iBottomShift, IIf(iTabData.Selected, iGlowColor, iGlowColor), iTabBackColor2, 0, False, False)
@@ -4568,8 +4571,8 @@ Private Sub DrawTab(nTab As Long)
             
             'right line
             If Not mAppearanceIsPP Then
-                picDraw.Line (.Right, .Top + 4)-(.Right, .Bottom + iExtI), i3DDKShadow
-                picDraw.Line (.Right - 1, .Top + 4)-(.Right - 1, .Bottom + iExtI), i3DShadowV
+                picDraw.Line (.Right - 1, .Top + 4)-(.Right - 1, .Bottom + iExtI), i3DDKShadow
+                picDraw.Line (.Right - 2, .Top + 4)-(.Right - 2, .Bottom + iExtI), i3DShadowV
                 If iActive Then
                     picDraw.Line (.Right - 2, .Top + 4)-(.Right - 2, .Bottom + 1 + iExtI), i3DShadowV
                     If iTabData.RightTab Then
@@ -4741,7 +4744,7 @@ Private Sub DrawTab(nTab As Long)
     End With
 End Sub
 
-Private Sub DrawInactiveTabBodyPart(nLeft As Long, nTop As Long, ByVal nWidth As Long, nHeight As Long, nXShift As Long, nSectionID_ForTesting As Long)
+Private Sub DrawInactiveTabBodyPart(nLeft As Long, nTop As Long, ByVal nWidth As Long, nHeight As Long, nXShift As Long, nLeft2 As Long, nSectionID_ForTesting As Long)
     Dim iDoRightLine As Boolean
     Dim iDoBottomLine As Boolean
     Dim iTesting As Boolean
@@ -4776,12 +4779,20 @@ Private Sub DrawInactiveTabBodyPart(nLeft As Long, nTop As Long, ByVal nWidth As
         iDoBottomLine = mTabBodyHeight - nHeight <= 0
         'nWidth = nWidth - 1
         
-        picDraw.Line (nLeft, nTop)-(nLeft + nWidth, nTop + nHeight), iTabBackColor, BF
+        If Not mAppearanceIsPP Then
+            picDraw.Line (nLeft, nTop + 2)-(nLeft + nWidth, nTop + nHeight), iTabBackColor, BF
+        Else
+            If (mTabOrientation = ssTabOrientationTop) Or (mTabOrientation = ssTabOrientationLeft) Then
+                picDraw.Line (nLeft, nTop + 1)-(nLeft + nWidth, nTop + nHeight), iTabBackColor, BF
+            Else
+                picDraw.Line (nLeft, nTop + 2)-(nLeft + nWidth, nTop + nHeight), iTabBackColor, BF
+            End If
+        End If
         
         'top line
         If Not mAppearanceIsPP Then
-            picDraw.Line (nLeft - 1, nTop)-(nLeft + nWidth, nTop), m3DDKShadow
-            picDraw.Line (nLeft - 1, nTop + 1)-(nLeft + 1 + nWidth, nTop + 1), m3DHighlightH
+            picDraw.Line (nLeft2, nTop)-(nLeft + nWidth, nTop), m3DDKShadow
+            picDraw.Line (nLeft2, nTop + 1)-(nLeft + 1 + nWidth, nTop + 1), m3DHighlightH
         Else
             If (mTabOrientation = ssTabOrientationTop) Or (mTabOrientation = ssTabOrientationLeft) Then
                 picDraw.Line (nLeft - 1, nTop)-(nLeft + nWidth, nTop), m3DHighlight
@@ -8189,3 +8200,13 @@ Private Sub SetAutoTabHeight()
     
     PropertyChanged "TabHeight"
 End Sub
+
+
+'Public Property Get Tab() As Integer
+'    Tab = TabSel
+'End Property
+'
+'Public Property Let Tab(ByVal nValue As Integer)
+'    TabSel = nValue
+'End Property
+

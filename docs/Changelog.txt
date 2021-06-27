@@ -1,4 +1,8 @@
-2021-05-06 Updated documentation
+2021-06-27 fixed bug when TabSeparation <> 0
+2021-06-27 changed constant names in cDlg to avoid conflict with other components.
+2021-06-27 fixed bug related to tab border width when VisualStyles = False and Style = ssStyleTabbedDialog.
+2021-06-27 fixed bug related to tab background color glitch when VisualStyles = False, Style = ssStyleTabbedDialog, BackColor <> TabBackColor and mouse hovers over a tab being screen DPI = 100%.
+2021-05-06 Updated documentation.
 2021-04-07 Added property AutoTabHeight.
 2021-04-07 The automatic tab width when Style is set to ssStyleTabStrip or when the control is themed and Style is ssStyleTabStrip or ssStylePropertyPage has been changed to add a little space between tabs.
 2021-04-06 Made some minor corrections to the interface with the help of VBCompareInterface and VBCopyInterface - https://www.vbforums.com/showthread.php?890861

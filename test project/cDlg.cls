@@ -343,202 +343,202 @@ End Type
 Public Enum CommonDialogsFlags
 
 ' File Open, Save as
-    cdlOFNAllowMultiselect = &H200&
-    cdlOFNCreatePrompt = &H2000&
-    cdlOFNExplorer = &H80000
-    cdlOFNExtensionDifferent = &H400&
-    cdlOFNFileMustExist = &H1000&
-    cdlOFNHelpButton = &H10&
-    cdlOFNHideReadOnly = &H4&
-    cdlOFNLongNames = &H200000
-    cdlOFNNoChangeDir = &H8&
-    cdlOFNNoDereferenceLinks = &H100000
-    cdlOFNNoLongNames = &H40000
-    cdlOFNNoReadOnlyReturn = &H8000&
-    cdlOFNNoValidate = &H100&
-    cdlOFNOverwritePrompt = &H2&
-    cdlOFNPathMustExist = &H800&
-    cdlOFNReadOnly = &H1&
-    cdlOFNShareAware = &H4000&
+    cdlbOFNAllowMultiselect = &H200&
+    cdlbOFNCreatePrompt = &H2000&
+    cdlbOFNExplorer = &H80000
+    cdlbOFNExtensionDifferent = &H400&
+    cdlbOFNFileMustExist = &H1000&
+    cdlbOFNHelpButton = &H10&
+    cdlbOFNHideReadOnly = &H4&
+    cdlbOFNLongNames = &H200000
+    cdlbOFNNoChangeDir = &H8&
+    cdlbOFNNoDereferenceLinks = &H100000
+    cdlbOFNNoLongNames = &H40000
+    cdlbOFNNoReadOnlyReturn = &H8000&
+    cdlbOFNNoValidate = &H100&
+    cdlbOFNOverwritePrompt = &H2&
+    cdlbOFNPathMustExist = &H800&
+    cdlbOFNReadOnly = &H1&
+    cdlbOFNShareAware = &H4000&
  
 'PrintFlags
-    cdlPDAllPages = &H0&
-    cdlPDSelection = &H1&
-    cdlPDPageNums = &H2&
-    cdlPDNoSelection = &H4&
-    cdlPDNoPageNums = &H8&
-    cdlPDCollate = &H10&
-    cdlPDPrintToFile = &H20&
-    cdlPDPrintSetup = &H40&
-    cdlPDNoWarning = &H80&
-    cdlPDReturnDC = &H100&
-    cdlPDReturnIC = &H200&
-    cdlPDReturnDefault = &H400&
-    cdlPDHelpButton = &H800&
-    cdlPDUseDevModeCopies = &H40000
-    cdlPDDisablePrintToFile = &H80000
-    cdlPDHidePrintToFile = &H100000
+    cdlbPDAllPages = &H0&
+    cdlbPDSelection = &H1&
+    cdlbPDPageNums = &H2&
+    cdlbPDNoSelection = &H4&
+    cdlbPDNoPageNums = &H8&
+    cdlbPDCollate = &H10&
+    cdlbPDPrintToFile = &H20&
+    cdlbPDPrintSetup = &H40&
+    cdlbPDNoWarning = &H80&
+    cdlbPDReturnDC = &H100&
+    cdlbPDReturnIC = &H200&
+    cdlbPDReturnDefault = &H400&
+    cdlbPDHelpButton = &H800&
+    cdlbPDUseDevModeCopies = &H40000
+    cdlbPDDisablePrintToFile = &H80000
+    cdlbPDHidePrintToFile = &H100000
  
 'ColorFlags
-    cdlCCFullOpen = &H2&
-    cdlCCShowHelpButton = &H8&
-    cdlCCPreventFullOpen = &H4&
-    cdlCCRGBInit = &H1&
+    cdlbCCFullOpen = &H2&
+    cdlbCCShowHelpButton = &H8&
+    cdlbCCPreventFullOpen = &H4&
+    cdlbCCRGBInit = &H1&
  
 'FontFlags
-    cdlCFANSIOnly = &H400&
-    cdlCFApply = &H200&
-    cdlCFBoth = &H3&
-    cdlCFEffects = &H100&
-    cdlCFFixedPitchOnly = &H4000&
-    cdlCFForceFontExist = &H10000
-    cdlCFHelpButton = &H4&
-    cdlCFLimitSize = &H2000&
-    cdlCFNoFaceSel = &H80000
-    cdlCFNoSimulations = &H1000&
-    cdlCFNoSizeSel = &H200000
-    cdlCFNoStyleSel = &H100000
-    cdlCFNoVectorFonts = &H800&
-    cdlCFPrinterFonts = &H2&
-    cdlCFScalableOnly = &H20000
-    cdlCFScreenFonts = &H1&
-    cdlCFTTOnly = &H40000
-    cdlCFWYSIWYG = &H8000&
+    cdlbCFANSIOnly = &H400&
+    cdlbCFApply = &H200&
+    cdlbCFBoth = &H3&
+    cdlbCFEffects = &H100&
+    cdlbCFFixedPitchOnly = &H4000&
+    cdlbCFForceFontExist = &H10000
+    cdlbCFHelpButton = &H4&
+    cdlbCFLimitSize = &H2000&
+    cdlbCFNoFaceSel = &H80000
+    cdlbCFNoSimulations = &H1000&
+    cdlbCFNoSizeSel = &H200000
+    cdlbCFNoStyleSel = &H100000
+    cdlbCFNoVectorFonts = &H800&
+    cdlbCFPrinterFonts = &H2&
+    cdlbCFScalableOnly = &H20000
+    cdlbCFScreenFonts = &H1&
+    cdlbCFTTOnly = &H40000
+    cdlbCFWYSIWYG = &H8000&
     
 ' Page setup flags
-    cdlPSDefaultMinMargins = &H0&
-    cdlPSDisableMargins = &H10&
-    cdlPSDisableOrientation = &H100&
-    cdlPSDisablePagePainting = &H80000
-    cdlPSDisablePaper = &H200&
-    cdlPSDisablePrinter = &H20&
-    'cdlPSMargins = &H2&
-    cdlPSMinMargins = &H1&
-    cdlPSNoNetworkButton = &H200000
-    cdlPSNoWarning = &H80&
-    cdlPSReturnDefault = &H400&
-    cdlPSShowHelp = &H800&
+    cdlbPSDefaultMinMargins = &H0&
+    cdlbPSDisableMargins = &H10&
+    cdlbPSDisableOrientation = &H100&
+    cdlbPSDisablePagePainting = &H80000
+    cdlbPSDisablePaper = &H200&
+    cdlbPSDisablePrinter = &H20&
+    'cdlbPSMargins = &H2&
+    cdlbPSMinMargins = &H1&
+    cdlbPSNoNetworkButton = &H200000
+    cdlbPSNoWarning = &H80&
+    cdlbPSReturnDefault = &H400&
+    cdlbPSShowHelp = &H800&
     
 ' Show Folder
-    cdlSFReturnOnlyFSDirs = &H1&
-    cdlSFDontGoBelowDomain = &H2&
-    cdlSFStatusText = &H4&
-    cdlSFReturnFSAncestors = &H8&
-    cdlSFEditBox = &H10&
-    cdlSFValidate = &H20&
-    cdlSFNewDialogStyle = &H40&
-    cdlSFUseNewUI = (cdlSFNewDialogStyle Or cdlSFEditBox)
-    cdlSFBrowseIncludeURLs = &H80&
-    cdlSFUAHint = &H100&
-    cdlSFNoNewFolderButton = &H200&
-    cdlSFNoTranslateTargets = &H400&
-    cdlSFNoReturnOnlyFSDirs = &H800&
-    cdlSFBrowseForComputer = &H1000&
-    cdlSFBrowseForPrinter = &H2000&
-    cdlSFBrowseIncludeFiles = &H4000&
-    cdlSFShareable = &H8000&
+    cdlbSFReturnOnlyFSDirs = &H1&
+    cdlbSFDontGoBelowDomain = &H2&
+    cdlbSFStatusText = &H4&
+    cdlbSFReturnFSAncestors = &H8&
+    cdlbSFEditBox = &H10&
+    cdlbSFValidate = &H20&
+    cdlbSFNewDialogStyle = &H40&
+    cdlbSFUseNewUI = (cdlbSFNewDialogStyle Or cdlbSFEditBox)
+    cdlbSFBrowseIncludeURLs = &H80&
+    cdlbSFUAHint = &H100&
+    cdlbSFNoNewFolderButton = &H200&
+    cdlbSFNoTranslateTargets = &H400&
+    cdlbSFNoReturnOnlyFSDirs = &H800&
+    cdlbSFBrowseForComputer = &H1000&
+    cdlbSFBrowseForPrinter = &H2000&
+    cdlbSFBrowseIncludeFiles = &H4000&
+    cdlbSFShareable = &H8000&
 End Enum
 
 Public Enum cdeCommonDialogExFileFlagsConstants
-    cdeOFNAllowMultiselect = CommonDialogsFlags.cdlOFNAllowMultiselect
-    cdeOFNCreatePrompt = CommonDialogsFlags.cdlOFNCreatePrompt
-    cdeOFNExplorer = CommonDialogsFlags.cdlOFNExplorer
-    cdeOFNExtensionDifferent = CommonDialogsFlags.cdlOFNExtensionDifferent
-    cdeOFNFileMustExist = CommonDialogsFlags.cdlOFNFileMustExist
-    cdeOFNHelpButton = CommonDialogsFlags.cdlOFNHelpButton
-    cdeOFNHideReadOnly = CommonDialogsFlags.cdlOFNHideReadOnly
-    cdeOFNLongNames = CommonDialogsFlags.cdlOFNLongNames
-    cdeOFNNoChangeDir = CommonDialogsFlags.cdlOFNNoChangeDir
-    cdeOFNNoDereferenceLinks = CommonDialogsFlags.cdlOFNNoDereferenceLinks
-    cdeOFNNoLongNames = CommonDialogsFlags.cdlOFNNoLongNames
-    cdeOFNNoReadOnlyReturn = CommonDialogsFlags.cdlOFNNoReadOnlyReturn
-    cdeOFNNoValidate = CommonDialogsFlags.cdlOFNNoValidate
-    cdeOFNOverwritePrompt = CommonDialogsFlags.cdlOFNOverwritePrompt
-    cdeOFNPathMustExist = CommonDialogsFlags.cdlOFNPathMustExist
-    cdeOFNReadOnly = CommonDialogsFlags.cdlOFNReadOnly
-    cdeOFNShareAware = CommonDialogsFlags.cdlOFNShareAware
+    cdeOFNAllowMultiselect = CommonDialogsFlags.cdlbOFNAllowMultiselect
+    cdeOFNCreatePrompt = CommonDialogsFlags.cdlbOFNCreatePrompt
+    cdeOFNExplorer = CommonDialogsFlags.cdlbOFNExplorer
+    cdeOFNExtensionDifferent = CommonDialogsFlags.cdlbOFNExtensionDifferent
+    cdeOFNFileMustExist = CommonDialogsFlags.cdlbOFNFileMustExist
+    cdeOFNHelpButton = CommonDialogsFlags.cdlbOFNHelpButton
+    cdeOFNHideReadOnly = CommonDialogsFlags.cdlbOFNHideReadOnly
+    cdeOFNLongNames = CommonDialogsFlags.cdlbOFNLongNames
+    cdeOFNNoChangeDir = CommonDialogsFlags.cdlbOFNNoChangeDir
+    cdeOFNNoDereferenceLinks = CommonDialogsFlags.cdlbOFNNoDereferenceLinks
+    cdeOFNNoLongNames = CommonDialogsFlags.cdlbOFNNoLongNames
+    cdeOFNNoReadOnlyReturn = CommonDialogsFlags.cdlbOFNNoReadOnlyReturn
+    cdeOFNNoValidate = CommonDialogsFlags.cdlbOFNNoValidate
+    cdeOFNOverwritePrompt = CommonDialogsFlags.cdlbOFNOverwritePrompt
+    cdeOFNPathMustExist = CommonDialogsFlags.cdlbOFNPathMustExist
+    cdeOFNReadOnly = CommonDialogsFlags.cdlbOFNReadOnly
+    cdeOFNShareAware = CommonDialogsFlags.cdlbOFNShareAware
 End Enum
 
 Public Enum cdeCommonDialogExPrinterFlagsConstants
-    cdePDAllPages = CommonDialogsFlags.cdlPDAllPages
-    cdePDSelection = CommonDialogsFlags.cdlPDSelection
-    cdePDPageNums = CommonDialogsFlags.cdlPDPageNums
-    cdePDNoSelection = CommonDialogsFlags.cdlPDNoSelection
-    cdePDNoPageNums = CommonDialogsFlags.cdlPDNoPageNums
-    cdePDCollate = CommonDialogsFlags.cdlPDCollate
-    cdePDPrintToFile = CommonDialogsFlags.cdlPDPrintToFile
-    cdePDPrintSetup = CommonDialogsFlags.cdlPDPrintSetup
-    cdePDNoWarning = CommonDialogsFlags.cdlPDNoWarning
-    cdePDReturnDC = CommonDialogsFlags.cdlPDReturnDC
-    cdePDReturnIC = CommonDialogsFlags.cdlPDReturnIC
-    cdePDReturnDefault = CommonDialogsFlags.cdlPDReturnDefault
-    cdePDHelpButton = CommonDialogsFlags.cdlPDHelpButton
-    cdePDUseDevModeCopies = CommonDialogsFlags.cdlPDUseDevModeCopies
-    cdePDDisablePrintToFile = CommonDialogsFlags.cdlPDDisablePrintToFile
-    cdePDHidePrintToFile = CommonDialogsFlags.cdlPDHidePrintToFile
+    cdePDAllPages = CommonDialogsFlags.cdlbPDAllPages
+    cdePDSelection = CommonDialogsFlags.cdlbPDSelection
+    cdePDPageNums = CommonDialogsFlags.cdlbPDPageNums
+    cdePDNoSelection = CommonDialogsFlags.cdlbPDNoSelection
+    cdePDNoPageNums = CommonDialogsFlags.cdlbPDNoPageNums
+    cdePDCollate = CommonDialogsFlags.cdlbPDCollate
+    cdePDPrintToFile = CommonDialogsFlags.cdlbPDPrintToFile
+    cdePDPrintSetup = CommonDialogsFlags.cdlbPDPrintSetup
+    cdePDNoWarning = CommonDialogsFlags.cdlbPDNoWarning
+    cdePDReturnDC = CommonDialogsFlags.cdlbPDReturnDC
+    cdePDReturnIC = CommonDialogsFlags.cdlbPDReturnIC
+    cdePDReturnDefault = CommonDialogsFlags.cdlbPDReturnDefault
+    cdePDHelpButton = CommonDialogsFlags.cdlbPDHelpButton
+    cdePDUseDevModeCopies = CommonDialogsFlags.cdlbPDUseDevModeCopies
+    cdePDDisablePrintToFile = CommonDialogsFlags.cdlbPDDisablePrintToFile
+    cdePDHidePrintToFile = CommonDialogsFlags.cdlbPDHidePrintToFile
 End Enum
 
 Public Enum cdeCommonDialogExColorFlagsConstants
-    cdeCCFullOpen = CommonDialogsFlags.cdlCCFullOpen
-    cdeCCShowHelpButton = CommonDialogsFlags.cdlCCShowHelpButton
-    cdeCCPreventFullOpen = CommonDialogsFlags.cdlCCPreventFullOpen
-'    cdeCCRGBInit = CommonDialogsFlags.cdlCCRGBInit
+    cdeCCFullOpen = CommonDialogsFlags.cdlbCCFullOpen
+    cdeCCShowHelpButton = CommonDialogsFlags.cdlbCCShowHelpButton
+    cdeCCPreventFullOpen = CommonDialogsFlags.cdlbCCPreventFullOpen
+'    cdeCCRGBInit = CommonDialogsFlags.cdlbCCRGBInit
 End Enum
 
 Public Enum cdeCommonDialogExFontFlagsConstants
-    cdeCFANSIOnly = CommonDialogsFlags.cdlCFANSIOnly
-    cdeCFApply = CommonDialogsFlags.cdlCFApply
-    cdeCFBoth = CommonDialogsFlags.cdlCFBoth
-    cdeCFEffects = CommonDialogsFlags.cdlCFEffects
-    cdeCFFixedPitchOnly = CommonDialogsFlags.cdlCFFixedPitchOnly
-    cdeCFForceFontExist = CommonDialogsFlags.cdlCFForceFontExist
-    cdeCFHelpButton = CommonDialogsFlags.cdlCFHelpButton
-    cdeCFLimitSize = CommonDialogsFlags.cdlCFLimitSize
-    cdeCFNoFaceSel = CommonDialogsFlags.cdlCFNoFaceSel
-    cdeCFNoSimulations = CommonDialogsFlags.cdlCFNoSimulations
-    cdeCFNoSizeSel = CommonDialogsFlags.cdlCFNoSizeSel
-    cdeCFNoStyleSel = CommonDialogsFlags.cdlCFNoStyleSel
-    cdeCFNoVectorFonts = CommonDialogsFlags.cdlCFNoVectorFonts
-    cdeCFPrinterFonts = CommonDialogsFlags.cdlCFPrinterFonts
-    cdeCFScalableOnly = CommonDialogsFlags.cdlCFScalableOnly
-    cdeCFScreenFonts = CommonDialogsFlags.cdlCFScreenFonts
-    cdeCFTTOnly = CommonDialogsFlags.cdlCFTTOnly
-    cdeCFWYSIWYG = CommonDialogsFlags.cdlCFWYSIWYG
+    cdeCFANSIOnly = CommonDialogsFlags.cdlbCFANSIOnly
+    cdeCFApply = CommonDialogsFlags.cdlbCFApply
+    cdeCFBoth = CommonDialogsFlags.cdlbCFBoth
+    cdeCFEffects = CommonDialogsFlags.cdlbCFEffects
+    cdeCFFixedPitchOnly = CommonDialogsFlags.cdlbCFFixedPitchOnly
+    cdeCFForceFontExist = CommonDialogsFlags.cdlbCFForceFontExist
+    cdeCFHelpButton = CommonDialogsFlags.cdlbCFHelpButton
+    cdeCFLimitSize = CommonDialogsFlags.cdlbCFLimitSize
+    cdeCFNoFaceSel = CommonDialogsFlags.cdlbCFNoFaceSel
+    cdeCFNoSimulations = CommonDialogsFlags.cdlbCFNoSimulations
+    cdeCFNoSizeSel = CommonDialogsFlags.cdlbCFNoSizeSel
+    cdeCFNoStyleSel = CommonDialogsFlags.cdlbCFNoStyleSel
+    cdeCFNoVectorFonts = CommonDialogsFlags.cdlbCFNoVectorFonts
+    cdeCFPrinterFonts = CommonDialogsFlags.cdlbCFPrinterFonts
+    cdeCFScalableOnly = CommonDialogsFlags.cdlbCFScalableOnly
+    cdeCFScreenFonts = CommonDialogsFlags.cdlbCFScreenFonts
+    cdeCFTTOnly = CommonDialogsFlags.cdlbCFTTOnly
+    cdeCFWYSIWYG = CommonDialogsFlags.cdlbCFWYSIWYG
 End Enum
 
 Public Enum cdeCommonDialogExPageSetupFlagsConstants
-    cdePSDefaultMinMargins = CommonDialogsFlags.cdlPSDefaultMinMargins
-    cdePSDisableMargins = CommonDialogsFlags.cdlPSDisableMargins
-    cdePSDisableOrientation = CommonDialogsFlags.cdlPSDisableOrientation
-    cdePSDisablePagePainting = CommonDialogsFlags.cdlPSDisablePagePainting
-    cdePSDisablePaper = CommonDialogsFlags.cdlPSDisablePaper
-    cdePSDisablePrinter = CommonDialogsFlags.cdlPSDisablePrinter
-'    cdePSMargins = CommonDialogsFlags.cdlPSMargins
-    cdePSMinMargins = CommonDialogsFlags.cdlPSMinMargins
-    cdePSNoNetworkButton = CommonDialogsFlags.cdlPSNoNetworkButton
-    cdePSNoWarning = CommonDialogsFlags.cdlPSNoWarning
-    cdePSReturnDefault = CommonDialogsFlags.cdlPSReturnDefault
-    cdePSShowHelp = CommonDialogsFlags.cdlPSShowHelp
+    cdePSDefaultMinMargins = CommonDialogsFlags.cdlbPSDefaultMinMargins
+    cdePSDisableMargins = CommonDialogsFlags.cdlbPSDisableMargins
+    cdePSDisableOrientation = CommonDialogsFlags.cdlbPSDisableOrientation
+    cdePSDisablePagePainting = CommonDialogsFlags.cdlbPSDisablePagePainting
+    cdePSDisablePaper = CommonDialogsFlags.cdlbPSDisablePaper
+    cdePSDisablePrinter = CommonDialogsFlags.cdlbPSDisablePrinter
+'    cdePSMargins = CommonDialogsFlags.cdlbPSMargins
+    cdePSMinMargins = CommonDialogsFlags.cdlbPSMinMargins
+    cdePSNoNetworkButton = CommonDialogsFlags.cdlbPSNoNetworkButton
+    cdePSNoWarning = CommonDialogsFlags.cdlbPSNoWarning
+    cdePSReturnDefault = CommonDialogsFlags.cdlbPSReturnDefault
+    cdePSShowHelp = CommonDialogsFlags.cdlbPSShowHelp
 End Enum
 
 Public Enum cdeCommonDialogExFolderFlagsConstants
-    cdeSFReturnOnlyFSDirs = CommonDialogsFlags.cdlSFReturnOnlyFSDirs
-    cdeSFDontGoBelowDomain = CommonDialogsFlags.cdlSFDontGoBelowDomain
-    cdeSFStatusText = CommonDialogsFlags.cdlSFStatusText
-    cdeSFReturnFSAncestors = CommonDialogsFlags.cdlSFReturnFSAncestors
-    cdeSFEditBox = CommonDialogsFlags.cdlSFEditBox
-    cdeSFValidate = CommonDialogsFlags.cdlSFValidate
-    cdeSFNewDialogStyle = CommonDialogsFlags.cdlSFNewDialogStyle
-    cdeSFUseNewUI = CommonDialogsFlags.cdlSFUseNewUI
-    cdeSFBrowseIncludeURLs = CommonDialogsFlags.cdlSFBrowseIncludeURLs
-    cdeSFUAHint = CommonDialogsFlags.cdlSFUAHint
-    cdeSFNoNewFolderButton = CommonDialogsFlags.cdlSFNoNewFolderButton
-    cdeSFNoTranslateTargets = CommonDialogsFlags.cdlSFNoTranslateTargets
-    cdeSFNoReturnOnlyFSDirs = CommonDialogsFlags.cdlSFNoReturnOnlyFSDirs
-    cdeSFBrowseForComputer = CommonDialogsFlags.cdlSFBrowseForComputer
-    cdeSFBrowseForPrinter = CommonDialogsFlags.cdlSFBrowseForPrinter
-    cdeSFBrowseIncludeFiles = CommonDialogsFlags.cdlSFBrowseIncludeFiles
-    cdeSFShareable = CommonDialogsFlags.cdlSFShareable
+    cdeSFReturnOnlyFSDirs = CommonDialogsFlags.cdlbSFReturnOnlyFSDirs
+    cdeSFDontGoBelowDomain = CommonDialogsFlags.cdlbSFDontGoBelowDomain
+    cdeSFStatusText = CommonDialogsFlags.cdlbSFStatusText
+    cdeSFReturnFSAncestors = CommonDialogsFlags.cdlbSFReturnFSAncestors
+    cdeSFEditBox = CommonDialogsFlags.cdlbSFEditBox
+    cdeSFValidate = CommonDialogsFlags.cdlbSFValidate
+    cdeSFNewDialogStyle = CommonDialogsFlags.cdlbSFNewDialogStyle
+    cdeSFUseNewUI = CommonDialogsFlags.cdlbSFUseNewUI
+    cdeSFBrowseIncludeURLs = CommonDialogsFlags.cdlbSFBrowseIncludeURLs
+    cdeSFUAHint = CommonDialogsFlags.cdlbSFUAHint
+    cdeSFNoNewFolderButton = CommonDialogsFlags.cdlbSFNoNewFolderButton
+    cdeSFNoTranslateTargets = CommonDialogsFlags.cdlbSFNoTranslateTargets
+    cdeSFNoReturnOnlyFSDirs = CommonDialogsFlags.cdlbSFNoReturnOnlyFSDirs
+    cdeSFBrowseForComputer = CommonDialogsFlags.cdlbSFBrowseForComputer
+    cdeSFBrowseForPrinter = CommonDialogsFlags.cdlbSFBrowseForPrinter
+    cdeSFBrowseIncludeFiles = CommonDialogsFlags.cdlbSFBrowseIncludeFiles
+    cdeSFShareable = CommonDialogsFlags.cdlbSFShareable
     
 End Enum
 
@@ -1129,7 +1129,7 @@ Public Sub ShowPrinter(Optional ByVal nFlags As cdeCommonDialogExPrinterFlagsCon
     
     tPrintDlg.hwndOwner = iHwndOwner
     
-    If (iFlags And cdlPDReturnDefault) <> 0 Then
+    If (iFlags And cdlbPDReturnDefault) <> 0 Then
         tPrintDlg.hDevMode = 0
         tPrintDlg.hDevNames = 0
         If mDevModePtr <> 0 Then
@@ -1157,7 +1157,7 @@ Public Sub ShowPrinter(Optional ByVal nFlags As cdeCommonDialogExPrinterFlagsCon
     'hDevNames As Long
     
     'flags As Long - init from Flags property
-    tPrintDlg.Flags = iFlags Or cdlPDUseDevModeCopies Or cdlPDReturnDC ' it requires these two flags to return the number of copies properly
+    tPrintDlg.Flags = iFlags Or cdlbPDUseDevModeCopies Or cdlbPDReturnDC ' it requires these two flags to return the number of copies properly
     
     'nFromPage As Integer - init from FromPage property
     tPrintDlg.nFromPage = mFromPage
@@ -1184,7 +1184,7 @@ Public Sub ShowPrinter(Optional ByVal nFlags As cdeCommonDialogExPrinterFlagsCon
     
     '***    handle return from PrintDlg API function
     mCancelled = False
-'    If (tPrintDlg.flags And cdlPDReturnDefault) <> 0 Then
+'    If (tPrintDlg.flags And cdlbPDReturnDefault) <> 0 Then
 '        mApiReturn = 1
 '    End If
     Select Case mApiReturn
@@ -1207,8 +1207,8 @@ Public Sub ShowPrinter(Optional ByVal nFlags As cdeCommonDialogExPrinterFlagsCon
         Case 1  'user selected OK
             'nFromPage As Integer - store to FromPage property
             
-            mFlags = mFlags And Not (cdlPDSelection Or cdlPDPageNums)
-            mFlags = mFlags Or (tPrintDlg.Flags And (cdlPDSelection Or cdlPDPageNums))
+            mFlags = mFlags And Not (cdlbPDSelection Or cdlbPDPageNums)
+            mFlags = mFlags Or (tPrintDlg.Flags And (cdlbPDSelection Or cdlbPDPageNums))
 
             mFromPage = tPrintDlg.nFromPage
             
@@ -1747,7 +1747,7 @@ Private Sub ShowFileDialog(ByVal mAction As Integer, nFlags As Long, Optional By
         End If
         
         'pad with spaces
-        If (nFlags And cdlOFNAllowMultiselect) <> 0 Then
+        If (nFlags And cdlbOFNAllowMultiselect) <> 0 Then
             sFileNameBuff = sFileNameBuff & Space$(100000 - Len(sFileNameBuff) - 1)
             sFileNameBuff = Mid$(sFileNameBuff, 1, 99999)
         Else
@@ -1763,7 +1763,7 @@ Private Sub ShowFileDialog(ByVal mAction As Integer, nFlags As Long, Optional By
     
     'nMaxFile As Long - init from MaxFileSize property
     'If mMaxFileSize <> 255 Then  'default is 255
-    If (nFlags And cdlOFNAllowMultiselect) <> 0 Then
+    If (nFlags And cdlbOFNAllowMultiselect) <> 0 Then
         tOpenFile.nMaxFile = 100000
     Else
         tOpenFile.nMaxFile = lMaxSize
@@ -1790,7 +1790,7 @@ Private Sub ShowFileDialog(ByVal mAction As Integer, nFlags As Long, Optional By
     tOpenFile.lpstrTitle = mDialogTitle
     
     'tOpenFile.flags As Long - init from Flags property
-    tOpenFile.Flags = nFlags Or cdlOFNNoChangeDir
+    tOpenFile.Flags = nFlags Or cdlbOFNNoChangeDir
         
     'tOpenFile.lpstrDefExt As String - init from DefaultExt property
     tOpenFile.lpstrDefExt = mDefaultExt
@@ -1824,7 +1824,7 @@ Private Sub ShowFileDialog(ByVal mAction As Integer, nFlags As Long, Optional By
         
         Case 1  'user selected or entered a file
             'mFileName gets part of tOpenFile.lpstrFile to the Left of first Chr$(0)
-            If (tOpenFile.Flags And cdlOFNAllowMultiselect) <> 0 Then
+            If (tOpenFile.Flags And cdlbOFNAllowMultiselect) <> 0 Then
                 mFileName = sLeftOfLastNull(tOpenFile.lpstrFile)
             Else
                 mFileName = sLeftOfNull(tOpenFile.lpstrFile)
@@ -2207,7 +2207,7 @@ Public Sub ShowPageSetup(Optional ByVal nFlags As cdeCommonDialogExPageSetupFlag
     iPsd.Flags = iPsd.Flags Or PSD_MARGINS
 '    End If
     If (mMinTopMargin <> 0) Or (mMinLeftMargin <> 0) Or (mMinBottomMargin <> 0) Or (mMinRightMargin <> 0) Then
-        iPsd.Flags = iPsd.Flags Or cdlPSMinMargins
+        iPsd.Flags = iPsd.Flags Or cdlbPSMinMargins
     End If
     
     iPsd.hwndOwner = iHwndOwner
@@ -2318,7 +2318,7 @@ Public Sub ShowPageSetup(Optional ByVal nFlags As cdeCommonDialogExPageSetupFlag
 '            Dim iDevMode As DEVMODE
 '
 '            CopyMemory iDevMode, ByVal mDevModePtr, Len(iDevMode)
-'            ShowPrinter cdlPDReturnDefault Or cdePDReturnDC
+'            ShowPrinter cdlbPDReturnDefault Or cdePDReturnDC
 '            ResetDC mhDc, iDevMode
 '            mPaperSize = iDevMode.dmPaperSize
 '            mPaperBin = iDevMode.dmDefaultSource
@@ -2387,7 +2387,7 @@ End Function
 Private Sub EnsurePageSet()
     If mAmbientUserMode Then
         If Not mPageSet Then
-            ShowPrinter cdlPDReturnDefault Or cdePDReturnDC
+            ShowPrinter cdlbPDReturnDefault Or cdePDReturnDC
         End If
     End If
 End Sub
