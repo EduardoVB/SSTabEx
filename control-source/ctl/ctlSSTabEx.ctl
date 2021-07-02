@@ -5064,6 +5064,9 @@ Private Sub DrawTabPicureAndCaption(t As Long)
     End If
     
     If mTabOrientation = ssTabOrientationBottom Then ' in this case everything must be flipped vertically
+        If Not picAux2.Font Is mFont Then
+            Set picAux2.Font = mFont
+        End If
         iTabSpaceRect.Left = iTabSpaceRect.Left - iTabData.TabRect.Left - 1
         iTabSpaceRect.Top = iTabSpaceRect.Top - iTabData.TabRect.Top
         iTabSpaceRect.Right = iTabSpaceRect.Right - iTabData.TabRect.Left
