@@ -1,4 +1,5 @@
-2021-06-27 fixed bug when TabSeparation <> 0
+2021-07-02 fixed bug in tab appearance when TabSeparation > 0 and control is themed.
+2021-07-02 fixed bug in font when TabOrientation is set to bottom.
 2021-06-27 changed constant names in cDlg to avoid conflict with other components.
 2021-06-27 fixed bug related to tab border width when VisualStyles = False and Style = ssStyleTabbedDialog.
 2021-06-27 fixed bug related to tab background color glitch when VisualStyles = False, Style = ssStyleTabbedDialog, BackColor <> TabBackColor and mouse hovers over a tab being screen DPI = 100%.
