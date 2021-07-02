@@ -5234,6 +5234,7 @@ Private Sub DrawTabPicureAndCaption(t As Long)
     If iCaptionRect.Bottom > iTabData.TabRect.Bottom Then
         iCaptionRect.Bottom = iTabData.TabRect.Bottom
     End If
+    iAuxPic.ForeColor = iForeColor
     DrawTextW iAuxPic.hDC, StrPtr(iCaption), -1, iCaptionRect, iFlags Or IIf(mRightToLeft, DT_RTLREADING, 0) Or IIf(mRightToLeft, DT_RTLREADING, 0)
     
     ' Draw the focus rect
