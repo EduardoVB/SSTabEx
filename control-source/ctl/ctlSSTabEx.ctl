@@ -4430,12 +4430,23 @@ Private Sub DrawTab(nTab As Long)
                 iState = TIS_NORMAL
             End If
             
-            iPartId = IIf(iTabData.RightTab, TABP_TABITEMRIGHTEDGE, IIf(iTabData.LeftTab, TABP_TABITEMLEFTEDGE, TABP_TABITEM))
-            If (mBackColor = vbButtonFace) And Not ((iTabData.RightTab Or (mTabSeparation2 > 0)) Or (iState = TIS_FOCUSED)) Then
+            If mTabSeparation2 = 0 Then
+                iPartId = IIf(iTabData.RightTab, TABP_TABITEMRIGHTEDGE, IIf(iTabData.LeftTab, TABP_TABITEMLEFTEDGE, TABP_TABITEM))
+            Else
+                iPartId = TABP_TABITEMLEFTEDGE
+            End If
+            If (mBackColor = vbButtonFace) And (Not (iTabData.RightTab Or (iState = TIS_FOCUSED)) Or (mTabSeparation2 > 0)) Then
                 iTRect.Top = .Top
                 iTRect.Left = .Left
                 iTRect.Right = .Right + 1
                 iTRect.Bottom = .Bottom + 1
+                If Not iActive Then
+                    If (mTabSeparation2 > 0) Then
+                        If iTabData.RightTab Then
+                            iTRect.Bottom = iTRect.Bottom + 1
+                        End If
+                    End If
+                End If
                 If mTabData(nTab).RowPos <> mRows - 1 Then
                     iTRect.Bottom = iTRect.Bottom + 4
                 End If
