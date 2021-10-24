@@ -1,4 +1,4 @@
-2021-10-23 improvements regading disabled state (Enabled = False).
+2021-10-23 improvements regarding disabled state (Enabled = False).
 2021-07-02 fixed bug in tab appearance when TabSeparation > 0 and control is themed.
 2021-07-02 fixed bug in font when TabOrientation is set to bottom.
 2021-06-27 changed constant names in cDlg to avoid conflict with other components.
