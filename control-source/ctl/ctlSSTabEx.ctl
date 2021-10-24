@@ -817,7 +817,7 @@ Public Property Let Enabled(ByVal nValue As Boolean)
     
     If nValue <> mEnabled Then
         mEnabled = nValue
-        UserControl.Enabled = mEnabled
+        UserControl.Enabled = mEnabled Or (Not mAmbientUserMode)
         PropertyChanged "Enabled"
         If mChangeControlsBackColor Then
             If mShowDisabledState Then
@@ -3057,7 +3057,7 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     If mFont Is Nothing Then
         Set mFont = UserControl.Font
     End If
-    UserControl.Enabled = mEnabled
+    UserControl.Enabled = mEnabled Or (Not mAmbientUserMode)
     
     ReDim mTabData(mTabs - 1)
     Set iAllCtlNames = New Collection
@@ -3593,7 +3593,7 @@ Private Sub Draw()
     End If
     
     If mBackStyle = ssOpaque Then
-        If mEnabled Or (Not mShowDisabledState) Then
+        If mEnabled Or (Not mAmbientUserMode) Or (Not mShowDisabledState) Then
             mTabBackColor2 = mTabBackColor
             mTabSelBackColor2 = mTabSelBackColor
         Else
@@ -4395,7 +4395,7 @@ Private Sub DrawTab(nTab As Long)
     iActive = iTabData.Selected
     iRoundedTabs = (mTabAppearance2 = ssTAPropertyPageRounded) Or (mTabAppearance2 = ssTATabbedDialogRounded)
     If iActive Then
-        iHighlighted = mTabSelHighlight And mEnabled And iTabData.Enabled
+        iHighlighted = mTabSelHighlight And iTabData.Enabled
         iTabBackColor2 = mTabSelBackColor2
         i3DDKShadow = m3DDKShadow_Sel
         i3DHighlightH = m3DHighlightH_Sel
@@ -4405,7 +4405,7 @@ Private Sub DrawTab(nTab As Long)
         i3DHighlight = m3DHighlight_Sel
         iGlowColor = mGlowColor_Sel
     Else
-        iHighlighted = (mTabHoverHighlight <> ssTHHNo) And iTabData.Hovered And mEnabled And iTabData.Enabled
+        iHighlighted = (mTabHoverHighlight <> ssTHHNo) And iTabData.Hovered And (mEnabled Or (Not mAmbientUserMode)) And iTabData.Enabled
         iTabBackColor2 = mTabBackColor2
         i3DDKShadow = m3DDKShadow
         i3DHighlightH = m3DHighlightH
@@ -4418,7 +4418,7 @@ Private Sub DrawTab(nTab As Long)
     
     With iTabData.TabRect
         If mControlIsThemed Then
-            If Not (mEnabled And iTabData.Enabled) Then
+            If Not iTabData.Enabled Then
                 iState = TIS_DISABLED
             ElseIf ((iActive And ControlHasFocus) And (Not mShowFocusRect) And mAmbientUserMode) Or iActive And ((mTabOrientation = ssTabOrientationBottom) Or (mTabOrientation = ssTabOrientationRight)) Then
                 iState = TIS_SELECTED ' I had to put TIS_SELECTED instead of TIS_FOCUSED before
@@ -4951,6 +4951,7 @@ Private Sub DrawTabPicureAndCaption(t As Long)
     Dim iTabBackColor2 As Long
     Dim iForeColor As Long
     Dim iGrayText As Long
+    Dim iForeColor2 As Long
     
     If Not mTabData(t).Visible Then Exit Sub
     If Not mTabData(t).PicToUseSet Then SetPicToUse t
@@ -4973,7 +4974,8 @@ Private Sub DrawTabPicureAndCaption(t As Long)
         Else
             picAux.ForeColor = iGrayText
         End If
-    
+        iForeColor2 = picAux.ForeColor
+        
         iFontBoldPrev = picAux.FontBold
         If t = mTabSel Then
             If mAppearanceIsPP And (mTabSelFontBold = ssYNAuto) Then
@@ -4992,6 +4994,7 @@ Private Sub DrawTabPicureAndCaption(t As Long)
         Else
             picDraw.ForeColor = iGrayText
         End If
+        iForeColor2 = picDraw.ForeColor
         
         iFontBoldPrev = picDraw.FontBold
         If t = mTabSel Then
@@ -5248,7 +5251,7 @@ Private Sub DrawTabPicureAndCaption(t As Long)
     If iCaptionRect.Bottom > iTabData.TabRect.Bottom Then
         iCaptionRect.Bottom = iTabData.TabRect.Bottom
     End If
-    iAuxPic.ForeColor = iForeColor
+    iAuxPic.ForeColor = iForeColor2
     DrawTextW iAuxPic.hDC, StrPtr(iCaption), -1, iCaptionRect, iFlags Or IIf(mRightToLeft, DT_RTLREADING, 0) Or IIf(mRightToLeft, DT_RTLREADING, 0)
     
     ' Draw the focus rect
@@ -5541,7 +5544,7 @@ Private Sub SetColors()
             End If
         End If
         mTabBackColorDisabled = ColorHLSToRGB(iTabBackColor_H, iTabBackColor_L * 0.98, iTabBackColor_S * 0.6)
-        mGrayText = m3DShadow
+        mGrayText = vbGrayText
         
         If iTabBackColor_L > 150 Then
             If (iTabBackColor_L > 200) And (iTabBackColor_S < 150) Then
@@ -5693,7 +5696,7 @@ Private Sub SetColors()
             End If
         End If
         mTabBackColorDisabled = ColorHLSToRGB(iTabBackColor_H, iTabBackColor_L * 0.98, iTabBackColor_S * 0.6)
-        mGrayText_Sel = m3DShadow_Sel
+        mGrayText_Sel = vbGrayText
         
         If iTabBackColor_L > 150 Then
             If (iTabBackColor_L > 200) And (iTabBackColor_S < 150) Then
