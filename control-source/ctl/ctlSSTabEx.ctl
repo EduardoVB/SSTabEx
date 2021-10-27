@@ -1012,7 +1012,9 @@ Public Property Let TabSel(ByVal nValue As Integer)
             iPrev = mTabSel
             mTabSel = nValue
             PropertyChanged "TabSel"
-            mTabData(iPrev).Selected = False
+            If (iPrev >= 0) And (iPrev <= UBound(mTabData)) Then
+                mTabData(iPrev).Selected = False
+            End If
             If (mTabSel > -1) And (mTabSel < mTabs) Then
                 mTabData(mTabSel).Selected = True
             End If
@@ -1587,7 +1589,7 @@ Public Property Let TabVisible(ByVal Index As Integer, ByVal nValue As Boolean)
         Else
             mTabData(Index).Visible = nValue
             If (mTabSel < 0) Or (mTabSel > (mTabs - 1)) Then
-                mTabSel = Index
+                TabSel = Index
                 mTabData(Index).Selected = True
             End If
         End If
@@ -6601,7 +6603,9 @@ Private Sub SetVisibleControls(iPreviousTab As Integer)
     
     ' hide controls in previous tab
     If mAmbientUserMode Then StoreControlsTabStop
-    Set mTabData(iPreviousTab).Controls = New Collection
+    If (iPreviousTab >= 0) And (iPreviousTab <= UBound(mTabData)) Then
+        Set mTabData(iPreviousTab).Controls = New Collection
+    End If
     For Each iCtl In UserControl.ContainedControls
         iIsLine = TypeName(iCtl) = "Line"
         iLeft = -15001
@@ -6614,8 +6618,10 @@ Private Sub SetVisibleControls(iPreviousTab As Integer)
         On Error GoTo 0
         If iLeft > -mLeftThresholdHided Then
             iCtlName = ControlName(iCtl)
-            If Not IsControlInOtherTab(iCtlName, iPreviousTab) Then
-                mTabData(iPreviousTab).Controls.Add iCtlName, iCtlName
+            If (iPreviousTab >= 0) And (iPreviousTab <= UBound(mTabData)) Then
+                If Not IsControlInOtherTab(iCtlName, iPreviousTab) Then
+                    mTabData(iPreviousTab).Controls.Add iCtlName, iCtlName
+                End If
             End If
             If iIsLine Then
                 iCtl.X1 = iCtl.X1 - mLeftShiftToHide
