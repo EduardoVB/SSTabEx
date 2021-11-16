@@ -4093,9 +4093,18 @@ Private Sub Draw()
     Next iRow
     
     For t = 0 To mTabs - 1
-        If mTabData(t).PosH > 1 Then
-            If mTabData(t).TabRect.Left <= mTabData(t - 1).TabRect.Right Then
-                mTabData(t).TabRect.Left = mTabData(t - 1).TabRect.Right + 1
+        If mTabData(t).Visible Then
+            If mTabData(t).PosH > 1 Then
+                If mTabData(t).TabRect.Left <= mTabData(t - 1).TabRect.Right Then
+                    iLng = t - 1
+                    Do Until mTabData(iLng).Visible = True
+                        iLng = iLng - 1
+                        If iLng < 0 Then Exit Do
+                    Loop
+                    If iLng >= 0 Then
+                        mTabData(t).TabRect.Left = mTabData(iLng).TabRect.Right + 1
+                    End If
+                End If
             End If
         End If
     Next t

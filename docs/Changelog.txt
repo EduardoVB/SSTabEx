@@ -1,3 +1,4 @@
+2021-11-16 bug fix in TabVisible property
 2021-10-27 bug fix in TabVisible property when no visible tab is left, and after that a tab is made visible.
 2021-10-23 improvements regarding disabled state (Enabled = False).
 2021-07-02 fixed bug in tab appearance when TabSeparation > 0 and control is themed.
