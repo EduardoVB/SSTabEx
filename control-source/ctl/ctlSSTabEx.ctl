@@ -8144,10 +8144,6 @@ Attribute ContainedControlLeft.VB_Description = "Returns/sets the left of the co
     Dim iName As String
     Dim iIndex As Long
     
-    If mPendingLeftShift <> 0 Then
-        DoPendingLeftShift
-    End If
-    
     ControlName = LCase$(ControlName)
     iWithIndex = InStr(ControlName, "(") > 0
     For Each iCtl In UserControl.ContainedControls
@@ -8170,7 +8166,7 @@ Attribute ContainedControlLeft.VB_Description = "Returns/sets the left of the co
         RaiseError 1501, , "Control not found."
     Else
         If iCtl.Left < -mLeftThresholdHided Then
-           ContainedControlLeft = iCtl.Left + mLeftShiftToHide
+           ContainedControlLeft = iCtl.Left + mLeftShiftToHide + mPendingLeftShift
         Else
             ContainedControlLeft = iCtl.Left
         End If
@@ -8181,9 +8177,7 @@ Public Property Let ContainedControlLeft(ByVal ControlName As String, ByVal Left
     Dim iCtl As Control
     Dim iFound As Boolean
     
-    If mPendingLeftShift <> 0 Then
-        DoPendingLeftShift
-    End If
+    Left = Left - mPendingLeftShift
     
     ControlName = LCase$(ControlName)
     For Each iCtl In UserControl.ContainedControls
