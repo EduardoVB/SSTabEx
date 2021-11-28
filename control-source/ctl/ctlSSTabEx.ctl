@@ -8144,6 +8144,10 @@ Attribute ContainedControlLeft.VB_Description = "Returns/sets the left of the co
     Dim iName As String
     Dim iIndex As Long
     
+    If mPendingLeftShift <> 0 Then
+        DoPendingLeftShift
+    End If
+    
     ControlName = LCase$(ControlName)
     iWithIndex = InStr(ControlName, "(") > 0
     For Each iCtl In UserControl.ContainedControls
@@ -8176,6 +8180,10 @@ End Property
 Public Property Let ContainedControlLeft(ByVal ControlName As String, ByVal Left As Single)
     Dim iCtl As Control
     Dim iFound As Boolean
+    
+    If mPendingLeftShift <> 0 Then
+        DoPendingLeftShift
+    End If
     
     ControlName = LCase$(ControlName)
     For Each iCtl In UserControl.ContainedControls
