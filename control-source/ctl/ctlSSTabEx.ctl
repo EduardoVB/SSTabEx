@@ -44,9 +44,9 @@ Begin VB.UserControl SSTabEx
       BorderStyle     =   0  'None
       Height          =   624
       Left            =   1944
-      ScaleHeight     =   52
+      ScaleHeight     =   78
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   76
+      ScaleWidth      =   114
       TabIndex        =   5
       Top             =   684
       Visible         =   0   'False
@@ -57,9 +57,9 @@ Begin VB.UserControl SSTabEx
       BorderStyle     =   0  'None
       Height          =   624
       Left            =   972
-      ScaleHeight     =   52
+      ScaleHeight     =   78
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   76
+      ScaleWidth      =   114
       TabIndex        =   4
       Top             =   684
       Visible         =   0   'False
@@ -70,9 +70,9 @@ Begin VB.UserControl SSTabEx
       BorderStyle     =   0  'None
       Height          =   624
       Left            =   0
-      ScaleHeight     =   52
+      ScaleHeight     =   78
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   76
+      ScaleWidth      =   114
       TabIndex        =   3
       Top             =   684
       Visible         =   0   'False
@@ -83,9 +83,9 @@ Begin VB.UserControl SSTabEx
       BorderStyle     =   0  'None
       Height          =   624
       Left            =   1944
-      ScaleHeight     =   52
+      ScaleHeight     =   78
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   76
+      ScaleWidth      =   114
       TabIndex        =   2
       Top             =   0
       Visible         =   0   'False
@@ -108,9 +108,9 @@ Begin VB.UserControl SSTabEx
       BorderStyle     =   0  'None
       Height          =   624
       Left            =   972
-      ScaleHeight     =   52
+      ScaleHeight     =   78
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   76
+      ScaleWidth      =   114
       TabIndex        =   1
       Top             =   0
       Visible         =   0   'False
@@ -121,9 +121,9 @@ Begin VB.UserControl SSTabEx
       BorderStyle     =   0  'None
       Height          =   624
       Left            =   0
-      ScaleHeight     =   52
+      ScaleHeight     =   78
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   76
+      ScaleWidth      =   114
       TabIndex        =   0
       Top             =   0
       Visible         =   0   'False
@@ -5869,9 +5869,16 @@ Attribute TabBodyHeight.VB_Description = "Returns the height of the tab body."
 End Property
 
 Private Sub EnsureDrawn()
+    Dim c  As Long
+    
     If (Not mFirstDraw) Or tmrDraw.Enabled Or mDrawMessagePosted Then
         mEnsureDrawn = True
         Draw
+        Do Until Not (mDrawMessagePosted Or tmrDraw.Enabled)
+            Draw
+            c = c + 1
+            If c > 5 Then Exit Do
+        Loop
         mEnsureDrawn = False
     End If
 End Sub
@@ -8176,12 +8183,26 @@ End Property
 Public Property Let ContainedControlLeft(ByVal ControlName As String, ByVal Left As Single)
     Dim iCtl As Control
     Dim iFound As Boolean
+    Dim iWithIndex As Boolean
+    Dim iName As String
+    Dim iIndex As Long
     
     Left = Left - mPendingLeftShift
     
     ControlName = LCase$(ControlName)
+    iWithIndex = InStr(ControlName, "(") > 0
     For Each iCtl In UserControl.ContainedControls
-        If LCase$(iCtl.Name) = ControlName Then
+        iName = LCase$(iCtl.Name)
+        If iWithIndex Then
+            iIndex = -1
+            On Error Resume Next
+            iIndex = iCtl.Index
+            On Error GoTo 0
+            If iIndex <> -1 Then
+                iName = iName & "(" & iIndex & ")"
+            End If
+        End If
+        If iName = ControlName Then
             iFound = True
             Exit For
         End If
@@ -8196,6 +8217,44 @@ Public Property Let ContainedControlLeft(ByVal ControlName As String, ByVal Left
         End If
     End If
 End Property
+
+Public Sub ContainedControlMove(ByVal ControlName As String, ByVal Left As Single, ByVal Top As Single, ByVal Width As Single, ByVal Height As Single)
+    Dim iCtl As Control
+    Dim iFound As Boolean
+    Dim iWithIndex As Boolean
+    Dim iName As String
+    Dim iIndex As Long
+    
+    Left = Left - mPendingLeftShift
+    
+    ControlName = LCase$(ControlName)
+    iWithIndex = InStr(ControlName, "(") > 0
+    For Each iCtl In UserControl.ContainedControls
+        iName = LCase$(iCtl.Name)
+        If iWithIndex Then
+            iIndex = -1
+            On Error Resume Next
+            iIndex = iCtl.Index
+            On Error GoTo 0
+            If iIndex <> -1 Then
+                iName = iName & "(" & iIndex & ")"
+            End If
+        End If
+        If iName = ControlName Then
+            iFound = True
+            Exit For
+        End If
+    Next
+    If Not iFound Then
+        RaiseError 1501, , "Control not found."
+    Else
+        If iCtl.Left < -mLeftThresholdHided Then
+            iCtl.Move Left - mLeftShiftToHide, Top, Width, Height
+        Else
+            iCtl.Move Left, Top, Width, Height
+        End If
+    End If
+End Sub
 
 
 Private Sub SetAutoTabHeight()

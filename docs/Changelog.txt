@@ -1,3 +1,4 @@
+2021-11-30 Added ContainedControlMove method
 2021-11-28 fix in ContainedControlLeft property
 2021-11-16 important bug fix in TabVisible property
 2021-10-27 bug fix in TabVisible property when no visible tab is left, and after that a tab is made visible.
