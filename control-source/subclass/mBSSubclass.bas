@@ -190,7 +190,7 @@ Private mAddressOf_CodeWindowWindowProc As Long
 Private mCompiling As Boolean
 Private mIDEIsResetting As Boolean
 Private mTimerFindCodeWindowsHandle As Long
-Private mAllSubclasseRemoved As Boolean
+Private mAllSubclassesRemoved As Boolean
 Private mIDEMainHwnd As Long
 #End If
 
@@ -442,7 +442,7 @@ Sub DetachMessage(iwp As IBSSubclass, ByVal hWnd As Long, ByVal iMsg As Long)
     #If IDE_PROTECTION_ENABLED Then
         Dim iInIDE As Boolean
         
-        'If mAllSubclasseRemoved Then Exit Sub
+        'If mAllSubclassesRemoved Then Exit Sub
         Debug.Assert MakeTrue(iInIDE)
         If iInIDE Then
             If Not mObjSubclassed Is Nothing Then
@@ -565,7 +565,7 @@ Private Function WindowProc(ByVal hWnd As Long, ByVal iMsg As Long, ByVal wParam
             mCompiling = False
             Exit Function
         End If
-    ElseIf mAllSubclasseRemoved Then
+    ElseIf mAllSubclassesRemoved Then
        pClearUp hWnd, uIdSubclass
        Exit Function
     End If
@@ -1199,7 +1199,7 @@ Private Sub RemoveAllSubclasses()
         Next
         On Error GoTo 0
     End If
-    mAllSubclasseRemoved = True
+    mAllSubclassesRemoved = True
 End Sub
 
 Private Sub InitializeIDEProtection()
@@ -1216,7 +1216,7 @@ Private Sub InitializeIDEProtection()
         
         If mIDEProtectionInitialized Then Exit Sub
         mIDEProtectionInitialized = True
-        mAllSubclasseRemoved = False
+        mAllSubclassesRemoved = False
         
         Set mCodeWindowsToWatch = New Collection
         Set mCodeWindowsSubclassedHwnds = New Collection
@@ -1634,7 +1634,7 @@ Private Function CodeWindowWindowProc(ByVal hWnd As Long, ByVal iMsg As Long, By
     Const WM_KEYUP As Long = &H101
     Dim iDo As Boolean
     
-    If mAllSubclasseRemoved Then
+    If mAllSubclassesRemoved Then
         UnSubClassCodeWindow hWnd
     Else
         'Debug.Print GetMessageName(iMsg)
@@ -1666,7 +1666,7 @@ End Function
 Private Sub TimerFindCodeWindowsProc(ByVal hWnd As Long, ByVal nIDEvent As Long, ByVal uElapse As Long, ByVal lpTimerFunc As Long)
     mTimerFindCodeWindowsHandle = 0
     KillTimer 0, uElapse
-    If Not mAllSubclasseRemoved Then
+    If Not mAllSubclassesRemoved Then
         ' find if a new code window that we are watching is open and subclass it
         EnumThreadWindows App.ThreadID, AddressOf EnumCodeWindowsCallback, 0
     End If
@@ -1696,6 +1696,7 @@ Private Function EnumThreadProc_GetIDEMainWindow(ByVal lhWnd As Long, ByVal lPar
         Case "wndclass_desked_gsk"
             mIDEMainHwnd = lhWnd
             EnumThreadProc_GetIDEMainWindow = 0
+            Exit Function
     End Select
     EnumThreadProc_GetIDEMainWindow = 1
 End Function
@@ -1722,7 +1723,7 @@ Private Sub IDECodeWindowShowing()
     'Debug.Print "A code window is about to show up " & Rnd
     
     DestroyTimerFindCodeWindows
-    If Not mAllSubclasseRemoved Then
+    If Not mAllSubclassesRemoved Then
         ' start a timer to look for the new window because here it is still no created
         mTimerFindCodeWindowsHandle = SetTimer(0, 0, 1, AddressOf TimerFindCodeWindowsProc)
     End If

@@ -44,9 +44,9 @@ Begin VB.UserControl SSTabEx
       BorderStyle     =   0  'None
       Height          =   624
       Left            =   1944
-      ScaleHeight     =   78
+      ScaleHeight     =   52
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   114
+      ScaleWidth      =   76
       TabIndex        =   5
       Top             =   684
       Visible         =   0   'False
@@ -57,9 +57,9 @@ Begin VB.UserControl SSTabEx
       BorderStyle     =   0  'None
       Height          =   624
       Left            =   972
-      ScaleHeight     =   78
+      ScaleHeight     =   52
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   114
+      ScaleWidth      =   76
       TabIndex        =   4
       Top             =   684
       Visible         =   0   'False
@@ -70,9 +70,9 @@ Begin VB.UserControl SSTabEx
       BorderStyle     =   0  'None
       Height          =   624
       Left            =   0
-      ScaleHeight     =   78
+      ScaleHeight     =   52
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   114
+      ScaleWidth      =   76
       TabIndex        =   3
       Top             =   684
       Visible         =   0   'False
@@ -83,9 +83,9 @@ Begin VB.UserControl SSTabEx
       BorderStyle     =   0  'None
       Height          =   624
       Left            =   1944
-      ScaleHeight     =   78
+      ScaleHeight     =   52
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   114
+      ScaleWidth      =   76
       TabIndex        =   2
       Top             =   0
       Visible         =   0   'False
@@ -108,9 +108,9 @@ Begin VB.UserControl SSTabEx
       BorderStyle     =   0  'None
       Height          =   624
       Left            =   972
-      ScaleHeight     =   78
+      ScaleHeight     =   52
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   114
+      ScaleWidth      =   76
       TabIndex        =   1
       Top             =   0
       Visible         =   0   'False
@@ -121,9 +121,9 @@ Begin VB.UserControl SSTabEx
       BorderStyle     =   0  'None
       Height          =   624
       Left            =   0
-      ScaleHeight     =   78
+      ScaleHeight     =   52
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   114
+      ScaleWidth      =   76
       TabIndex        =   0
       Top             =   0
       Visible         =   0   'False
@@ -2754,7 +2754,7 @@ Private Sub SetFocusToNextControlInSameContainer(nForward As Boolean)
             
             iTi = iCtl.TabIndex
             If iTi > -1 Then
-                iHwnd = iCtl.hWnd
+                iHwnd = GetControlHwnd(iCtl)
                 If iHwnd > 0 Then
                     iEnabled = iCtl.Enabled
                     iVisible = iCtl.Visible
@@ -3210,7 +3210,7 @@ Private Sub UserControl_Show()
             End If
             If iAuxLeft < -mLeftThresholdHided Then
                 iHwnd = 0
-                iHwnd = iCtl.hWnd
+                iHwnd = GetControlHwnd(iCtl)
                 If iHwnd <> 0 Then
                     mSubclassedControlsForMoveHwnds.Add iHwnd
                     AttachMessage Me, iHwnd, WM_WINDOWPOSCHANGING
@@ -6690,7 +6690,7 @@ Private Sub SetVisibleControls(iPreviousTab As Integer)
         For Each iCtl In UserControl.ContainedControls
             If iCtl.Left < -mLeftThresholdHided Then
                 iHwnd = 0
-                iHwnd = iCtl.hWnd
+                iHwnd = GetControlHwnd(iCtl)
                 If iHwnd <> 0 Then
                     mSubclassedControlsForMoveHwnds.Add iHwnd
                     AttachMessage Me, iHwnd, WM_WINDOWPOSCHANGING
@@ -6702,6 +6702,13 @@ Private Sub SetVisibleControls(iPreviousTab As Integer)
 
 End Sub
 
+Private Function GetControlHwnd(nControl As Object) As Long
+    On Error Resume Next
+    GetControlHwnd = nControl.hWndUserControl
+    If GetControlHwnd = 0 Then
+        GetControlHwnd = nControl.hWnd
+    End If
+End Function
 Private Function IsControlInOtherTab(nCtlName, nTab As Integer) As Boolean
     Dim t As Long
     Dim iStr As String
@@ -6877,7 +6884,7 @@ Private Sub SubclassControlsPainting()
             Set iContainer = iCtl.Container
             If iContainer Is Nothing Then
                 iHwnd = 0
-                iHwnd = iCtl.hWnd
+                iHwnd = GetControlHwnd(iCtl)
                 If iHwnd <> 0 Then
                     Set iContainer = GetContainerByHwnd(iHwnd)
                 End If
@@ -6889,7 +6896,7 @@ Private Sub SubclassControlsPainting()
                         iVisible = iContainer_Prev.Left > -mLeftThresholdHided
                         If iVisible Then
                             iHwnd = 0
-                            iHwnd = iCtl.hWnd
+                            iHwnd = GetControlHwnd(iCtl)
                             If iHwnd <> 0 Then
                                 If iSubclassTheControls Then
                                     iBKColor = -1
@@ -6941,7 +6948,7 @@ Private Sub SubclassControlsPainting()
                         iVisible = iCtl.Left > -mLeftThresholdHided
                         If iVisible Then
                             iHwnd = 0
-                            iHwnd = iCtl.hWnd
+                            iHwnd = GetControlHwnd(iCtl)
                             If iHwnd <> 0 Then
                                 If iSubclassTheControls Then
                                     iBKColor = -1
@@ -7029,7 +7036,7 @@ Private Function GetContainerByHwnd(nHwnd As Long) As Object
     
     For Each iCtl In iControls
         iHwnd = 0
-        iHwnd = iCtl.hWnd
+        iHwnd = GetControlHwnd(iCtl)
         If iHwnd = iHwndParent Then
             Set GetContainerByHwnd = iCtl
             GoTo Exit_Function
@@ -7474,7 +7481,7 @@ Friend Sub MakeContainedControlsInSelTabVisible()
             End If
             If mAmbientUserMode And mSubclassed Then
                 iHwnd = 0
-                iHwnd = iCtl.hWnd
+                iHwnd = GetControlHwnd(iCtl)
                 If iHwnd <> 0 Then
                     mSubclassedControlsForMoveHwnds.Add iHwnd
                     AttachMessage Me, iHwnd, WM_WINDOWPOSCHANGING
