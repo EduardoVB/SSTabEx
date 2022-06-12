@@ -1,3 +1,5 @@
+2022-12-06 Fixed issue regarding gaps between tabs when control is themed and noticiable mostly when the backcolor is different to the tab color.
+2022-08-06 Improved compatibility with Krool's controls (fixed an issue with .hWnd of the controls).
 2021-11-30 Added ContainedControlMove method
 2021-11-28 fix in ContainedControlLeft property
 2021-11-16 important bug fix in TabVisible property

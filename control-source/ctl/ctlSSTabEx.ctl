@@ -3458,6 +3458,7 @@ Private Sub Draw()
     Dim iStyle2 As vbExStyleConstants
     Dim iMessage As T_MSG
     Dim iAlreadyNeedToBePainted As Boolean
+    Dim iDoNotDecreaseStretchRatio2 As Boolean
     
     If mUserControlTerminated Then Exit Sub
     
@@ -3775,6 +3776,7 @@ Private Sub Draw()
         ' step 2: set in what row goes each tab
         iDecreaseStretchRatio = False
         iIncreaseStretchRatio = False
+        iDoNotDecreaseStretchRatio2 = False
         Do
             iRowTabCount = 0
             iAccumulatedTabWith = 0
@@ -3783,7 +3785,10 @@ Private Sub Draw()
             If iDecreaseStretchRatio Then
                 For R = 0 To mRows - 1
                     iRowsStretchRatio(R) = iRowsStretchRatio(R) * 0.95
-                    If iRowsStretchRatio(R) < 1 Then iRowsStretchRatio(R) = 1
+                    If iRowsStretchRatio(R) < 1 Then
+                        iRowsStretchRatio(R) = 1
+                        iDoNotDecreaseStretchRatio2 = True
+                    End If
                 Next R
                 iDecreaseStretchRatio = False
             ElseIf iIncreaseStretchRatio Then
@@ -3872,7 +3877,7 @@ Private Sub Draw()
                         iAccumulatedAdditionalFixedTabSpace = iAccumulatedAdditionalFixedTabSpace - mTabSeparation2
                         iSng = (iAvailableSpaceForTabs - iAccumulatedAdditionalFixedTabSpace) / iAccumulatedTabWith
                         If iSng < 1 Then
-                            If Not iDoNotDecreaseStretchRatio Then
+                            If Not (iDoNotDecreaseStretchRatio Or iDoNotDecreaseStretchRatio2) Then
                                 iDecreaseStretchRatio = True
                                 Exit For
                             End If
@@ -4117,6 +4122,25 @@ Private Sub Draw()
                     mTabData(t).TopTab = True
                 End If
                 If mTabData(t).RightTab Then
+                    iLng = mTabData(t).TabRect.Right
+                End If
+            End If
+        Next t
+    Next iRow
+    
+    ' gap between tabs correction
+    iLng = 0
+    For iRow = 0 To mRows - 1
+        For t = 0 To mTabs - 1
+            If mTabData(t).RowPos = iRow Then
+                If mTabData(t).TabRect.Left > (iLng + 1) Then
+                    If Not mTabData(t).LeftTab Then
+                        mTabData(t).TabRect.Left = iLng + 1
+                    End If
+                End If
+                If mTabData(t).RightTab Then
+                    iLng = 0
+                Else
                     iLng = mTabData(t).TabRect.Right
                 End If
             End If
