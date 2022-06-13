@@ -4132,16 +4132,18 @@ Private Sub Draw()
     iLng = 0
     For iRow = 0 To mRows - 1
         For t = 0 To mTabs - 1
-            If mTabData(t).RowPos = iRow Then
-                If mTabData(t).TabRect.Left > (iLng + 1) Then
-                    If Not mTabData(t).LeftTab Then
-                        mTabData(t).TabRect.Left = iLng + 1
+            If mTabData(t).Visible Then
+                If mTabData(t).RowPos = iRow Then
+                    If mTabData(t).TabRect.Left > (iLng + 1 + mTabSeparation) Then
+                        If Not mTabData(t).LeftTab Then
+                            mTabData(t).TabRect.Left = iLng + 1 + mTabSeparation
+                        End If
                     End If
-                End If
-                If mTabData(t).RightTab Then
-                    iLng = 0
-                Else
-                    iLng = mTabData(t).TabRect.Right
+                    If mTabData(t).RightTab Then
+                        iLng = 0
+                    Else
+                        iLng = mTabData(t).TabRect.Right
+                    End If
                 End If
             End If
         Next t

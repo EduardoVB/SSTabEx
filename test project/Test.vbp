@@ -1,7 +1,7 @@
 Type=Exe
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\Windows\SysWow64\stdole2.tlb#OLE Automation
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\WINDOWS\SysWow64\stdole2.tlb#OLE Automation
 Form=frmTest.frm
-Object=*\A..\control-source\TabExCtl.vbp
+Object={EA478B61-D9EC-47F6-BB21-95A533AF2251}#1.0#0; TabExC01.ocx
 Class=cDlg; cDlg.cls
 ResFile32="VisualStyleManifest.res"
 Startup="frmTest"
