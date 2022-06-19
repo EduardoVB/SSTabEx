@@ -6735,6 +6735,12 @@ Private Function GetControlHwnd(nControl As Object) As Long
         GetControlHwnd = nControl.hWnd
     End If
 End Function
+
+Private Function GetControlHwnd2(nControl As Object) As Long
+    On Error Resume Next
+    GetControlHwnd2 = nControl.hWnd
+End Function
+
 Private Function IsControlInOtherTab(nCtlName, nTab As Integer) As Boolean
     Dim t As Long
     Dim iStr As String
@@ -6910,7 +6916,7 @@ Private Sub SubclassControlsPainting()
             Set iContainer = iCtl.Container
             If iContainer Is Nothing Then
                 iHwnd = 0
-                iHwnd = GetControlHwnd(iCtl)
+                iHwnd = GetControlHwnd2(iCtl)
                 If iHwnd <> 0 Then
                     Set iContainer = GetContainerByHwnd(iHwnd)
                 End If
@@ -6922,7 +6928,7 @@ Private Sub SubclassControlsPainting()
                         iVisible = iContainer_Prev.Left > -mLeftThresholdHided
                         If iVisible Then
                             iHwnd = 0
-                            iHwnd = GetControlHwnd(iCtl)
+                            iHwnd = GetControlHwnd2(iCtl)
                             If iHwnd <> 0 Then
                                 If iSubclassTheControls Then
                                     iBKColor = -1
@@ -6974,7 +6980,7 @@ Private Sub SubclassControlsPainting()
                         iVisible = iCtl.Left > -mLeftThresholdHided
                         If iVisible Then
                             iHwnd = 0
-                            iHwnd = GetControlHwnd(iCtl)
+                            iHwnd = GetControlHwnd2(iCtl)
                             If iHwnd <> 0 Then
                                 If iSubclassTheControls Then
                                     iBKColor = -1
@@ -7044,6 +7050,27 @@ Private Sub SubclassControlsPainting()
     mRepaintSubclassedControls = False
     
 End Sub
+
+'Private Function GetContainedControlNameByHwnd(nHwnd As Long) As String ' used only  for debugging purposes
+'    Dim iCtl As Control
+'    Dim iHwnd As Long
+'
+'    On Error Resume Next
+'    For Each iCtl In UserControl.ContainedControls
+'        iHwnd = -1
+'        iHwnd = iCtl.hWndUserControl
+'        If iHwnd = nHwnd Then
+'            GetContainedControlNameByHwnd = iCtl.Name
+'            Exit For
+'        End If
+'        iHwnd = -1
+'        iHwnd = iCtl.hWnd
+'        If iHwnd = nHwnd Then
+'            GetContainedControlNameByHwnd = iCtl.Name
+'            Exit For
+'        End If
+'    Next
+'End Function
 
 Private Function GetContainerByHwnd(nHwnd As Long) As Object
     Dim iParent As Object
