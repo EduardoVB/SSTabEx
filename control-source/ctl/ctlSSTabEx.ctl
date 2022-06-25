@@ -10,6 +10,12 @@ Begin VB.UserControl SSTabEx
    ScaleHeight     =   2880
    ScaleWidth      =   3840
    ToolboxBitmap   =   "ctlSSTabEx.ctx":0059
+   Begin VB.Timer tmrRestoreDropMode 
+      Enabled         =   0   'False
+      Interval        =   10
+      Left            =   792
+      Top             =   1908
+   End
    Begin VB.Timer tmrCheckDuplicationByIDEPaste 
       Interval        =   1
       Left            =   792
@@ -2464,6 +2470,20 @@ Private Sub tmrDraw_Timer()
     Draw
 End Sub
 
+Private Sub tmrRestoreDropMode_Timer()
+    Dim t As Long
+    Dim iPt As POINTAPI
+    
+    GetCursorPos iPt
+    ScreenToClient mUserControlHwnd, iPt
+    
+    t = GetTabAtXY(iPt.X * Screen_TwipsPerPixelX, iPt.Y * Screen_TwipsPerPixely)
+    If t = mTabSel Then
+        UserControl.OLEDropMode = ssOLEDropManual
+        tmrRestoreDropMode.Enabled = False
+    End If
+End Sub
+
 Private Sub tmrSubclassControls_Timer()
     tmrSubclassControls.Enabled = False
     SubclassControlsPainting
@@ -2867,6 +2887,34 @@ Private Sub UserControl_MouseMove(Button As Integer, Shift As Integer, X As Sing
     ProcessMouseMove Button, Shift, iX, iY
 End Sub
 
+Private Function GetTabAtXY(X As Single, Y As Single) As Long
+    Dim t As Long
+    Dim iX As Long
+    Dim iY As Long
+    
+    iX = pScaleX(X, vbTwips, vbPixels)
+    If mRightToLeft Then
+        iX = mScaleWidth - iX
+    End If
+    iY = pScaleX(Y, vbTwips, vbPixels)
+    
+    GetTabAtXY = mTabSel
+    For t = 0 To mTabs - 1
+        With mTabData(t).TabRect
+            If iX >= .Left Then
+                If iX <= .Right Then
+                    If iY >= .Top Then
+                        If iY <= .Bottom Then
+                            GetTabAtXY = t
+                            Exit For
+                        End If
+                    End If
+                End If
+            End If
+        End With
+    Next
+End Function
+
 Private Sub ProcessMouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Dim t As Integer
     Dim iX As Long
@@ -2955,11 +3003,28 @@ Private Sub UserControl_OLECompleteDrag(Effect As Long)
 End Sub
 
 Private Sub UserControl_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
-    RaiseEvent OLEDragDrop(Data, Effect, Button, Shift, X, Y)
+    Dim t As Long
+    
+    UserControl.OLEDropMode = ssOLEDropManual
+    tmrRestoreDropMode.Enabled = False
+    
+    t = GetTabAtXY(X, Y)
+    If t = mTabSel Then
+        RaiseEvent OLEDragDrop(Data, Effect, Button, Shift, X, Y)
+    End If
 End Sub
 
 Private Sub UserControl_OLEDragOver(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single, State As Integer)
-    RaiseEvent OLEDragOver(Data, Effect, Button, Shift, X, Y, State)
+    Dim t As Long
+    
+    t = GetTabAtXY(X, Y)
+    If t <> mTabSel Then
+        UserControl.OLEDropMode = ssOLEDropNone
+        tmrRestoreDropMode.Enabled = True
+    Else
+        UserControl.OLEDropMode = ssOLEDropManual
+        RaiseEvent OLEDragOver(Data, Effect, Button, Shift, X, Y, State)
+    End If
 End Sub
 
 Private Sub UserControl_OLEGiveFeedback(Effect As Long, DefaultCursors As Boolean)
@@ -3106,6 +3171,7 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     SetButtonFaceColor
     SetColors
     CheckIfThereAreTabsToolTipTexts
+    UserControl.OLEDropMode = mOLEDropMode
     
     mSubclassed = True
 #If NOSUBCLASSINIDE Then
@@ -7777,7 +7843,6 @@ Private Function GetParentControlByName(ByVal nControlName As String) As Object
         End If
     Next
 End Function
-
 
 Public Property Get ContainedControls() As VBRUN.ContainedControls
 Attribute ContainedControls.VB_Description = "Returns a collection of the controls that were added to the control."
