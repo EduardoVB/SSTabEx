@@ -1,6 +1,3 @@
-2022-25-06 Behavior change: when an OLE element is dropped over a tab, that tab becomes the active tab. And does it before the OLEDragDrop event is fired.
-2022-25-06 Fixed: OLEDropMode property was not applying value changed at design time.
-2022-25-06 Removed dependency on vba6.dll for the compiled ocx.
 2022-19-06 Fixed bug introduced in 2022-08-06 fix
 2022-12-06 Fixed issue regarding gaps between tabs when control is themed and noticiable mostly when the backcolor is different to the tab color.
 2022-08-06 Improved compatibility with Krool's controls (fixed an issue with .hWnd of the controls).

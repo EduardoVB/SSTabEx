@@ -2867,34 +2867,6 @@ Private Sub UserControl_MouseMove(Button As Integer, Shift As Integer, X As Sing
     ProcessMouseMove Button, Shift, iX, iY
 End Sub
 
-Private Function GetTabAtXY(X As Single, Y As Single) As Long
-    Dim t As Long
-    Dim iX As Long
-    Dim iY As Long
-    
-    iX = pScaleX(X, vbTwips, vbPixels)
-    If mRightToLeft Then
-        iX = mScaleWidth - iX
-    End If
-    iY = pScaleX(Y, vbTwips, vbPixels)
-    
-    GetTabAtXY = mTabSel
-    For t = 0 To mTabs - 1
-        With mTabData(t).TabRect
-            If iX >= .Left Then
-                If iX <= .Right Then
-                    If iY >= .Top Then
-                        If iY <= .Bottom Then
-                            GetTabAtXY = t
-                            Exit For
-                        End If
-                    End If
-                End If
-            End If
-        End With
-    Next
-End Function
-
 Private Sub ProcessMouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Dim t As Integer
     Dim iX As Long
@@ -2983,12 +2955,6 @@ Private Sub UserControl_OLECompleteDrag(Effect As Long)
 End Sub
 
 Private Sub UserControl_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Dim t As Long
-    
-    t = GetTabAtXY(X, Y)
-    If t <> mTabSel Then
-        TabSel = t
-    End If
     RaiseEvent OLEDragDrop(Data, Effect, Button, Shift, X, Y)
 End Sub
 
@@ -3140,7 +3106,6 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     SetButtonFaceColor
     SetColors
     CheckIfThereAreTabsToolTipTexts
-    UserControl.OLEDropMode = mOLEDropMode
     
     mSubclassed = True
 #If NOSUBCLASSINIDE Then
@@ -7812,6 +7777,7 @@ Private Function GetParentControlByName(ByVal nControlName As String) As Object
         End If
     Next
 End Function
+
 
 Public Property Get ContainedControls() As VBRUN.ContainedControls
 Attribute ContainedControls.VB_Description = "Returns a collection of the controls that were added to the control."
