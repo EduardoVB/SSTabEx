@@ -852,27 +852,37 @@ End Function
 
 '*** the three following functions determine IDE-States (Break and ShutDown)
 Private Function InBreakMode() As Boolean
-    Static InitDone As Boolean, VBAVersion As Long
-    Const vbmRun& = 1, vbmBreak& = 2
-    If Not InitDone Then
-        InitDone = True
-        VBAVersion = VBAEnvironment
+    Dim iInIDE As Boolean
+    
+    Debug.Assert MakeTrue(iInIDE)
+    If iInIDE Then
+        Static InitDone As Boolean, VBAVersion As Long
+        Const vbmRun& = 1, vbmBreak& = 2
+        If Not InitDone Then
+            InitDone = True
+            VBAVersion = VBAEnvironment
+        End If
+        If VBAVersion = 5 Then InBreakMode = (EbModeVBA5 = vbmBreak)
+        If VBAVersion = 6 Then InBreakMode = (EbModeVBA6 = vbmBreak)
     End If
-    If VBAVersion = 5 Then InBreakMode = (EbModeVBA5 = vbmBreak)
-    If VBAVersion = 6 Then InBreakMode = (EbModeVBA6 = vbmBreak)
 End Function
 
 Private Function IsResetting() As Boolean
-    Static InitDone As Boolean, VBAVersion As Long, Result As Boolean
-    If Not InitDone Then
-        InitDone = True
-        VBAVersion = VBAEnvironment
+    Dim iInIDE As Boolean
+    
+    Debug.Assert MakeTrue(iInIDE)
+    If iInIDE Then
+        Static InitDone As Boolean, VBAVersion As Long, Result As Boolean
+        If Not InitDone Then
+            InitDone = True
+            VBAVersion = VBAEnvironment
+        End If
+        If Not Result Then
+            If VBAVersion = 5 Then Result = EbIsResettingVBA5
+            If VBAVersion = 6 Then Result = EbIsResettingVBA6
+        End If
+        IsResetting = Result
     End If
-    If Not Result Then
-        If VBAVersion = 5 Then Result = EbIsResettingVBA5
-        If VBAVersion = 6 Then Result = EbIsResettingVBA6
-    End If
-    IsResetting = Result
 End Function
 
 Private Function VBAEnvironment() As Long
