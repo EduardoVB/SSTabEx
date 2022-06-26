@@ -1,10 +1,10 @@
-2022-25-06 Fixed errors when the control was used in VBA.
-2022-25-06 Behavior change: when an OLE element is dragged over an inactive tab, the drop is disabled.
-2022-25-06 Fixed: OLEDropMode property was not applying value changed at design time.
-2022-25-06 Removed dependency on vba6.dll for the compiled ocx.
-2022-19-06 Fixed bug introduced in 2022-08-06 fix
-2022-12-06 Fixed issue regarding gaps between tabs when control is themed and noticiable mostly when the backcolor is different to the tab color.
-2022-08-06 Improved compatibility with Krool's controls (fixed an issue with .hWnd of the controls).
+2022-06-26 Fixed errors when the control was used in VBA.
+2022-06-25 Behavior change: when an OLE element is dragged over an inactive tab, the drop is disabled.
+2022-06-25 Fixed: OLEDropMode property was not applying value changed at design time.
+2022-06-25 Removed dependency on vba6.dll for the compiled ocx.
+2022-06-19 Fixed bug introduced in 2022-08-06 fix
+2022-06-12 Fixed issue regarding gaps between tabs when control is themed and noticiable mostly when the backcolor is different to the tab color.
+2022-06-08 Improved compatibility with Krool's controls (fixed an issue with .hWnd of the controls).
 2021-11-30 Added ContainedControlMove method
 2021-11-28 fix in ContainedControlLeft property
 2021-11-16 important bug fix in TabVisible property
