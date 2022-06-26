@@ -2223,7 +2223,7 @@ Private Function IBSSubclass_WindowProc(ByVal hWnd As Long, ByVal iMsg As Long, 
                 End If
             End If
             If mChangeControlsBackColor And ((mTabBackColor <> vbButtonFace) Or mControlIsThemed) Then
-                mLastContainedControlsCount = UserControl.ContainedControls.Count
+                mLastContainedControlsCount = UserControlContainedControlsCount
                 tmrCheckContainedControlsAdditionDesignTime.Enabled = True
             End If
         Case WM_LBUTTONUP ' UserControl message, only in design mode (Not Ambient.UserMode). To avoid the IDE to start dragging the control on mouse down when the developer clicks to change the selected tab
@@ -2398,8 +2398,8 @@ Private Sub tmrCheckContainedControlsAdditionDesignTime_Timer()
     If IsMouseButtonPressed(vxMBLeft) Then Exit Sub
     If mBackStyle = ssOpaque Then tmrCheckContainedControlsAdditionDesignTime.Enabled = False
     
-    If UserControl.ContainedControls.Count <> mLastContainedControlsCount Then
-        mLastContainedControlsCount = UserControl.ContainedControls.Count
+    If UserControlContainedControlsCount <> mLastContainedControlsCount Then
+        mLastContainedControlsCount = UserControlContainedControlsCount
         SetControlsBackColor mTabSelBackColor
         If mControlIsThemed Or (mBackStyle = ssTransparent) Then
             mSubclassControlsPaintingPending = True
@@ -2420,12 +2420,12 @@ Private Sub tmrCheckContainedControlsAdditionDesignTime_Timer()
 End Sub
 
 Private Function GetContainedControlsPositionsStr() As String
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iLeft As Long
     Dim iWidth As Long
     
     On Error Resume Next
-    For Each iCtl In UserControl.ContainedControls
+    For Each iCtl In UserControlContainedControls
         iLeft = -mLeftShiftToHide
         iLeft = iCtl.Left
         If iLeft > -mLeftShiftToHide Then
@@ -2554,12 +2554,12 @@ Private Sub UserControl_GotFocus()
 End Sub
 
 Friend Sub StoreVisibleControlsInSelectedTab()
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iCtlName As String
     
     On Error Resume Next
     Set mTabData(mTabSel).Controls = New Collection
-    For Each iCtl In UserControl.ContainedControls
+    For Each iCtl In UserControlContainedControls
         If TypeName(iCtl) = "Line" Then
             Err.Clear
             If iCtl.X1 > -mLeftThresholdHided Then
@@ -2737,7 +2737,7 @@ Private Sub SetFocusToNextControlInSameContainer(nForward As Boolean)
     Dim iControls As Object
     Dim iHwnds() As Long
     Dim iTabIndexes() As Long
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iTi As Long
     Dim iHwnd As Long
     Dim iEnabled As Boolean
@@ -3241,7 +3241,7 @@ Private Sub UserControl_Show()
         Dim iHwnd As Long
         Dim c As Long
         Dim iCtlName As String
-        Dim iCtl As Control
+        Dim iCtl As Object
         Dim iIsLine As Boolean
         
         On Error Resume Next
@@ -3253,7 +3253,7 @@ Private Sub UserControl_Show()
             Set mSubclassedControlsForMoveHwnds = New Collection
         End If
     
-        For Each iCtl In UserControl.ContainedControls
+        For Each iCtl In UserControlContainedControls
             iAuxLeft = 0
             iIsLine = False
             If TypeName(iCtl) = "Line" Then
@@ -3314,12 +3314,12 @@ Private Sub UserControl_Show()
 End Sub
 
 Private Sub DoPendingLeftShift()
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iIsLine As Boolean
     Dim iAuxLeft As Long
     
     If mPendingLeftShift <> 0 Then
-        For Each iCtl In UserControl.ContainedControls
+        For Each iCtl In UserControlContainedControls
             iAuxLeft = 0
             iIsLine = False
             On Error Resume Next
@@ -3367,22 +3367,28 @@ Private Sub DoTerminate()
     mUserControlTerminated = True
     
     If (mFormHwnd <> 0) And mAmbientUserMode Then
+        On Error Resume Next
         DetachMessage Me, mFormHwnd, WM_SYSCOLORCHANGE
         DetachMessage Me, mFormHwnd, WM_THEMECHANGED
         DetachMessage Me, mFormHwnd, WM_NCACTIVATE
         DetachMessage Me, mFormHwnd, WM_GETDPISCALEDSIZE
+        On Error GoTo 0
     End If
     If mSubclassed Then
         If mAmbientUserMode Then
+            On Error Resume Next
             DetachMessage Me, mUserControlHwnd, WM_MOUSEACTIVATE
             DetachMessage Me, mUserControlHwnd, WM_SETFOCUS
             DetachMessage Me, mUserControlHwnd, WM_DRAW
             DetachMessage Me, mUserControlHwnd, WM_INIT
+            On Error GoTo 0
             mCanPostDrawMessage = False
         Else
+            On Error Resume Next
             DetachMessage Me, mUserControlHwnd, WM_LBUTTONDOWN
             DetachMessage Me, mUserControlHwnd, WM_LBUTTONUP
             DetachMessage Me, mUserControlHwnd, WM_LBUTTONDBLCLK
+            On Error GoTo 0
         End If
     End If
     mSubclassed = False
@@ -3399,21 +3405,27 @@ Private Sub DoTerminate()
     
     For c = 1 To mSubclassedControlsForPaintingHwnds.Count
         iHwnd = mSubclassedControlsForPaintingHwnds(c)
+        On Error Resume Next
         DetachMessage Me, iHwnd, WM_PAINT
         DetachMessage Me, iHwnd, WM_MOVE
+        On Error GoTo 0
     Next c
     Set mSubclassedControlsForPaintingHwnds = Nothing
     
     For c = 1 To mSubclassedFramesHwnds.Count
         iHwnd = mSubclassedFramesHwnds(c)
+        On Error Resume Next
         DetachMessage Me, iHwnd, WM_PRINTCLIENT
         DetachMessage Me, iHwnd, WM_MOUSELEAVE
+        On Error GoTo 0
     Next c
     Set mSubclassedFramesHwnds = Nothing
     
     For c = 1 To mSubclassedControlsForMoveHwnds.Count
         iHwnd = mSubclassedControlsForMoveHwnds(c)
+        On Error Resume Next
         DetachMessage Me, iHwnd, WM_WINDOWPOSCHANGING
+        On Error GoTo 0
     Next c
     Set mSubclassedControlsForMoveHwnds = Nothing
 
@@ -4422,12 +4434,12 @@ Private Sub Draw()
         picAux.Move 0, 0, UserControl.ScaleWidth, UserControl.ScaleHeight
         Set picAux.Picture = UserControl.Picture
         
-        Dim iCtl As Control
+        Dim iCtl As Object
         Dim iLeft As Long
         Dim iWidth As Long
         
         On Error Resume Next
-        For Each iCtl In UserControl.ContainedControls
+        For Each iCtl In UserControlContainedControls
             iLeft = -mLeftShiftToHide
             iLeft = iCtl.Left
             If iLeft > -mLeftShiftToHide Then
@@ -6062,7 +6074,7 @@ Private Function FixRoundingError(nNumber As Single, Optional nDecimals As Long 
 End Function
     
 Private Sub SetControlsBackColor(nColor As Long, Optional nPrevColor As Long = -1)
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iLng As Long
     Dim iCancel As Boolean
     Dim iControls As Object
@@ -6074,7 +6086,7 @@ Private Sub SetControlsBackColor(nColor As Long, Optional nPrevColor As Long = -
     Set iControls = UserControl.Parent.Controls
     
     If iControls Is Nothing Then ' at least let's change the backcolor of the contained controls in the usercontrol
-        For Each iCtl In UserControl.ContainedControls
+        For Each iCtl In UserControlContainedControls
             iLng = -1
             iLng = iCtl.BackColor
             If iLng <> -1 Then
@@ -6679,8 +6691,8 @@ Private Function GetComCtlVersion() As Long
 End Function
 
 Private Sub SetVisibleControls(iPreviousTab As Integer)
-    Dim iCtl As Control
-    Dim iCtlName
+    Dim iCtl As Object
+    Dim iCtlName As Variant
     Dim iContainedControlsString As String
     Dim iHwnd As Long
     Dim c As Long
@@ -6714,7 +6726,7 @@ Private Sub SetVisibleControls(iPreviousTab As Integer)
     If (iPreviousTab >= 0) And (iPreviousTab <= UBound(mTabData)) Then
         Set mTabData(iPreviousTab).Controls = New Collection
     End If
-    For Each iCtl In UserControl.ContainedControls
+    For Each iCtl In UserControlContainedControls
         iIsLine = TypeName(iCtl) = "Line"
         iLeft = -15001
         On Error Resume Next
@@ -6779,7 +6791,7 @@ Private Sub SetVisibleControls(iPreviousTab As Integer)
     
     If mSubclassed Then
         On Error Resume Next
-        For Each iCtl In UserControl.ContainedControls
+        For Each iCtl In UserControlContainedControls
             If iCtl.Left < -mLeftThresholdHided Then
                 iHwnd = 0
                 iHwnd = GetControlHwnd(iCtl)
@@ -6825,16 +6837,16 @@ Private Function IsControlInOtherTab(nCtlName, nTab As Integer) As Boolean
 End Function
 
 Private Function GetContainedControlsString() As String
-    Dim iCtl As Control
+    Dim iCtl As Object
     
-    For Each iCtl In UserControl.ContainedControls
+    For Each iCtl In UserControlContainedControls
         GetContainedControlsString = GetContainedControlsString & iCtl.Name
     Next
 End Function
 
 Private Sub StoreControlsTabStop(Optional nInitialize As Boolean)
     Dim iControls As Object
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iContainer As Object
     Dim iContainer_Prev As Object
     Dim iStr As String
@@ -6845,7 +6857,7 @@ Private Sub StoreControlsTabStop(Optional nInitialize As Boolean)
     Set iParent = UserControl.Parent
     Set iControls = iParent.Controls
     If iControls Is Nothing Then ' this parent doesn't have a controls collection
-        Set iControls = UserControl.ContainedControls ' let's do it just with the contained controls then
+        Set iControls = UserControlContainedControls ' let's do it just with the contained controls then
     End If
     For Each iCtl In iControls
         Set iContainer_Prev = Nothing
@@ -6906,7 +6918,7 @@ Private Sub SubclassControlsPainting()
     Dim c As Long
     Dim iBKColor As Long
     Dim iControls As Object
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iContainer As Object
     Dim iContainer_Prev As Object
     Dim iParent As Object
@@ -6971,7 +6983,7 @@ Private Sub SubclassControlsPainting()
     Set iParent = UserControl.Parent
     Set iControls = iParent.Controls
     If iControls Is Nothing Then ' this parent doesn't have a controls collection
-        Set iControls = UserControl.ContainedControls ' let's do it just with the contained controls then
+        Set iControls = UserControlContainedControls ' let's do it just with the contained controls then
     End If
     For Each iCtl In iControls
         iCtlTypeName = TypeName(iCtl)
@@ -7118,11 +7130,11 @@ Private Sub SubclassControlsPainting()
 End Sub
 
 'Private Function GetContainedControlNameByHwnd(nHwnd As Long) As String ' used only  for debugging purposes
-'    Dim iCtl As Control
+'    Dim iCtl As Object
 '    Dim iHwnd As Long
 '
 '    On Error Resume Next
-'    For Each iCtl In UserControl.ContainedControls
+'    For Each iCtl In UserControlContainedControls
 '        iHwnd = -1
 '        iHwnd = iCtl.hWndUserControl
 '        If iHwnd = nHwnd Then
@@ -7141,7 +7153,7 @@ End Sub
 Private Function GetContainerByHwnd(nHwnd As Long) As Object
     Dim iParent As Object
     Dim iControls As Object
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iHwndParent As Long
     Dim iHwnd As Long
     
@@ -7177,7 +7189,7 @@ End Function
 
 Private Sub SetTabStopsToParentControlsContainedInControl(nContainer As Object)
     Dim iControls As Object
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iContainer As Object
     Dim iStr As String
     Dim iObj As Object
@@ -7212,7 +7224,7 @@ End Sub
 
 Private Function GetContainedControlsInControlContainer(nContainer As Object) As Object
     Dim iControls As Object
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iContainer As Object
     Dim iContainer_Prev As Object
     
@@ -7258,12 +7270,15 @@ End Function
 Private Function GetContainedControlByName(ByVal nControlName As String) As Object
     Dim iCtl As Object
 
-    For Each iCtl In UserControl.ContainedControls
+    On Error GoTo ErrorExit
+    For Each iCtl In UserControlContainedControls
         If StrComp(nControlName, ControlName(iCtl), vbTextCompare) = 0 Then
             Set GetContainedControlByName = iCtl
             Exit For
         End If
     Next
+    
+ErrorExit:
 End Function
 
 Private Sub SetAccessKeys()
@@ -7465,7 +7480,7 @@ End Sub
 Private Function MouseIsOverAContainedControl() As Boolean
     Dim iPt As POINTAPI
     Dim iSM As Long
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iWidth As Long
     
     iSM = UserControl.ScaleMode
@@ -7476,7 +7491,7 @@ Private Function MouseIsOverAContainedControl() As Boolean
     iPt.Y = iPt.Y * Screen_TwipsPerPixely
     
     On Error Resume Next
-    For Each iCtl In UserControl.ContainedControls
+    For Each iCtl In UserControlContainedControls
         iWidth = -1
         iWidth = iCtl.Width
         If iWidth <> -1 Then
@@ -7534,7 +7549,7 @@ Friend Property Set TabControlsNames(Index, nValue As Object)
 End Property
 
 Friend Sub HideAllContainedControls()
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim c As Long
     Dim iHwnd As Long
     Dim iIsLine As Boolean
@@ -7550,7 +7565,7 @@ Friend Sub HideAllContainedControls()
     End If
     
     On Error Resume Next
-    For Each iCtl In UserControl.ContainedControls
+    For Each iCtl In UserControlContainedControls
         iIsLine = TypeName(iCtl) = "Line"
         If iIsLine Then
             If iCtl.X1 > -mLeftThresholdHided Then
@@ -7567,7 +7582,7 @@ Friend Sub HideAllContainedControls()
 End Sub
 
 Friend Sub MakeContainedControlsInSelTabVisible()
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iCtlName As Variant
     Dim iHwnd As Long
     Dim c As Long
@@ -7617,7 +7632,7 @@ Private Sub CheckContainedControlsConsistency(Optional nCheckControlsThatChanged
     Dim iAllCtInTabs As Collection
     Dim c As Long
     Dim iStr As String
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iCtlName As Variant
     Dim iCtlName2 As Variant
     Dim iCtlsInTabsToRemove As Collection
@@ -7634,7 +7649,7 @@ Private Sub CheckContainedControlsConsistency(Optional nCheckControlsThatChanged
     Dim iIsLine As Boolean
     
     Set iCCList = New Collection
-    For Each iCtl In UserControl.ContainedControls
+    For Each iCtl In UserControlContainedControls
         iStr = ControlName(iCtl)
         iCCList.Add iStr, iStr
     Next
@@ -7701,7 +7716,7 @@ Private Sub CheckContainedControlsConsistency(Optional nCheckControlsThatChanged
         Else
             ' This fixes SStab paste bug, read http://www.vbforums.com/showthread.php?871285&p=5359379&viewfull=1#post5359379
             Set iCtlsTypesAndRects = New Collection
-            For Each iCtl In UserControl.ContainedControls
+            For Each iCtl In UserControlContainedControls
                 iStr = ControlName(iCtl)
                 iCtlsTypesAndRects.Add GetControlTypeAndRect(iStr), iStr
             Next
@@ -7835,18 +7850,21 @@ End Function
 
 Private Function GetParentControlByName(ByVal nControlName As String) As Object
     Dim iCtl As Object
-
+    
+    On Error GoTo ErrorExit
     For Each iCtl In UserControl.Parent.Controls
         If StrComp(nControlName, ControlName(iCtl), vbTextCompare) = 0 Then
             Set GetParentControlByName = iCtl
             Exit For
         End If
     Next
+    
+ErrorExit:
 End Function
 
 Public Property Get ContainedControls() As VBRUN.ContainedControls
 Attribute ContainedControls.VB_Description = "Returns a collection of the controls that were added to the control."
-    Set ContainedControls = UserControl.ContainedControls
+    Set ContainedControls = UserControlContainedControls
 End Property
 
 Private Sub RaiseError(ByVal Number As Long, Optional ByVal Source, Optional ByVal Description, Optional ByVal HelpFile, Optional ByVal HelpContext)
@@ -7881,7 +7899,7 @@ Private Function ControlHasFocus() As Boolean
 End Function
 
 Private Sub RearrangeContainedControlsPositions()
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iTabBodyStart As Single
     Dim iTabBodyStart_Prev As Single
     Dim iIsLine As Boolean
@@ -7899,7 +7917,7 @@ Private Sub RearrangeContainedControlsPositions()
     
     On Error Resume Next
     If mTabOrientation = mTabOrientation_Prev Then
-        For Each iCtl In UserControl.ContainedControls
+        For Each iCtl In UserControlContainedControls
             iIsLine = TypeName(iCtl) = "Line"
             If mTabOrientation = ssTabOrientationTop Then
                 If iIsLine Then
@@ -7932,7 +7950,7 @@ Private Sub RearrangeContainedControlsPositions()
             End If
         Next
     Else
-        For Each iCtl In UserControl.ContainedControls
+        For Each iCtl In UserControlContainedControls
             iIsLine = TypeName(iCtl) = "Line"
             If mTabOrientation_Prev = ssTabOrientationTop Then
                 If iIsLine Then
@@ -7981,8 +7999,8 @@ End Sub
 Public Property Get TabControls(nTab As Integer, Optional GetChilds As Boolean = True) As Collection
 Attribute TabControls.VB_Description = "Returns a collection of the controls that are inside a tab."
     Dim iCtlName As Variant
-    Dim iCtl As Control
-    Dim iCtl2 As Control
+    Dim iCtl As Object
+    Dim iCtl2 As Object
     Dim iObj As Object
     
     If (nTab < 0) Or (nTab > (mTabs - 1)) Then
@@ -8270,7 +8288,7 @@ End Property
 
 Public Property Get ContainedControlLeft(ByVal ControlName As String) As Single
 Attribute ContainedControlLeft.VB_Description = "Returns/sets the left of the contained control whose name was provided by the ControlName parameter."
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iFound As Boolean
     Dim iWithIndex As Boolean
     Dim iName As String
@@ -8278,7 +8296,7 @@ Attribute ContainedControlLeft.VB_Description = "Returns/sets the left of the co
     
     ControlName = LCase$(ControlName)
     iWithIndex = InStr(ControlName, "(") > 0
-    For Each iCtl In UserControl.ContainedControls
+    For Each iCtl In UserControlContainedControls
         iName = LCase$(iCtl.Name)
         If iWithIndex Then
             iIndex = -1
@@ -8306,7 +8324,7 @@ Attribute ContainedControlLeft.VB_Description = "Returns/sets the left of the co
 End Property
 
 Public Property Let ContainedControlLeft(ByVal ControlName As String, ByVal Left As Single)
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iFound As Boolean
     Dim iWithIndex As Boolean
     Dim iName As String
@@ -8316,7 +8334,7 @@ Public Property Let ContainedControlLeft(ByVal ControlName As String, ByVal Left
     
     ControlName = LCase$(ControlName)
     iWithIndex = InStr(ControlName, "(") > 0
-    For Each iCtl In UserControl.ContainedControls
+    For Each iCtl In UserControlContainedControls
         iName = LCase$(iCtl.Name)
         If iWithIndex Then
             iIndex = -1
@@ -8344,7 +8362,7 @@ Public Property Let ContainedControlLeft(ByVal ControlName As String, ByVal Left
 End Property
 
 Public Sub ContainedControlMove(ByVal ControlName As String, ByVal Left As Single, ByVal Top As Single, ByVal Width As Single, ByVal Height As Single)
-    Dim iCtl As Control
+    Dim iCtl As Object
     Dim iFound As Boolean
     Dim iWithIndex As Boolean
     Dim iName As String
@@ -8354,7 +8372,7 @@ Public Sub ContainedControlMove(ByVal ControlName As String, ByVal Left As Singl
     
     ControlName = LCase$(ControlName)
     iWithIndex = InStr(ControlName, "(") > 0
-    For Each iCtl In UserControl.ContainedControls
+    For Each iCtl In UserControlContainedControls
         iName = LCase$(iCtl.Name)
         If iWithIndex Then
             iIndex = -1
@@ -8418,6 +8436,19 @@ Private Sub SetAutoTabHeight()
     PropertyChanged "TabHeight"
 End Sub
 
+Private Property Get UserControlContainedControlsCount() As Long
+    On Error Resume Next
+    UserControlContainedControlsCount = UserControl.ContainedControls.Count
+End Property
+
+
+Private Property Get UserControlContainedControls() As Object
+    On Error Resume Next
+    Set UserControlContainedControls = UserControl.ContainedControls
+    If UserControlContainedControls Is Nothing Then
+        Set UserControlContainedControls = New Collection
+    End If
+End Property
 
 'Public Property Get Tab() As Integer
 '    Tab = TabSel

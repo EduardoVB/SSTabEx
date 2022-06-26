@@ -1,3 +1,4 @@
+2022-25-06 Fixed errors when the control was used in VBA.
 2022-25-06 Behavior change: when an OLE element is dragged over an inactive tab, the drop is disabled.
 2022-25-06 Fixed: OLEDropMode property was not applying value changed at design time.
 2022-25-06 Removed dependency on vba6.dll for the compiled ocx.
