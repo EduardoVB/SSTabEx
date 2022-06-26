@@ -5,4 +5,6 @@ SSTab control replacement for VB6. Themed (supports Windows visual styles) and e
 
 ![imagen](https://user-images.githubusercontent.com/42319299/175790566-074cd8be-2e2f-44ff-bfaf-1733ee28144d.png)
 
+[Download the OCX file.](https://github.com/EduardoVB/SSTabEx/raw/main/control-bin/TabExT01.ocx)
+
 [Open the help documentation online.](https://htmlpreview.github.io/?https://github.com/EduardoVB/SSTabEx/blob/main/docs/tabexctl_reference.html)
