@@ -950,6 +950,11 @@ End Property
 Public Property Let Tabs(ByVal nValue As Integer)
     Dim c As Long
     
+    If (nValue < 1) Or (nValue > 250) Then
+        RaiseError 380, TypeName(Me) ' invalid property value
+        Exit Property
+    End If
+    
     If nValue <> mTabs Then
         PropertyChanged "Tabs"
         If mTabs > nValue Then
@@ -4044,8 +4049,8 @@ Private Sub Draw()
             GoTo TheExit:
         End If
         If iTabWidthStyle <> ssTWSJustified Then
-            If UserControl.Width < mTabsPerRow * 500 + pScaleX(iAllRowsPerspectiveSpace, vbPixels, vbTwips) Then
-                UserControl.Width = mTabsPerRow * 500 + pScaleX(iAllRowsPerspectiveSpace, vbPixels, vbTwips) + Screen_TwipsPerPixelX
+            If UserControl.Width < CLng(mTabsPerRow) * 500 + pScaleX(iAllRowsPerspectiveSpace, vbPixels, vbTwips) Then
+                UserControl.Width = CLng(mTabsPerRow) * 500 + pScaleX(iAllRowsPerspectiveSpace, vbPixels, vbTwips) + Screen_TwipsPerPixelX
                 GoTo TheExit:
             End If
         End If
@@ -6041,7 +6046,7 @@ Private Function ContainerScaleMode() As ScaleModeConstants
     Err.Clear
 End Function
 
-Private Function FromContainerSizeY(nValue, Optional nToScale As ScaleModeConstants = vbTwips) As Single
+Friend Function FromContainerSizeY(nValue, Optional nToScale As ScaleModeConstants = vbTwips) As Single
     FromContainerSizeY = pScaleY(nValue, ContainerScaleMode, nToScale)
 End Function
 
@@ -6050,7 +6055,7 @@ Private Function ToContainerSizeY(nValue, Optional nFromScale As ScaleModeConsta
 End Function
 
 
-Private Function FromContainerSizeX(nValue, Optional nToScale As ScaleModeConstants = vbTwips) As Single
+Friend Function FromContainerSizeX(nValue, Optional nToScale As ScaleModeConstants = vbTwips) As Single
     FromContainerSizeX = pScaleX(nValue, ContainerScaleMode, nToScale)
 End Function
 
@@ -7721,20 +7726,20 @@ Private Sub CheckContainedControlsConsistency(Optional nCheckControlsThatChanged
                 iCtlsTypesAndRects.Add GetControlTypeAndRect(iStr), iStr
             Next
             
-            For t = 0 To mTabs - 1
-                For c = 1 To mTabData(t).Controls.Count
-                    iStr = mTabData(t).Controls(c)
+            For t = 0 To mTabs - 1 ' enumerate tabs
+                For c = 1 To mTabData(t).Controls.Count ' enumerate controls that are in that tab
+                    iStr = mTabData(t).Controls(c) ' in iStr: get the name of one control in the "current" tab
                     iAuxTypeAndRect_CtrlInTab = GetControlTypeAndRect(iStr)
                     If iAuxTypeAndRect_CtrlInTab = "-" Then ' if the control is not found it may have been en converted to an array
                         iAuxTypeAndRect_CtrlInTab = GetControlTypeAndRect(iStr & "(0)")
                     End If
-                    For Each iCtlName In iCCList
+                    For Each iCtlName In iCCList ' iCCList has al the Contained Controls that are in the UserControl (inside the SSTabEx)
                         iAuxTypeAndRect_CC = GetControlTypeAndRect(CStr(iCtlName))
                         If iAuxTypeAndRect_CC = iAuxTypeAndRect_CtrlInTab Then
                             iFound = False
                             For t2 = 0 To mTabs - 1
                                 For c2 = 1 To mTabData(t).Controls.Count
-                                    If mTabData(t).Controls(c) = iCtlName Then
+                                    If mTabData(t).Controls(c2) = iCtlName Then
                                         iFound = True
                                     End If
                                 Next c2
@@ -8080,7 +8085,7 @@ Public Property Let HandleHighContrastTheme(ByVal nValue As Boolean)
 End Property
 
 
-Private Function pScaleX(Width, Optional ByVal FromScale As Variant, Optional ByVal ToScale As Variant) As Single
+Friend Function pScaleX(Width, Optional ByVal FromScale As Variant, Optional ByVal ToScale As Variant) As Single
     Select Case True
         Case ToScale = vbPixels
             Select Case FromScale
@@ -8131,7 +8136,7 @@ Private Function pScaleX(Width, Optional ByVal FromScale As Variant, Optional By
     End Select
 End Function
 
-Private Function pScaleY(Height, Optional ByVal FromScale As Variant, Optional ByVal ToScale As Variant) As Single
+Friend Function pScaleY(Height, Optional ByVal FromScale As Variant, Optional ByVal ToScale As Variant) As Single
     Select Case True
         Case ToScale = vbPixels
             Select Case FromScale
@@ -8448,6 +8453,14 @@ Private Property Get UserControlContainedControls() As Object
     If UserControlContainedControls Is Nothing Then
         Set UserControlContainedControls = New Collection
     End If
+End Property
+
+Friend Property Get UserControlWidth() As Single
+    UserControlWidth = UserControl.Width
+End Property
+
+Friend Property Get UserControlHeight() As Single
+    UserControlHeight = UserControl.Height
 End Property
 
 'Public Property Get Tab() As Integer

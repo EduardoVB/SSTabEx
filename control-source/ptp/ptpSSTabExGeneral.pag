@@ -22,9 +22,10 @@ Begin VB.PropertyPage ptpSSTabExGeneral
    Begin VB.CheckBox chkAutoTabHeight 
       Caption         =   "AutoTabHeight"
       Height          =   264
-      Left            =   2664
-      TabIndex        =   40
-      Top             =   4788
+      Left            =   4824
+      TabIndex        =   11
+      ToolTipText     =   "Height according to font (check that all tab captions are one-liner)"
+      Top             =   1140
       Width           =   1740
    End
    Begin VB.ComboBox cboBackStyle 
@@ -41,7 +42,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "WordWrap"
       Height          =   264
       Left            =   4824
-      TabIndex        =   35
+      TabIndex        =   36
       Top             =   4212
       Width           =   1500
    End
@@ -49,7 +50,8 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "HandleHighContrastTheme"
       Height          =   264
       Left            =   2664
-      TabIndex        =   34
+      TabIndex        =   35
+      ToolTipText     =   "Press press left Alt + left Shift + Print Screen to switch to hight contrast theme on Windows"
       Top             =   4212
       Width           =   2136
    End
@@ -67,7 +69,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "SoftEdges"
       Height          =   264
       Left            =   4824
-      TabIndex        =   39
+      TabIndex        =   40
       Top             =   4500
       Width           =   1500
    End
@@ -96,7 +98,8 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "VisualStyles"
       Height          =   264
       Left            =   4824
-      TabIndex        =   29
+      TabIndex        =   30
+      ToolTipText     =   "Windows theme"
       Top             =   3636
       Width           =   1500
    End
@@ -104,7 +107,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "ShowFocusRect"
       Height          =   264
       Left            =   2664
-      TabIndex        =   28
+      TabIndex        =   29
       Top             =   3636
       Width           =   1740
    End
@@ -112,7 +115,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "UseMaskColor"
       Height          =   264
       Left            =   4824
-      TabIndex        =   31
+      TabIndex        =   32
       Top             =   3924
       Width           =   1500
    End
@@ -120,7 +123,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "TabSelHighlight"
       Height          =   264
       Left            =   2664
-      TabIndex        =   30
+      TabIndex        =   31
       Top             =   3924
       Width           =   1740
    End
@@ -128,7 +131,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "ChangeControlsBackColor"
       Height          =   264
       Left            =   2664
-      TabIndex        =   38
+      TabIndex        =   39
       Top             =   4500
       Width           =   2136
    End
@@ -136,7 +139,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "ShowDisabledState"
       Height          =   264
       Left            =   2664
-      TabIndex        =   24
+      TabIndex        =   25
       Top             =   3348
       Width           =   1740
    End
@@ -182,7 +185,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Left            =   3645
       List            =   "ptpSSTabExGeneral.pgx":0012
       Style           =   2  'Dropdown List
-      TabIndex        =   15
+      TabIndex        =   16
       Top             =   1875
       Width           =   2712
    End
@@ -192,21 +195,21 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Left            =   3645
       List            =   "ptpSSTabExGeneral.pgx":0016
       Style           =   2  'Dropdown List
-      TabIndex        =   19
+      TabIndex        =   20
       Top             =   2595
       Width           =   2712
    End
    Begin VB.TextBox txtTabMinWidth 
       Height          =   300
       Left            =   1740
-      TabIndex        =   37
+      TabIndex        =   38
       Top             =   4428
       Width           =   588
    End
    Begin VB.TextBox txtTabMaxWidth 
       Height          =   300
       Left            =   1740
-      TabIndex        =   33
+      TabIndex        =   34
       Top             =   4068
       Width           =   588
    End
@@ -216,14 +219,14 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Left            =   3645
       List            =   "ptpSSTabExGeneral.pgx":001A
       Style           =   2  'Dropdown List
-      TabIndex        =   21
+      TabIndex        =   22
       Top             =   2955
       Width           =   2712
    End
    Begin VB.TextBox txtTabSelExtraHeight 
       Height          =   300
       Left            =   1740
-      TabIndex        =   27
+      TabIndex        =   28
       Top             =   3708
       Width           =   588
    End
@@ -231,7 +234,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Height          =   300
       Left            =   1740
       MaxLength       =   2
-      TabIndex        =   23
+      TabIndex        =   24
       Top             =   3345
       Width           =   588
    End
@@ -239,7 +242,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "Enabled"
       Height          =   264
       Left            =   4824
-      TabIndex        =   25
+      TabIndex        =   26
       Top             =   3348
       Width           =   1500
    End
@@ -249,7 +252,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Left            =   3645
       List            =   "ptpSSTabExGeneral.pgx":001E
       Style           =   2  'Dropdown List
-      TabIndex        =   17
+      TabIndex        =   18
       Top             =   2235
       Width           =   2712
    End
@@ -259,7 +262,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Left            =   1740
       List            =   "ptpSSTabExGeneral.pgx":0022
       Style           =   2  'Dropdown List
-      TabIndex        =   12
+      TabIndex        =   13
       Top             =   1470
       Width           =   4620
    End
@@ -343,7 +346,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Top             =   5508
       Width           =   1572
    End
-   Begin VB.Label Label16 
+   Begin VB.Label lblTabHeight 
       Alignment       =   1  'Right Justify
       Caption         =   "TabHeight:"
       Height          =   228
@@ -357,7 +360,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "TabAppearance:"
       Height          =   225
       Left            =   1740
-      TabIndex        =   14
+      TabIndex        =   15
       Top             =   1905
       Width           =   1815
    End
@@ -366,7 +369,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "ShowRowsInPerspective:"
       Height          =   228
       Left            =   1488
-      TabIndex        =   18
+      TabIndex        =   19
       Top             =   2628
       Width           =   2064
    End
@@ -375,7 +378,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "TabMinWidth:"
       Height          =   228
       Left            =   192
-      TabIndex        =   36
+      TabIndex        =   37
       Top             =   4476
       Width           =   1488
    End
@@ -384,7 +387,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "TabMaxWidth:"
       Height          =   228
       Left            =   192
-      TabIndex        =   32
+      TabIndex        =   33
       Top             =   4116
       Width           =   1488
    End
@@ -393,7 +396,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "TabSelFontBold:"
       Height          =   225
       Left            =   1740
-      TabIndex        =   20
+      TabIndex        =   21
       Top             =   2985
       Width           =   1815
    End
@@ -402,7 +405,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "TabSelExtraHeight:"
       Height          =   228
       Left            =   192
-      TabIndex        =   26
+      TabIndex        =   27
       Top             =   3756
       Width           =   1488
    End
@@ -411,7 +414,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "TabSeparation:"
       Height          =   228
       Left            =   192
-      TabIndex        =   22
+      TabIndex        =   23
       Top             =   3396
       Width           =   1488
    End
@@ -420,7 +423,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "TabWidthStyle:"
       Height          =   225
       Left            =   1740
-      TabIndex        =   16
+      TabIndex        =   17
       Top             =   2265
       Width           =   1815
    End
@@ -429,7 +432,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "Customize Style:"
       Height          =   228
       Left            =   264
-      TabIndex        =   13
+      TabIndex        =   14
       Top             =   1908
       Width           =   1416
    End
@@ -438,7 +441,7 @@ Begin VB.PropertyPage ptpSSTabExGeneral
       Caption         =   "Style:"
       Height          =   228
       Left            =   192
-      TabIndex        =   11
+      TabIndex        =   12
       Top             =   1512
       Width           =   1488
    End
@@ -527,6 +530,8 @@ End Sub
 
 Private Sub chkAutoTabHeight_Click()
     If Not mLoading Then Changed = True
+    txtTabHeight.Enabled = (chkAutoTabHeight.value = vbUnchecked)
+    lblTabHeight.Enabled = txtTabHeight.Enabled
 End Sub
 
 Private Sub chkChangeControlsBackColor_Click()
@@ -581,6 +586,7 @@ Private Sub PropertyPage_ApplyChanges()
         Exit Sub
     End If
     
+    On Error Resume Next
     SelectedControls(0).Redraw = False
     SelectedControls(0).Tabs = Val(txtTabs.Text)
     SelectedControls(0).TabOrientation = cboOrientation.ItemData(cboOrientation.ListIndex)
@@ -613,6 +619,7 @@ Private Sub PropertyPage_ApplyChanges()
         SelectedControls(0).TabHeight = CSng(txtTabHeight.Text)
     End If
     SelectedControls(0).Redraw = True
+    On Error GoTo 0
     
     If Not mLoadedPropertyNames Is Nothing Then
         For c = 1 To mLoadedPropertyNames.Count
@@ -649,21 +656,82 @@ Private Sub PropertyPage_ApplyChanges()
 End Sub
 
 Private Function ValidateInput() As Boolean
+    Dim iSst As SSTabEx
+    Dim iValueSng As Single
+    Dim iValueInt As Single
+    
     If Not ValidateTxtNumericInteger(txtTabs) Then Exit Function
     If Not ValidateTxtNumericInteger(txtTabsPerRow) Then Exit Function
     If Not ValidateTxtNumericInteger(txtTabSeparation) Then Exit Function
     If Not ValidateTxtNumeric(txtTabSelExtraHeight) Then Exit Function
+    If txtTabHeight.Enabled Then If Not ValidateTxtNumeric(txtTabHeight) Then Exit Function
     If Not ValidateTxtNumeric(txtTabMaxWidth) Then Exit Function
     If Not ValidateTxtNumeric(txtTabMinWidth) Then Exit Function
+    
+    Set iSst = SelectedControls(0)
+    
+    iValueInt = Val(txtTabs.Text)
+    If (iValueInt < 1) Or (iValueInt > 250) Then
+        ShowInvalidTextBoxValue txtTabs
+        Exit Function
+    End If
+    
+    If txtTabHeight.Enabled Then
+        iValueSng = iSst.FromContainerSizeY(CSng(txtTabHeight.Text), vbHimetric)
+        If (iValueSng < 1) Or (iSst.pScaleY(iValueSng, vbHimetric, vbTwips) > IIf(iSst.UserControlHeight > 2000, iSst.UserControlHeight, 2000)) Then
+            ShowInvalidTextBoxValue txtTabHeight
+            Exit Function
+        End If
+    End If
+    
+    iValueInt = Val(txtTabSeparation.Text)
+    If iValueInt < 0 Or iValueInt > 20 Then
+        ShowInvalidTextBoxValue txtTabSeparation
+        Exit Function
+    End If
+    
+    iValueSng = CSng(txtTabSelExtraHeight.Text)
+    If iValueSng < 0 Then
+        ShowInvalidTextBoxValue txtTabSelExtraHeight
+        Exit Function
+    End If
+    
+    iValueSng = iSst.FromContainerSizeX(CSng(txtTabMaxWidth.Text), vbHimetric)
+    If ((iValueSng < iSst.pScaleX(10, vbPixels, vbHimetric)) And Not iValueSng = 0) Or (iSst.pScaleX(iValueSng, vbHimetric, vbTwips) > IIf(iSst.UserControlWidth > 3000, iSst.UserControlWidth, 3000)) Then
+        ShowInvalidTextBoxValue txtTabMaxWidth
+        Exit Function
+    End If
+    
+    iValueSng = iSst.FromContainerSizeX(CSng(txtTabMinWidth.Text), vbHimetric)
+    If (iValueSng < 0) Or (iSst.pScaleX(iValueSng, vbHimetric, vbTwips) > IIf(iSst.UserControlWidth > 3000, iSst.UserControlWidth, 3000)) Then
+        ShowInvalidTextBoxValue txtTabMinWidth
+        Exit Function
+    End If
+    
     ValidateInput = True
 End Function
 
+Private Sub ShowInvalidTextBoxValue(nTextBox As TextBox)
+    MsgBox "Invalid property value.", vbExclamation
+    SetFocusTo nTextBox
+    DoEvents
+    nTextBox.SelStart = 0
+    nTextBox.SelLength = Len(nTextBox.Text)
+End Sub
+    
 Private Function ValidateTxtNumericInteger(nTextBox As TextBox) As Boolean
-    If (Not IsNumeric(nTextBox.Text)) Or (CSng(nTextBox.Text) <> Val(nTextBox.Text)) Then
-        MsgBox "Invalid property value.", vbExclamation
-        nTextBox.SelStart = 0
-        nTextBox.SelLength = Len(nTextBox.Text)
-        SetFocusTo nTextBox
+    Dim iInvalid As Boolean
+    
+    If (Not IsNumeric(nTextBox.Text)) Then
+        iInvalid = True
+    End If
+    If Not iInvalid Then
+        If (CSng(nTextBox.Text) <> Val(nTextBox.Text)) Then
+            iInvalid = True
+        End If
+    End If
+    If iInvalid Then
+        ShowInvalidTextBoxValue nTextBox
         Exit Function
     End If
     ValidateTxtNumericInteger = True
@@ -794,12 +862,16 @@ Private Sub txtTabHeight_Change()
     End If
 End Sub
 
+Private Sub txtTabHeight_GotFocus()
+    EnterTxt txtTabHeight
+End Sub
+
 Private Sub txtTabMaxWidth_Change()
     If Not mLoading Then Changed = True
 End Sub
 
 Private Sub txtTabMaxWidth_GotFocus()
-    SelectTxt txtTabMaxWidth
+    EnterTxt txtTabMaxWidth
 End Sub
 
 Private Sub txtTabMinWidth_Change()
@@ -807,7 +879,7 @@ Private Sub txtTabMinWidth_Change()
 End Sub
 
 Private Sub txtTabMinWidth_GotFocus()
-    SelectTxt txtTabMinWidth
+    EnterTxt txtTabMinWidth
 End Sub
 
 Private Sub txtTabs_Change()
@@ -815,7 +887,7 @@ Private Sub txtTabs_Change()
 End Sub
 
 Private Sub txtTabs_GotFocus()
-    SelectTxt txtTabs
+    EnterTxt txtTabs
 End Sub
 
 Private Sub txtTabSelExtraHeight_Change()
@@ -823,7 +895,7 @@ Private Sub txtTabSelExtraHeight_Change()
 End Sub
 
 Private Sub txtTabSelExtraHeight_GotFocus()
-    SelectTxt txtTabSelExtraHeight
+    EnterTxt txtTabSelExtraHeight
 End Sub
 
 Private Sub txtTabSeparation_Change()
@@ -831,20 +903,19 @@ Private Sub txtTabSeparation_Change()
 End Sub
 
 Private Sub txtTabSeparation_GotFocus()
-    SelectTxt txtTabSeparation
+    EnterTxt txtTabSeparation
 End Sub
 
 Private Sub txtTabsPerRow_Change()
     If Not mLoading Then Changed = True
 End Sub
 
-Private Sub SelectTxt(nTextBox As Control)
-    nTextBox.SelStart = 0
-    nTextBox.SelLength = Len(nTextBox.Text)
+Private Sub EnterTxt(nTextBox As Control)
+    nTextBox.SelStart = Len(nTextBox.Text)
 End Sub
     
 Private Sub txtTabsPerRow_GotFocus()
-    SelectTxt txtTabsPerRow
+    EnterTxt txtTabsPerRow
 End Sub
 
 Private Sub cboPopup_Click()
