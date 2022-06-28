@@ -886,16 +886,21 @@ Private Function IsResetting() As Boolean
 End Function
 
 Private Function VBAEnvironment() As Long
-    Static Done As Boolean, Result As Long
-    If Not Done Then
-        Done = True
-        If GetModuleHandle("vba5.dll") Then
-            Result = 5
-        ElseIf GetModuleHandle("vba6.dll") Then
-            Result = 6
+    Dim iInIDE As Boolean
+    
+    Debug.Assert MakeTrue(iInIDE)
+    If iInIDE Then
+        Static Done As Boolean, Result As Long
+        If Not Done Then
+            Done = True
+            If GetModuleHandle("vba5.dll") Then
+                Result = 5
+            ElseIf GetModuleHandle("vba6.dll") Then
+                Result = 6
+            End If
         End If
+        VBAEnvironment = Result
     End If
-    VBAEnvironment = Result
 End Function
 
 #If IDE_PROTECTION_ENABLED Then

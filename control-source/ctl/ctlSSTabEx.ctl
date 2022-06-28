@@ -933,6 +933,11 @@ Attribute TabsPerRow.VB_Description = "Returns/sets the number of tabs to appear
 End Property
 
 Public Property Let TabsPerRow(ByVal nValue As Integer)
+    If (nValue < 1) Then
+        RaiseError 380, TypeName(Me) ' invalid property value
+        Exit Property
+    End If
+    
     If nValue <> mTabsPerRow Then
         mTabsPerRow = nValue
         PropertyChanged "TabsPerRow"

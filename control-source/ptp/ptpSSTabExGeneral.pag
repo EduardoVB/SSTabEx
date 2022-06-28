@@ -684,6 +684,12 @@ Private Function ValidateInput() As Boolean
         End If
     End If
     
+    iValueInt = Val(txtTabsPerRow.Text)
+    If iValueInt < 1 Then
+        ShowInvalidTextBoxValue txtTabsPerRow
+        Exit Function
+    End If
+    
     iValueInt = Val(txtTabSeparation.Text)
     If iValueInt < 0 Or iValueInt > 20 Then
         ShowInvalidTextBoxValue txtTabSeparation
