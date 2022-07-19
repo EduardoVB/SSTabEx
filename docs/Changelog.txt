@@ -1,3 +1,5 @@
+2022-07-19 Added property OleDropOnOtherTabs.
+2022-07-18 Fix in OleDropMode property.
 2022-06-28 Validation added: TabsPerRow property now doesn't accept 0 as a value.
 2022-06-27 Fix in Property Page "General". Some validations were missing and change behavior when a text field gets focused (https://www.vbforums.com/showthread.php?858735-(VB6)-SSTabEx-SSTab-replacement-Themed-and-with-new-features&s=88d1f3dca9023edf2a8d80319ade78b5&p=5572429&viewfull=1#post5572429).
 2022-06-26 Fix in CheckContainedControlsConsistency procedure.

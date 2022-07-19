@@ -226,6 +226,7 @@ Private Declare Function GetForegroundWindow Lib "user32" () As Long
 Private Declare Function ValidateRect Lib "user32" (ByVal hWnd As Long, lpRect As RECT) As Long
 Private Declare Function GetClientRect Lib "user32" (ByVal hWnd As Long, lpRect As RECT) As Long
 Private Declare Function DefWindowProc Lib "user32" Alias "DefWindowProcW" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Private Declare Function RevokeDragDrop Lib "ole32" (ByVal hWnd As Long) As Long
 
 Private Declare Function GetParent Lib "user32" (ByVal hWnd As Long) As Long
 Private Declare Sub mouse_event Lib "user32" (ByVal dwFlags As Long, ByVal dx As Long, ByVal dy As Long, ByVal cButtons As Long, ByVal dwExtraInfo As Long)
@@ -623,6 +624,7 @@ Private mMinSpaceNeeded As Single
 Private mHandleHighContrastTheme As Boolean
 Private mBackStyle As vbExBackStyleConstants
 Private mAutoTabHeight As Boolean
+Private mOLEDropOnOtherTabs As Boolean
 
 ' Variables
 Private mTabBodyStart As Long ' in Pixels
@@ -1384,13 +1386,23 @@ Attribute OLEDropMode.VB_Description = "Returns/sets how a target component hand
 End Property
 
 Public Property Let OLEDropMode(ByVal nValue As vbExOLEDropConstants)
+    Const DRAGDROP_E_ALREADYREGISTERED As Long = &H80040101
+    
     If nValue < 0 Or nValue > 1 Then
         RaiseError 380, TypeName(Me) ' invalid property value
         Exit Property
     End If
     If nValue <> mOLEDropMode Then
         mOLEDropMode = nValue
+        
+        On Error Resume Next
         UserControl.OLEDropMode = mOLEDropMode
+        If Err.Number = DRAGDROP_E_ALREADYREGISTERED Then
+            RevokeDragDrop UserControl.hWnd
+            UserControl.OLEDropMode = mOLEDropMode
+        End If
+        On Error GoTo 0
+        
         PropertyChanged "OLEDropMode"
     End If
 End Property
@@ -2671,6 +2683,7 @@ Private Sub UserControl_InitProperties()
     mRightToLeft = Ambient.RightToLeft
     mBackStyle = ssOpaque
     mAutoTabHeight = True
+    mOLEDropOnOtherTabs = True
     
     SetFont
     SetAutoTabHeight
@@ -3018,8 +3031,12 @@ Private Sub UserControl_OLEDragDrop(Data As DataObject, Effect As Long, Button A
     UserControl.OLEDropMode = ssOLEDropManual
     tmrRestoreDropMode.Enabled = False
     
-    t = GetTabAtXY(X, Y)
-    If t = mTabSel Then
+    If Not mOLEDropOnOtherTabs Then
+        t = GetTabAtXY(X, Y)
+        If t = mTabSel Then
+            RaiseEvent OLEDragDrop(Data, Effect, Button, Shift, X, Y)
+        End If
+    Else
         RaiseEvent OLEDragDrop(Data, Effect, Button, Shift, X, Y)
     End If
 End Sub
@@ -3027,13 +3044,15 @@ End Sub
 Private Sub UserControl_OLEDragOver(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single, State As Integer)
     Dim t As Long
     
-    t = GetTabAtXY(X, Y)
-    If t <> mTabSel Then
-        UserControl.OLEDropMode = ssOLEDropNone
-        tmrRestoreDropMode.Enabled = True
-    Else
-        UserControl.OLEDropMode = ssOLEDropManual
-        RaiseEvent OLEDragOver(Data, Effect, Button, Shift, X, Y, State)
+    If Not mOLEDropOnOtherTabs Then
+        t = GetTabAtXY(X, Y)
+        If t <> mTabSel Then
+            UserControl.OLEDropMode = ssOLEDropNone
+            tmrRestoreDropMode.Enabled = True
+        Else
+            UserControl.OLEDropMode = ssOLEDropManual
+            RaiseEvent OLEDragOver(Data, Effect, Button, Shift, X, Y, State)
+        End If
     End If
 End Sub
 
@@ -3124,6 +3143,7 @@ Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
     mHandleHighContrastTheme = PropBag.ReadProperty("HandleHighContrastTheme", True)
     mBackStyle = PropBag.ReadProperty("BackStyle", ssOpaque)
     mAutoTabHeight = PropBag.ReadProperty("AutoTabHeight", False)
+    mOLEDropOnOtherTabs = PropBag.ReadProperty("OLEDropOnOtherTabs", True)
     
     Set UserControl.MouseIcon = mMouseIcon
     UserControl.MousePointer = mMousePointer
@@ -3489,6 +3509,7 @@ Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
     PropBag.WriteProperty "LeftThresholdHidedWhenSaved", mLeftThresholdHided, 15000
     PropBag.WriteProperty "BackStyle", mBackStyle, ssOpaque
     PropBag.WriteProperty "AutoTabHeight", mAutoTabHeight, False
+    PropBag.WriteProperty "OLEDropOnOtherTabs", mOLEDropOnOtherTabs, True
     
     For c = 0 To mTabs - 1
         PropBag.WriteProperty "TabPicture(" & CStr(c) & ")", mTabData(c).Picture, Nothing
@@ -8466,6 +8487,18 @@ End Property
 
 Friend Property Get UserControlHeight() As Single
     UserControlHeight = UserControl.Height
+End Property
+
+
+Public Property Get OLEDropOnOtherTabs() As Boolean
+    OLEDropOnOtherTabs = mOLEDropOnOtherTabs
+End Property
+
+Public Property Let OLEDropOnOtherTabs(ByVal nValue As Boolean)
+    If nValue <> mOLEDropOnOtherTabs Then
+        mOLEDropOnOtherTabs = nValue
+        PropertyChanged "OLEDropOnOtherTabs"
+    End If
 End Property
 
 'Public Property Get Tab() As Integer
