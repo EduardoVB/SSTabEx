@@ -1,7 +1,5 @@
 
-control-bin/TabExC01.oca
-control-bin/TabExC01.lib
-control-bin/TabExC01.exp
-control-bin/TabExT01.oca
-control-bin/TabExT01.lib
-control-bin/TabExT01.exp
+*.oca
+*.lib
+*.exp
+*.log

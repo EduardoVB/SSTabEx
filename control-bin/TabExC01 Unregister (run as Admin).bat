@@ -1,0 +1,1 @@
+RegSvr32.exe "%~dp0TabExC01.ocx" /u
