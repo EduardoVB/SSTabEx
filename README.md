@@ -1,4 +1,7 @@
 # SSTabEx
+
+Note: This control has been superseded by [NewTab](https://github.com/EduardoVB/NewTab) ans is no longer updated/maintained.
+
 SSTab control replacement for VB6. Themed (supports Windows visual styles) and enhanced.  
 
 [For more information please go to vbForums thread](https://www.vbforums.com/showthread.php?858735-(VB6)-SSTabEx-SSTab-replacement-Themed-and-with-new-features)
